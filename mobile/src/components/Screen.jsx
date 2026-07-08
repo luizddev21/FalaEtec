@@ -1,6 +1,5 @@
 import { View, StyleSheet } from "react-native";
 import { colors } from "@/theme/colors";
-import { useFonts } from '@expo-google-fonts/nunito';
 import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
