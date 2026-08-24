@@ -7,9 +7,6 @@ import { useFonts, Nunito_600Bold, Nunito_600SemiBold } from "@expo-google-fonts
 
 import mainBanner from "@/assets/images/main_banner.png";
 
-import feedbackEscolarImage from "@/assets/images/button_assets/hand_handling_phone.png";
-import canalSeguroImage from '@/assets/images/button_assets/megaphone.png';
-
 import BlockButton from "@/components/BlockButton";
 
 export default function HomeScreen() {
@@ -26,40 +23,7 @@ export default function HomeScreen() {
           gap: 10,
         }}
       >
-        <BlockButton
-          text="Feedback Escolar"
-          initial={colors.feBlue}
-          final={colors.feLightBlue}
-          proportion={1 / 1}
-        >
-          <Image
-            source={feedbackEscolarImage}
-            style={{
-              position: "absolute",
-              width: "80%",
-              bottom: -100,
-              right: -40,
-            }}
-            resizeMode="contain"
-          />
-        </BlockButton>
-        <BlockButton
-          text="Canal Seguro"
-          initial={colors.feGreen}
-          final={colors.feLightGreen}
-          proportion={1 / 1}
-        >
-          <Image
-            source={canalSeguroImage}
-            style={{
-              position: "absolute",
-              width: "80%",
-              bottom: -20,
-              right: -10,
-            }}
-            resizeMode="contain"
-          />
-        </BlockButton>
+        <BlockButton bg="FE" />
       </View>
       <View style={{ marginTop: 20 }}>
         <View style={{

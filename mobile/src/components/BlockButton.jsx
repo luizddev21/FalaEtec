@@ -1,53 +1,42 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { colors } from "@/theme/colors";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, StyleSheet, ImageBackground, useWindowDimensions } from "react-native";
 import { useFonts, Nunito_400Regular } from "@expo-google-fonts/nunito";
 
+import feSmall from "@/assets/images/button_assets/FE-Small.png";
+
 export default function BlockButton({
-  children,
-  text,
-  initial,
-  final,
-  proportion = 1 / 1,
+  bg
 }) {
-  const [fontsLoaded] = useFonts({
-    Nunito_400Regular,
-  });
+  const { width, height } = useWindowDimensions();
+
+  
+
+  const size =
+    width <= 478
+      ? "Small"
+      : width <= 768
+        ? "Medium"
+        : "Large";
+
+
 
   return (
-    <TouchableOpacity style={[styles.smallButton, { aspectRatio: proportion }]}>
-      <LinearGradient
-        colors={[initial, final]}
-        style={[
-          {
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 20,
-            aspectRatio: proportion,
-          },
-          styles.smallButton,
-        ]}
-      >
-        <Text style={styles.buttonText}>{text}</Text>
-        {children}
-      </LinearGradient>
+    <TouchableOpacity style={styles.button}>
+      <ImageBackground source={feSmall}
+          resizeMode="contain"
+          style={{ flex: 1 }}>
+      </ImageBackground>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  smallButton: {
+  button: {
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "flex-start",
     borderRadius: 10,
     overflow: "hidden",
-  },
-
-  buttonText: {
-    fontFamily: "Nunito_400Regular",
-    color: colors.colorBg,
-    fontSize: 24,
   },
 });
