@@ -1,0 +1,45 @@
+.accordion {
+    width: 100%;
+    border-bottom: .1rem solid #ddd;
+}
+
+.accordion-header {
+    width: 100%;
+    padding-block: 2rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    text-align: left;
+
+    background: none;
+    border: none;
+
+    cursor: pointer;
+    font-size: clamp(1.8rem, 2vw, 4rem);
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+}
+
+.arrow.open {
+    transform: rotateZ(-90deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+
+    transition: max-height 0.35s ease;
+
+    font-size: clamp(1.8rem, 1.8vw, 3rem);
+}
+
+.accordion-inner {
+    border-radius: 1rem;
+    background: var(--mediumGrey);
+    padding: 1rem;
+    margin-bottom: 2rem;
+}

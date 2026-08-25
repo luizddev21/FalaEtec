@@ -1,0 +1,10 @@
+.nav-block-button {
+    flex: 1;
+    border: none;
+    border-radius: 2rem;
+}
+
+.nav-block-button img {
+    width: 100%;
+    height: 100%;
+}
