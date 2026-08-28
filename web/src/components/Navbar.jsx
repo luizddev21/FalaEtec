@@ -5,7 +5,12 @@ import { motion } from "framer-motion";
 import "../assets/stylesheets/components/navbar.css";
 
 export default function Navbar() {
+
   const location = useLocation();
+
+  console.log(location);
+
+  if (location.pathname.includes("sub")) return;
 
   const links = [
     { name: "Início", path: "/", icon: "home" },

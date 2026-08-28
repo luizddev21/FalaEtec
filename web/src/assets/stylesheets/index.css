@@ -36,6 +36,8 @@ body,
 
 a {
   text-decoration: none;
+  color: var(--feBlue);
+  font-weight: 600;
 }
 ul {
   list-style: none;
@@ -93,16 +95,18 @@ section {
 }
 
 section {
-    padding: 1rem;
-    border-radius: 1rem;
+    padding: 2rem;
+    border-radius: 2rem;
     background: var(--colorBg);
 }
 
-/*
-=======================
-    Pages
-=======================
-*/
+section.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(300px, 95%, 600px);
+}
 
 /*
 =======================
@@ -118,9 +122,10 @@ body {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
   align-items: center;
   color: var(--feBlue);
-  font-size: clamp(2rem, 5vw, 5rem);
+  font-size: clamp(3rem, 5vw, 5rem);
 }
 
 .title span {
@@ -128,6 +133,83 @@ body {
   border-radius: 2rem;
   background: var(--feBlue);
   color: var(--colorBg);
+}
+
+/*
+
+=======================
+    Form
+=======================
+
+*/
+
+form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 6rem 4rem;
+}
+
+form .title {
+  justify-content: center;
+  font-size: clamp(3rem, 4vw, 4rem);
+}
+
+.camp {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+}
+
+.input {
+  position: relative;
+  width: 100%;
+}
+
+.input input,
+.input select,
+.input button {
+  width: 100%;
+  padding: 2rem 1rem;
+  font-size: clamp(2rem, 2vw, 2rem);
+  border: none;
+  border-bottom: .2rem solid var(--darkGrey);
+
+  outline: none;
+}
+
+.input input:focus {
+  color: var(--feLightBlue);
+  border-bottom: .2rem solid var(--feLightBlue);
+  transition: all ease .2s;
+}
+
+.input input:focus + label,
+.input input:valid + label{
+  top: 0;
+  left: 0;
+  color: var(--feLightBlue);
+}
+
+.input label {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: clamp(2rem, 2vw, 2rem);
+  background: var(--colorBg);
+  padding-inline: .5rem;
+  border-radius: 1rem;
+  transition: all ease .2s;
+}
+
+.input span {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  font-size: clamp(2rem, 2vw, 2rem);
 }
 
 /*
@@ -141,4 +223,21 @@ body {
   display: flex;
   flex-direction: row;
   gap: 1rem;
+}
+
+button.default {
+  border: none;
+  color: var(--colorBg);
+  background: linear-gradient(90deg, var(--feBlue), var(--feLightBlue));
+  font-weight: 500;
+  cursor: pointer;
+  transition: all ease .2s;
+}
+
+button.default:hover {
+  opacity: .8;
+} 
+
+button.default:active {
+  opacity: .8;
 }
