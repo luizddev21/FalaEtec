@@ -1,7 +1,7 @@
 import Screen from "../components/Screen";
 import { Link } from "react-router-dom";
 
-import login from "../js/api.js";
+import api from "../js/api.js";
 
 export default function Login() {
 
@@ -15,7 +15,7 @@ export default function Login() {
     const password = formData.get("password");
 
     try {
-        const data = await login(rm, password, type);
+        const data = await api.login(rm, password, type);
 
         console.log("Login realizado:", data);
 

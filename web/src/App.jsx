@@ -3,6 +3,8 @@ import User from "./pages/User";
 
 import Navbar from "./components/Navbar";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FeedbackEscolar from "./pages/subpages/FeedbackEscolar";
 import CanalSeguro from "./pages/subpages/CanalSeguro";
@@ -15,10 +17,26 @@ function App() {
 
       <Routes>
 
-        <Route path="/" element={<Home />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/feedbackescolar" element={<FeedbackEscolar />} />
-        <Route path="/canalseguro" element={<CanalSeguro />} />
+        <Route path="/" element={ 
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute> 
+        } />
+        <Route path="/user" element={
+          <ProtectedRoute>
+            <User />
+          </ProtectedRoute>
+        } />
+        <Route path="/feedbackescolar" element={
+          <ProtectedRoute>
+            <FeedbackEscolar />
+          </ProtectedRoute>
+        } />
+        <Route path="/canalseguro" element={
+          <ProtectedRoute>
+            <CanalSeguro />
+          </ProtectedRoute>
+        } />
         <Route path="/sub/login" element={<Login />} />
         <Route path="/debug/register" element={<Register />} />
 

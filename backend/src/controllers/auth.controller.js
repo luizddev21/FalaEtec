@@ -102,3 +102,14 @@ export async function logout(req, res) {
 
     }
 }
+
+export async function checkAuth(req, res) {
+
+    return res.status(200).json({
+        authenticated: true,
+        user: {
+            id: req.user.sub,
+            type: req.user.type
+        }
+    });
+}
