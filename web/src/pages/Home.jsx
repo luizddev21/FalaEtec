@@ -10,8 +10,8 @@ export default function Home() {
 
       <section className="main-navigation">
         <nav className="button-box">
-          <NavBlockButton image="FE" page="feedbackescolar" />
-          <NavBlockButton image="CS" page="canalseguro" />
+          <NavBlockButton image="FE" page="./sub/feedbackescolar" />
+          <NavBlockButton image="CS" page="./sub/canalseguro" />
         </nav>
       </section>
 

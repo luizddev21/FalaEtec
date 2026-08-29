@@ -6,7 +6,8 @@
   --darkGrey: #656565;
 
   --feBlue: #0f3e9a;
-  --feLightBlue: #3562b9;
+  --feMediumBlue: #3562b9;
+  --feLightBlue: #abc7ff;
 
   --feGreen: #4a9932;
   --feLightGreen: #4ec527;
@@ -95,9 +96,10 @@ section {
 }
 
 section {
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 2rem;
   background: var(--colorBg);
+  box-shadow: 0em 1em 1em rgba(0, 0, 0, 0.048);
 }
 
 section.center {
@@ -106,6 +108,39 @@ section.center {
   left: 50%;
   transform: translate(-50%, -50%);
   width: clamp(300px, 95%, 600px);
+}
+
+/*
+=======================
+    Header
+=======================
+*/
+
+header {
+  position: sticky;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  padding-block: 1.5rem;
+  background: white;
+  box-shadow: 0em 1em 1em rgba(0, 0, 0, 0.048);
+  z-index: 1000;
+}
+
+header img {
+  width: clamp(5rem, 40%, 25rem);
+}
+
+header .content {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .title {
+  justify-content: flex-end;
+  color: var(--feMediumBlue);
+  font-size: clamp(2rem, 5vw, 5rem);
 }
 
 /*
@@ -119,13 +154,13 @@ body {
 }
 
 .title {
-  width: 100%;
   display: flex;
   justify-content: space-between;
+  text-align: end;
   gap: 1rem;
   align-items: center;
   color: var(--feBlue);
-  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-size: clamp(2rem, 4vw, 4rem);
 }
 
 .title span {
@@ -154,7 +189,29 @@ form {
 
 form .title {
   justify-content: center;
-  font-size: clamp(3rem, 4vw, 4rem);
+  font-size: clamp(2.2rem, 4vw, 4rem);
+}
+
+form .info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 5rem;
+  font-size: clamp(1.8rem, 2vw, 2rem);
+  background: var(--feLightBlue);
+  color: var(--feBlue);
+}
+
+@media screen and (max-width: 550px) {
+  form {
+    padding: 2rem 1rem;
+  }
+
+  form .title {
+    justify-content: flex-start;
+    text-align: left;
+  }
 }
 
 .camp {
@@ -173,7 +230,7 @@ form .title {
 .input button {
   width: 100%;
   padding: 2rem 1rem;
-  font-size: clamp(2rem, 2vw, 2rem);
+  font-size: clamp(1.8rem, 2vw, 2rem);
   border: none;
   outline: none;
 }
@@ -184,8 +241,8 @@ form .title {
 }
 
 .input input:focus {
-  color: var(--feLightBlue);
-  border-bottom: 0.2rem solid var(--feLightBlue);
+  color: var(--feMediumBlue);
+  border-bottom: 0.2rem solid var(--feMediumBlue);
   transition: all ease 0.2s;
 }
 
@@ -193,7 +250,7 @@ form .title {
 .input input:valid + label {
   top: 0;
   left: 0;
-  color: var(--feLightBlue);
+  color: var(--feMediumBlue);
 }
 
 .input label {
@@ -201,7 +258,7 @@ form .title {
   top: 50%;
   left: 1rem;
   transform: translateY(-50%);
-  font-size: clamp(2rem, 2vw, 2rem);
+  font-size: clamp(1.8rem, 2vw, 2rem);
   background: var(--colorBg);
   padding-inline: 0.5rem;
   border-radius: 1rem;
@@ -212,7 +269,91 @@ form .title {
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  font-size: clamp(2rem, 2vw, 2rem);
+  font-size: clamp(1.8rem, 2vw, 2rem);
+}
+
+/* Type 2 */
+
+form.type2 .input input,
+form.type2 .input select,
+form.type2 .input button,
+form.type2 .input textarea {
+  width: 100%;
+  padding: 2rem 1rem;
+  font-size: clamp(1.8rem, 2vw, 2rem);
+  border: none;
+  outline: none;
+  border-radius: 1rem;
+  resize: none;
+}
+
+form.type2 .input input,
+form.type2 .input select,
+form.type2 .input textarea {
+  background: var(--mediumGrey);
+}
+
+form.type2 .input textarea {
+  height: 20rem;
+}
+
+form.type2 .input label {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: clamp(1.8rem, 2vw, 2rem);
+  background: var(--mediumGrey);
+  padding-inline: 0.5rem;
+  border-radius: 1rem;
+  transition: all ease 0.2s;
+}
+
+form.type2 .input.textarea label {
+  position: absolute;
+  top: 10%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: clamp(1.8rem, 2vw, 2rem);
+  background: var(--mediumGrey);
+  padding-inline: 0.5rem;
+  border-radius: 1rem;
+  transition: all ease 0.2s;
+}
+
+form.type2 .input input:focus,
+form.type2 .input textarea:focus {
+  color: var(--feMediumBlue);
+  border-bottom: 0.2rem solid var(--feMediumBlue);
+  transition: all ease 0.2s;
+}
+
+form.type2 .input input:focus + label,
+form.type2 .input input:valid + label,
+form.type2 .input textarea:focus + label,
+form.type2 .input textarea:valid + label {
+  top: 0;
+  left: 0;
+  color: var(--feMediumBlue);
+}
+
+form.type2 .input.image input[type="file"] {
+  display: none;
+}
+
+form.type2 .input.image input[type="file"] + label {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 2rem;
+  cursor: pointer;
+  background: var(--mediumGrey);
+  border-radius: 1rem;
 }
 
 /*
@@ -262,7 +403,28 @@ form .title {
   width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   gap: 1rem;
+}
+
+.button-box.wrap {
+  flex-wrap: wrap;
+}
+
+.nav-block-button.wrap {
+  min-width: 30rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .nav-block-button.wrap {
+    max-width: 50%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .nav-block-button.wrap {
+    max-width: 100%;
+  }
 }
 
 button {
@@ -274,7 +436,7 @@ button {
 
 button.default {
   color: var(--colorBg);
-  background: linear-gradient(90deg, var(--feBlue), var(--feLightBlue));
+  background: linear-gradient(90deg, var(--feBlue), var(--feMediumBlue));
 }
 
 button.danger {
@@ -288,4 +450,18 @@ button:hover {
 
 button:active {
   opacity: 0.8;
+}
+
+button.go-back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  outline: none;
+  background: var(--mediumGrey);
+  padding: 0.5rem 1rem;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 500;
+  color: var(--darkGrey);
 }

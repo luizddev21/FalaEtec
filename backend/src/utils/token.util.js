@@ -8,7 +8,7 @@ function generateAccessToken(payload) {
             payload, 
             process.env.ACCESS_SECRET, 
             {
-                expiresIn: "10s",
+                expiresIn: "15m",
             }
         )
     );

@@ -10,6 +10,7 @@ import FeedbackEscolar from "./pages/subpages/FeedbackEscolar";
 import CanalSeguro from "./pages/subpages/CanalSeguro";
 import Register from "./pages/debug/register";
 import Login from "./pages/Login";
+import Interaction from "./pages/subpages/Interaction";
 
 function App() {
   return (
@@ -27,14 +28,19 @@ function App() {
             <User />
           </ProtectedRoute>
         } />
-        <Route path="/feedbackescolar" element={
+        <Route path="/sub/feedbackescolar" element={
           <ProtectedRoute>
             <FeedbackEscolar />
           </ProtectedRoute>
         } />
-        <Route path="/canalseguro" element={
+        <Route path="/sub/canalseguro" element={
           <ProtectedRoute>
             <CanalSeguro />
+          </ProtectedRoute>
+        } />
+        <Route path="/sub/interaction" element={
+          <ProtectedRoute>
+            <Interaction />
           </ProtectedRoute>
         } />
         <Route path="/sub/login" element={<Login />} />

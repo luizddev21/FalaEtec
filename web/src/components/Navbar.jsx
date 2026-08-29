@@ -12,6 +12,8 @@ export default function Navbar() {
     { name: "Usuário", path: "/user", icon: "person" },
   ];
 
+  const show = links.some(link => link.path === location.pathname);
+
   const linksRef = useRef([]);
 
   const [indicator, setIndicator] = useState({
@@ -34,10 +36,10 @@ export default function Navbar() {
       left: activeElement.offsetLeft,
       width: activeElement.offsetWidth,
     });
-  }, [location.pathname]);
+  }, []);
 
   return (
-    <nav className="navbar">
+    show && <nav className="navbar">
       <div className="navbar-links">
         <motion.div
           className="nav-indicator"
