@@ -141,29 +141,30 @@ export async function loginUser({ rm, password, type }) {
 export async function refreshUser(refreshToken) {
 
     if (!refreshToken) {
-        throw new Error('Refresh token não fornecido');
+        throw new Error("Refresh token não fornecido");
     }
 
     let payload;
 
     try {
         payload = tokenUtil.verifyRefreshToken(refreshToken);
-    } catch (error) {
-        throw new Error('Refresh token inválido ou expirado');
+    } catch {
+        throw new Error("Refresh token inválido ou expirado");
     }
 
-    const storedToken = await tokenUtil.findRefreshToken(refreshToken);
+    const storedToken =
+        await tokenUtil.findRefreshToken(refreshToken);
 
     if (!storedToken) {
-        throw new Error('Refresh token inválido');
+        throw new Error("Refresh token inválido");
     }
 
     if (storedToken.revogado) {
-        throw new Error('Refresh token revogado');
+        throw new Error("Refresh token revogado");
     }
 
     if (new Date(storedToken.expiracao) <= new Date()) {
-        throw new Error('Refresh token expirado');
+        throw new Error("Refresh token expirado");
     }
 
     await tokenUtil.revokeRefreshToken(refreshToken);

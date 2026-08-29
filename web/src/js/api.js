@@ -1,147 +1,135 @@
 const API_URL = "http://localhost:3000";
 
-
 // =========================
 // LOGIN
 // =========================
 
 async function login(rm, password, type) {
+  const response = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      rm,
+      password,
+      type,
+    }),
+  });
 
-    const response = await fetch(
-        `${API_URL}/auth/login`,
-        {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                rm,
-                password,
-                type
-            })
-        }
-    );
+  const data = await response.json();
 
-    const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error || "Erro ao realizar login");
+  }
 
-    if (!response.ok) {
-        throw new Error(
-            data.error || "Erro ao realizar login"
-        );
-    }
-
-    return data;
+  return data;
 }
 
+// =========================
+// LOGOUT
+// =========================
+
+async function logout() {
+  try {
+    await fetch(`${API_URL}/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+  } catch (error) {
+    console.error("Erro ao tentar fazer logout:", error);
+  }
+}
 
 // =========================
 // CHECK AUTH
 // =========================
 
 async function checkAuth() {
+  try {
+    const response = await fetch(`${API_URL}/auth/check-auth`, {
+      method: "GET",
+      credentials: "include",
+    });
 
-    try {
+    return response.ok;
+  } catch (error) {
+    console.error("Erro ao verificar autenticação:", error);
 
-        const response = await fetch(
-            `${API_URL}/auth/check-auth`,
-            {
-                method: "GET",
-                credentials: "include"
-            }
-        );
-
-        return response.ok;
-
-    } catch (error) {
-
-        console.error(
-            "Erro ao verificar autenticação:",
-            error
-        );
-
-        return false;
-    }
+    return false;
+  }
 }
-
 
 // =========================
 // REFRESH
 // =========================
 
+let refreshPromise = null;
+
 async function refresh() {
+  if (refreshPromise) {
+    console.log("Já existe um refresh acontecendo");
 
+    return refreshPromise;
+  }
+
+  refreshPromise = (async () => {
     try {
+      const response = await fetch(`${API_URL}/auth/refresh`, {
+        method: "POST",
+        credentials: "include",
+      });
 
-        const response = await fetch(
-            `${API_URL}/auth/refresh`,
-            {
-                method: "POST",
-                credentials: "include"
-            }
-        );
-
-        return response.ok;
-
+      return response.ok;
     } catch (error) {
+      console.error("Erro ao renovar token:", error);
 
-        console.error(
-            "Erro ao renovar sessão:",
-            error
-        );
-
-        return false;
+      return false;
+    } finally {
+      refreshPromise = null;
     }
-}
+  })();
 
+  return refreshPromise;
+}
 
 // =========================
 // API FETCH
 // =========================
 
 async function apiFetch(endpoint, options = {}) {
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    ...options,
+    credentials: "include",
+  });
 
-    const response = await fetch(
-        `${API_URL}${endpoint}`,
-        {
-            ...options,
-            credentials: "include"
-        }
-    );
+  // Access token ainda é válido
+  if (response.status !== 401) {
+    return response;
+  }
 
+  // Access token expirou.
+  // Tentamos utilizar o refresh token.
+  const refreshed = await refresh();
 
-    // Access token ainda é válido
-    if (response.status !== 401) {
-        return response;
-    }
+  // Não foi possível renovar a sessão
+  if (!refreshed) {
+    return response;
+  }
 
-
-    // Access token expirou.
-    // Tentamos utilizar o refresh token.
-    const refreshed = await refresh();
-
-
-    // Não foi possível renovar a sessão
-    if (!refreshed) {
-        return response;
-    }
-
-
-    // Access token foi renovado.
-    // Repetimos a requisição original.
-    return fetch(
-        `${API_URL}${endpoint}`,
-        {
-            ...options,
-            credentials: "include"
-        }
-    );
+  // Access token foi renovado.
+  // Repetimos a requisição original.
+  return fetch(`${API_URL}${endpoint}`, {
+    ...options,
+    credentials: "include",
+  });
 }
 
-
 export default {
-    login,
-    checkAuth,
-    refresh,
-    apiFetch
+  login,
+  logout,
+  checkAuth,
+  refresh,
+  apiFetch,
 };

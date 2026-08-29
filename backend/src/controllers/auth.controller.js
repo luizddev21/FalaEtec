@@ -34,7 +34,7 @@ export async function login(req, res) {
         sameSite: "lax"
     });
 
-    return res.status(201).json(data.user);
+    return res.status(200).json(data.user);
   } catch (error) {
     
     return res.status(400).json({

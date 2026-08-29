@@ -84,7 +84,7 @@ ul {
 }
 
 main {
-    padding-bottom: 10rem;
+  padding-bottom: 10rem;
 }
 
 main,
@@ -95,9 +95,9 @@ section {
 }
 
 section {
-    padding: 2rem;
-    border-radius: 2rem;
-    background: var(--colorBg);
+  padding: 2rem;
+  border-radius: 2rem;
+  background: var(--colorBg);
 }
 
 section.center {
@@ -125,7 +125,7 @@ body {
   gap: 1rem;
   align-items: center;
   color: var(--feBlue);
-  font-size: clamp(3rem, 5vw, 5rem);
+  font-size: clamp(2.5rem, 5vw, 5rem);
 }
 
 .title span {
@@ -175,19 +175,22 @@ form .title {
   padding: 2rem 1rem;
   font-size: clamp(2rem, 2vw, 2rem);
   border: none;
-  border-bottom: .2rem solid var(--darkGrey);
-
   outline: none;
+}
+
+.input input,
+.input select {
+  border-bottom: 0.2rem solid var(--darkGrey);
 }
 
 .input input:focus {
   color: var(--feLightBlue);
-  border-bottom: .2rem solid var(--feLightBlue);
-  transition: all ease .2s;
+  border-bottom: 0.2rem solid var(--feLightBlue);
+  transition: all ease 0.2s;
 }
 
 .input input:focus + label,
-.input input:valid + label{
+.input input:valid + label {
   top: 0;
   left: 0;
   color: var(--feLightBlue);
@@ -200,9 +203,9 @@ form .title {
   transform: translateY(-50%);
   font-size: clamp(2rem, 2vw, 2rem);
   background: var(--colorBg);
-  padding-inline: .5rem;
+  padding-inline: 0.5rem;
   border-radius: 1rem;
-  transition: all ease .2s;
+  transition: all ease 0.2s;
 }
 
 .input span {
@@ -210,6 +213,43 @@ form .title {
   justify-content: flex-end;
   width: 100%;
   font-size: clamp(2rem, 2vw, 2rem);
+}
+
+/*
+=======================
+    Output
+=======================
+*/
+
+.output {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.output input {
+  width: 100%;
+  padding: 2rem 1rem;
+  font-size: clamp(2rem, 2vw, 2rem);
+  background: var(--mediumGrey);
+  border: none;
+  outline: none;
+  border-radius: 2rem;
+  color: var(--darkGrey);
+}
+
+.output label {
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: clamp(2rem, 2vw, 2rem);
+  background: var(--colorBg);
+  color: var(--darkGrey);
+  padding-inline: 0.5rem;
+  border-radius: 1rem;
+  transition: all ease 0.2s;
 }
 
 /*
@@ -225,19 +265,27 @@ form .title {
   gap: 1rem;
 }
 
-button.default {
-  border: none;
-  color: var(--colorBg);
-  background: linear-gradient(90deg, var(--feBlue), var(--feLightBlue));
+button {
+  border-radius: 2rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all ease .2s;
+  transition: all ease 0.2s;
 }
 
-button.default:hover {
-  opacity: .8;
-} 
+button.default {
+  color: var(--colorBg);
+  background: linear-gradient(90deg, var(--feBlue), var(--feLightBlue));
+}
 
-button.default:active {
-  opacity: .8;
+button.danger {
+  color: var(--colorBg);
+  background: rgb(255, 78, 78);
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button:active {
+  opacity: 0.8;
 }

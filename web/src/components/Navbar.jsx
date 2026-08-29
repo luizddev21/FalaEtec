@@ -5,12 +5,7 @@ import { motion } from "framer-motion";
 import "../assets/stylesheets/components/navbar.css";
 
 export default function Navbar() {
-
   const location = useLocation();
-
-  console.log(location);
-
-  if (location.pathname.includes("sub")) return;
 
   const links = [
     { name: "Início", path: "/", icon: "home" },
@@ -18,6 +13,7 @@ export default function Navbar() {
   ];
 
   const linksRef = useRef([]);
+
   const [indicator, setIndicator] = useState({
     left: 0,
     width: 0,
@@ -25,7 +21,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const activeIndex = links.findIndex(
-      (link) => link.path === location.pathname,
+      (link) => link.path === location.pathname
     );
 
     if (activeIndex === -1) return;
@@ -62,7 +58,9 @@ export default function Navbar() {
             ref={(element) => {
               linksRef.current[index] = element;
             }}
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "active" : ""}`
+            }
           >
             <ion-icon name={link.icon}></ion-icon>
             {link.name}
