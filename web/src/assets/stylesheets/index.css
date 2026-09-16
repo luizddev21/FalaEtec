@@ -121,14 +121,14 @@ header {
   text-align: center;
   top: 0;
   width: 100%;
-  padding-block: 1.5rem;
+  padding-block: 1.2rem;
   background: white;
   box-shadow: 0em 1em 1em rgba(0, 0, 0, 0.048);
   z-index: 1000;
 }
 
 header img {
-  width: clamp(5rem, 40%, 25rem);
+  width: clamp(5rem, 30%, 25rem);
 }
 
 header .content {
@@ -263,6 +263,7 @@ form .info {
   padding-inline: 0.5rem;
   border-radius: 1rem;
   transition: all ease 0.2s;
+  cursor: text;
 }
 
 .input span {
@@ -307,6 +308,7 @@ form.type2 .input label {
   padding-inline: 0.5rem;
   border-radius: 1rem;
   transition: all ease 0.2s;
+  cursor: text;
 }
 
 form.type2 .input.textarea label {
@@ -412,7 +414,7 @@ form.type2 .input.image input[type="file"] + label {
 }
 
 .nav-block-button.wrap {
-  min-width: 30rem;
+  min-width: 20rem;
 }
 
 @media screen and (max-width: 1000px) {
@@ -421,7 +423,7 @@ form.type2 .input.image input[type="file"] + label {
   }
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 425px) {
   .nav-block-button.wrap {
     max-width: 100%;
   }

@@ -1,12 +1,12 @@
 import express from 'express';
-import { register, login, refresh, logout, checkAuth } from '../controllers/auth.controller.js';
-import auth from '../middlewares/auth.middleware.js';
+import { login, refresh, logout, checkAuth } from '../controllers/auth.controller.js';
+import { auth } from '../middlewares/auth.middleware.js';
+
+// Rotas cujas requisições tratam de tokens e
+// Autenticação de usuário
 
 // Criação do objeto Router responsável pelas rotas de usuários.
 const router = express.Router();
-
-// Rota responsável pelo cadastro de novos usuários.
-router.post('/register', register);
 
 // Rota responsável pelo login dos usuários
 router.post('/login', login);

@@ -1,21 +1,4 @@
-import { registerUser, loginUser, refreshUser, logoutUser } from '../services/auth.service.js'
-
-export async function register(req, res) {
-  try {
-
-    // Chama a função responsável pelo registro do usuário e aguarda um retorno.
-    const data = await registerUser(req.body);
-
-    // Caso o retorno seja positivo, envia a mensagem ao servidor contendo o ID do usuário cadastrado.
-    return res.status(201).json(data);
-  } catch (error) {
-
-    // Caso o retorno seja negativo, envia a mensagem ao servidor contendo a mensagem de erro.
-    return res.status(400).json({
-      error: error.message
-    });
-  }
-}
+import { loginUser, refreshUser, logoutUser } from '../services/auth.service.js'
 
 export async function login(req, res) {
   try {
@@ -112,4 +95,5 @@ export async function checkAuth(req, res) {
             type: req.user.type
         }
     });
+    
 }

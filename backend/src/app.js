@@ -7,6 +7,7 @@ import cors from 'cors';
 
 import authRoute from './routes/auth.route.js';
 import userRoute from './routes/user.route.js';
+import teacherRoute from './routes/teacher.route.js';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.json());
 
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
+app.use('/teacher', teacherRoute);
 
 const PORT = process.env.PORT
 
