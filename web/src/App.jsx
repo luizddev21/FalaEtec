@@ -10,7 +10,9 @@ import FeedbackEscolar from "./pages/subpages/FeedbackEscolar";
 import CanalSeguro from "./pages/subpages/CanalSeguro";
 import Register from "./pages/debug/register";
 import Login from "./pages/Login";
-import Interaction from "./pages/subpages/Interaction";
+import Avaliacao from "./pages/subpages/Avaliacao";
+import Solicitacao from "./pages/subpages/Solicitacao";
+import Sugestao from "./pages/subpages/Sugestao";
 
 function App() {
   return (
@@ -38,9 +40,19 @@ function App() {
             <CanalSeguro />
           </ProtectedRoute>
         } />
-        <Route path="/sub/interaction" element={
+        <Route path="/sub/avaliacao" element={
           <ProtectedRoute>
-            <Interaction />
+            <Avaliacao />
+          </ProtectedRoute>
+        } />
+        <Route path="/sub/solicitacao" element={
+          <ProtectedRoute>
+            <Solicitacao />
+          </ProtectedRoute>
+        } />
+        <Route path="/sub/sugestao" element={
+          <ProtectedRoute>
+            <Sugestao />
           </ProtectedRoute>
         } />
         <Route path="/sub/login" element={<Login />} />

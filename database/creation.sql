@@ -60,6 +60,8 @@ CREATE TABLE interacao (
     local VARCHAR(100),
     sub_local VARCHAR(100),
     url_img VARCHAR(500),
+    acompanhamento TINYINT DEFAULT 0,
+    anonimo TINYINT DEFAULT 0
 
     -- Relacionamento: aluno 1:N interacao
     aluno_id CHAR(5) NOT NULL,

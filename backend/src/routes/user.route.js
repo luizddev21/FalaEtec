@@ -7,7 +7,7 @@ import { auth, checkAdmin } from '../middlewares/auth.middleware.js';
 const router = express.Router();
 
 // Cadastro de novos usuários.
-router.post('/register', auth, user.registerUser);
+router.post('/create', auth, user.createUser);
 
 // Pegar informações do usuário
 router.get('/profile', auth, user.getUser);

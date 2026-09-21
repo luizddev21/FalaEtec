@@ -6,9 +6,9 @@ export default function FeedbackEscolar() {
     <Screen>
       <section className="user-info">
         <div className="button-box wrap">
-          <NavBlockButton page="../sub/interaction?type=avaliacao" image="EAV" mode="static" wrap />
-          <NavBlockButton page="../sub/interaction?type=solicitacao" image="ESO" mode="static" wrap />
-          <NavBlockButton page="../sub/interaction?type=sugestao" image="ESU" mode="static" wrap />
+          <NavBlockButton page="../sub/avaliacao" image="EAV" mode="static" wrap />
+          <NavBlockButton page="../sub/solicitacao" image="ESO" mode="static" wrap />
+          <NavBlockButton page="../sub/sugestao" image="ESU" mode="static" wrap />
         </div>
       </section>
     </Screen>

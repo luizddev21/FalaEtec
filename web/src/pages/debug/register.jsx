@@ -64,7 +64,7 @@ export default function Register() {
         setMessage('');
 
         try {
-            const response = await fetch('http://localhost:3000/user/register', {
+            const response = await fetch('http://localhost:3000/user/create', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
