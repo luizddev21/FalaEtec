@@ -1,22 +1,22 @@
 import express from 'express';
-import { user } from '../controllers/user.controller.js';
-import { auth, checkAdmin } from '../middlewares/auth.middleware.js';
+import { controller } from '../controllers/user.controller.js';
+import { middleware } from '../middlewares/auth.middleware.js';
 
 // Rotas responsáveis pelo CRUD dos usuários
 
 const router = express.Router();
 
 // Cadastro de novos usuários.
-router.post('/create', auth, user.createUser);
+router.post('/create', middleware.auth, controller.create);
 
 // Pegar informações do usuário
-router.get('/profile', auth, user.getUser);
-router.get('/allprofile', checkAdmin, user.getAllUser);
+router.get('/profile', middleware.auth, controller.get);
+router.get('/all-profile', middleware.admin, controller.getAll);
 
 // Mudar senha de um usuário
-router.post('/changepassword', checkAdmin, user.changeUserPassword);
+router.post('/change-password', middleware.admin, controller.changePassword);
 
 // Apaga usuário
-router.post('/delete', checkAdmin, user.deleteUser);
+router.post('/delete', middleware.admin, controller.delete);
 
 export default router;

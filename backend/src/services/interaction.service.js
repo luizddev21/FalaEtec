@@ -2,7 +2,7 @@ import db from "../config/db.js";
 import crypto from "crypto";
 
 export const imp = {
-  async createInteraction(user, formData, file) {
+  async create(user, formData, file) {
     console.log("Chegou aqui");
     console.log(formData);
     console.log(user.sub);

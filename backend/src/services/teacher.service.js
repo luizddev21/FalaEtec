@@ -1,19 +1,21 @@
 import db from '../config/db.js';
 
-export async function getNameOfTeachers() {
-    //TODO Pegar todos os nomes dos professores existentes
+export const imp = {
+    async getAllName() {
+        //TODO Pegar todos os nomes dos professores existentes
 
-    const teachers = await db.query(
-        `SELECT nome FROM professor`
-    );
+        const teachers = await db.query(
+            `SELECT nome FROM professor`
+        );
 
-    const data = [];
+        const data = [];
 
-    teachers.forEach(teacher => {
-        if (teacher.nome !== undefined) {
-            data.push(teacher.nome);
-        }
-    });
+        teachers.forEach(teacher => {
+            if (teacher.nome !== undefined) {
+                data.push(teacher.nome);
+            }
+        });
 
-    return data;
+        return data;
+    }
 }

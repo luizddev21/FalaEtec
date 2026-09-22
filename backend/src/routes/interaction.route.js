@@ -1,6 +1,6 @@
 import express from 'express';
-import { interaction } from '../controllers/interaction.controller.js'; '../controllers/interaction.controller.js';
-import { auth } from '../middlewares/auth.middleware.js';
+import { controller } from '../controllers/interaction.controller.js'; '../controllers/interaction.controller.js';
+import { middleware } from '../middlewares/auth.middleware.js';
 import multer from 'multer';
 import path from 'path';
 
@@ -23,6 +23,6 @@ const upload = multer({
     storage: storage
 });
 
-router.post('/createInteraction', auth, upload.single("img"), interaction.createInteraction);
+router.post('/create', middleware.auth, upload.single("img"), controller.create);
 
 export default router;

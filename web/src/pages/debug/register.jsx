@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../../js/api.js'
+import { api } from '../../js/api.js'
 
 export default function Register() {
 
@@ -9,7 +9,7 @@ export default function Register() {
 
     useEffect(() => {
         async function loadAllUserData() {
-            const response = await api.apiFetch("/user/allprofile");
+            const response = await api.apiFetch("/user/all-profile");
 
             if (!response.ok) {
                 console.log(await response.json())
@@ -91,7 +91,7 @@ export default function Register() {
         setMessage('');
 
         try {
-            const response = await fetch('http://localhost:3000/user/changepassword', {
+            const response = await fetch('http://localhost:3000/user/change-password', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

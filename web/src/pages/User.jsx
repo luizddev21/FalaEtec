@@ -1,6 +1,6 @@
 import Screen from "../components/Screen";
 
-import api from "../js/api.js";
+import { api } from "../js/api.js";
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";

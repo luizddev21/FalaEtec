@@ -2,7 +2,7 @@ import db from "../config/db.js";
 import bcrypt from "bcrypt";
 
 export const imp = {
-    async getUser({ sub: rm, type }) {
+    async get({ sub: rm, type }) {
         let classroom = "";
 
         const sql =
@@ -49,7 +49,7 @@ export const imp = {
         };
     },
 
-    async getAllUser({ sub: rm, type }) {
+    async getAll({ sub: rm, type }) {
         if (!type === "gestor") return;
 
         const alunoSql = `
@@ -80,7 +80,7 @@ export const imp = {
 
     // Função responsável pelo cadastro de novos usuários no sistema.
     // Recebe os dados do usuário enviados pela camada de controle.
-    async createUser({ rm, password, name, turma_id, type }) {
+    async create({ rm, password, name, turma_id, type }) {
 
         // Verifica se o tipo de usuário informado é válido.
         // O sistema permite o cadastro de alunos, professores e gestores.
@@ -162,7 +162,7 @@ export const imp = {
         };
     },
 
-    async changeUserPassword({ rm, newPassword, type }) {
+    async changePassword({ rm, newPassword, type }) {
         if (!['aluno', 'professor', 'gestor'].includes(type)) {
             throw new Error('Tipo de usuário inválido');
         }
@@ -187,7 +187,7 @@ export const imp = {
         throw new Error('Não foi possível alterar a senha');
     },
 
-    async deleteUser({ rm, type }) {
+    async delete({ rm, type }) {
         const sql = `
         DELETE
         FROM ${type}

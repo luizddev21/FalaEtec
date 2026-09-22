@@ -1,7 +1,7 @@
 import Screen from "../../components/Screen";
 import { useState, useRef } from "react";
 
-import api from "../../js/api.js";
+import { api } from "../../js/api.js";
 
 export default function Solicitacao() {
   const [form, setForm] = useState({

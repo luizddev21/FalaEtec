@@ -1,6 +1,6 @@
 import express from 'express';
-import { login, refresh, logout, checkAuth } from '../controllers/auth.controller.js';
-import { auth } from '../middlewares/auth.middleware.js';
+import { controller } from '../controllers/auth.controller.js';
+import { middleware } from '../middlewares/auth.middleware.js';
 
 // Rotas cujas requisições tratam de tokens e
 // Autenticação de usuário
@@ -9,13 +9,13 @@ import { auth } from '../middlewares/auth.middleware.js';
 const router = express.Router();
 
 // Rota responsável pelo login dos usuários
-router.post('/login', login);
+router.post('/login', controller.login);
 
-router.post('/refresh', refresh);
+router.post('/refresh', controller.refresh);
 
-router.post('/logout', logout);
+router.post('/logout', controller.logout);
 
-router.get('/check-auth', auth, checkAuth);
+router.get('/check-auth', middleware.auth, controller.checkAuth);
 
 // Disponibiliza o roteador para utilização em outras partes da aplicação.
 export default router;

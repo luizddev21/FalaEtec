@@ -55,7 +55,7 @@ function App() {
             <Sugestao />
           </ProtectedRoute>
         } />
-        <Route path="/sub/login" element={<Login />} />
+        <Route path="/sub/login" element={ <Login /> } />
         <Route path="/debug/register" element={<Register />} />
 
       </Routes>

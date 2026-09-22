@@ -1,99 +1,101 @@
-import { loginUser, refreshUser, logoutUser } from '../services/auth.service.js'
+import { imp } from '../services/auth.service.js'
 
-export async function login(req, res) {
-  try {
+export const controller = {
+  async login(req, res) {
+    try {
 
-    const data = await loginUser(req.body);
+      const data = await imp.login(req.body);
 
-    res.cookie("accessToken", data.accessToken, {
+      res.cookie("accessToken", data.accessToken, {
         httpOnly: true,
         secure: false,
         sameSite: "lax"
-    });
+      });
 
-    res.cookie("refreshToken", data.refreshToken, {
+      res.cookie("refreshToken", data.refreshToken, {
         httpOnly: true,
         secure: false,
         sameSite: "lax"
-    });
+      });
 
-    return res.status(200).json(data.user);
-  } catch (error) {
-    
-    return res.status(400).json({
-      error: error.message
-    });
-  }
-}
+      return res.status(200).json(data.user);
+    } catch (error) {
 
-export async function refresh(req, res) {
-  try {
-    const refreshToken = req.cookies.refreshToken;
+      return res.status(400).json({
+        error: error.message
+      });
+    }
+  },
 
-    const tokens = await refreshUser(refreshToken);
+  async refresh(req, res) {
+    try {
+      const refreshToken = req.cookies.refreshToken;
 
-    res.cookie("accessToken", tokens.accessToken, {
+      const tokens = await imp.refresh(refreshToken);
+
+      res.cookie("accessToken", tokens.accessToken, {
         httpOnly: true,
         secure: false,
         sameSite: "lax"
-    });
+      });
 
-    res.cookie("refreshToken", tokens.refreshToken, {
+      res.cookie("refreshToken", tokens.refreshToken, {
         httpOnly: true,
         secure: false,
         sameSite: "lax"
-    });
+      });
 
-    return res.json({
-      status: "success"
-    })
+      return res.json({
+        status: "success"
+      })
 
-  } catch (error) {
-    return res.status(401).json({
-      error: error.message
-    })
-  }
-}
+    } catch (error) {
+      return res.status(401).json({
+        error: error.message
+      })
+    }
+  },
 
-export async function logout(req, res) {
+  async logout(req, res) {
 
     try {
 
-        const refreshToken = req.cookies.refreshToken;
+      const refreshToken = req.cookies.refreshToken;
 
-        await logoutUser(refreshToken);
+      await imp.logout(refreshToken);
 
-        res.clearCookie("accessToken", {
-            httpOnly: true,
-            secure: false,
-            sameSite: "lax"
-        });
+      res.clearCookie("accessToken", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax"
+      });
 
-        res.clearCookie("refreshToken", {
-            httpOnly: true,
-            secure: false,
-            sameSite: "lax"
-        });
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax"
+      });
 
-        return res.sendStatus(204);
+      return res.sendStatus(204);
 
     } catch (error) {
 
-        return res.status(400).json({
-            error: error.message
-        });
+      return res.status(400).json({
+        error: error.message
+      });
 
     }
-}
+  },
 
-export async function checkAuth(req, res) {
+  async checkAuth(req, res) {
 
     return res.status(200).json({
-        authenticated: true,
-        user: {
-            id: req.user.sub,
-            type: req.user.type
-        }
+      authenticated: true,
+      user: {
+        id: req.user.sub,
+        type: req.user.type
+      }
     });
-    
+
+  }
 }

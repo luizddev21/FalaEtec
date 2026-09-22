@@ -1,10 +1,10 @@
 import { imp } from "../services/user.service.js";
 
-export const user = {
-    async getUser(req, res) {
+export const controller = {
+    async get(req, res) {
         try {
 
-            const data = await imp.getUser(req.user);
+            const data = await imp.get(req.user);
 
             return res.status(201).json(data);
 
@@ -16,9 +16,9 @@ export const user = {
         }
     },
 
-    async getAllUser(req, res) {
+    async getAll(req, res) {
         try {
-            const data = await imp.getAllUser(req.user);
+            const data = await imp.getAll(req.user);
 
             return res.status(201).json(data);
         } catch (error) {
@@ -28,11 +28,11 @@ export const user = {
         }
     },
 
-    async createUser(req, res) {
+    async create(req, res) {
         try {
         
             // Chama a função responsável pelo registro do usuário e aguarda um retorno.
-            const data = await imp.createUser(req.body);
+            const data = await imp.create(req.body);
         
             // Caso o retorno seja positivo, envia a mensagem ao servidor contendo o ID do usuário cadastrado.
             return res.status(201).json(data);
@@ -45,9 +45,9 @@ export const user = {
           }
     },
 
-    async changeUserPassword(req, res) {
+    async changePassword(req, res) {
         try {
-            const data = await imp.changeUserPassword(req.body);
+            const data = await imp.changePassword(req.body);
 
             return res.status(200).json(data)
         } catch (error) {
@@ -57,9 +57,9 @@ export const user = {
         }
     },
 
-    async deleteUser(req, res) {
+    async delete(req, res) {
         try {
-            const data = await imp.deleteUser(req.body);
+            const data = await imp.delete(req.body);
 
             return res.status(200).json(data);
         } catch (error) {

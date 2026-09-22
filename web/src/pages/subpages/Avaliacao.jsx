@@ -2,9 +2,7 @@ import Screen from "../../components/Screen";
 import Rating from "@mui/material/Rating";
 import { useEffect, useState } from "react";
 
-import { useSearchParams } from "react-router-dom";
-
-import api from "../../js/api.js";
+import { api } from "../../js/api.js";
 
 export default function Avaliacao() {
   const [value, setValue] = useState(3);
@@ -15,19 +13,7 @@ export default function Avaliacao() {
 
   // Teacher DATA GET
   useEffect(() => {
-    async function loadTeacherData() {
-      const response = await api.apiFetch("/teacher/name-of-teachers");
-
-      if (!response.ok) {
-        return;
-      }
-
-      const data = await response.json();
-
-      setTeachers(data);
-    }
-
-    loadTeacherData();
+    setTeachers(async () => await api.getAllNamesTeacher());
   }, []);
 
   // Lógica de envio de formulário
