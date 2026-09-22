@@ -10,7 +10,9 @@ export default function Screen({ children, banner }) {
   const links = [
     { name: "Canal Seguro", path: "/sub/canalseguro" },
     { name: "Feedback Escolar", path: "/sub/feedbackescolar" },
-    { name: "Feedback", path: "/sub/interaction" }
+    { name: "Feedback", path: "/sub/avaliacao" },
+    { name: "Feedback", path: "/sub/sugestao" },
+    { name: "Feedback", path: "/sub/solicitacao" }
   ];
 
   const show = links.some((link) => link.path === location.pathname);

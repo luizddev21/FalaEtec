@@ -126,10 +126,34 @@ async function apiFetch(endpoint, options = {}) {
   });
 }
 
+// =========================
+// INTERACTION
+// =========================
+
+async function createInteraction(formData) {
+  try {
+    const response = await fetch(
+      "http://localhost:3000/interaction/createInteraction",
+      {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      },
+    );
+
+    const data = await response.json();
+    
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
 export default {
   login,
   logout,
   checkAuth,
   refresh,
   apiFetch,
+  createInteraction
 };

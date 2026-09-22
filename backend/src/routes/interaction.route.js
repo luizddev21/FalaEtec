@@ -23,6 +23,6 @@ const upload = multer({
     storage: storage
 });
 
-router.post('/createInteraction', auth, upload.single("image"), interaction.createInteraction);
+router.post('/createInteraction', auth, upload.single("img"), interaction.createInteraction);
 
 export default router;

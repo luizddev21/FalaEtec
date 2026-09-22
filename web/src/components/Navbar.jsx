@@ -12,7 +12,7 @@ export default function Navbar() {
     { name: "Usuário", path: "/user", icon: "person" },
   ];
 
-  const show = links.some(link => link.path === location.pathname);
+  const show = links.some((link) => link.path === location.pathname);
 
   const linksRef = useRef([]);
 
@@ -23,7 +23,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const activeIndex = links.findIndex(
-      (link) => link.path === location.pathname
+      (link) => link.path === location.pathname,
     );
 
     if (activeIndex === -1) return;
@@ -36,39 +36,41 @@ export default function Navbar() {
       left: activeElement.offsetLeft,
       width: activeElement.offsetWidth,
     });
-  }, []);
+  }, [location.pathname]);
 
   return (
-    show && <nav className="navbar">
-      <div className="navbar-links">
-        <motion.div
-          className="nav-indicator"
-          animate={{
-            left: indicator.left,
-            width: indicator.width,
-          }}
-          transition={{
-            duration: 0.35,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        />
-
-        {links.map((link, index) => (
-          <NavLink
-            key={link.path}
-            to={link.path}
-            ref={(element) => {
-              linksRef.current[index] = element;
+    show && (
+      <nav className="navbar">
+        <div className="navbar-links">
+          <motion.div
+            className="nav-indicator"
+            animate={{
+              left: indicator.left,
+              width: indicator.width,
             }}
-            className={({ isActive }) =>
-              `nav-link ${isActive ? "active" : ""}`
-            }
-          >
-            <ion-icon name={link.icon}></ion-icon>
-            {link.name}
-          </NavLink>
-        ))}
-      </div>
-    </nav>
+            transition={{
+              duration: 0.35,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          />
+
+          {links.map((link, index) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              ref={(element) => {
+                linksRef.current[index] = element;
+              }}
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+            >
+              <ion-icon name={link.icon}></ion-icon>
+              {link.name}
+            </NavLink>
+          ))}
+        </div>
+      </nav>
+    )
   );
 }

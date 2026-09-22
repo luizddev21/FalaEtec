@@ -358,6 +358,33 @@ form.type2 .input.image input[type="file"] + label {
   border-radius: 1rem;
 }
 
+.preview-image {
+  position: relative;
+  padding-block: 5%;
+  width: 100%;
+  overflow: hidden;
+  background: none;
+  border: none;
+}
+
+.preview-image span {
+  position: relative;
+  font-size: clamp(1.8rem, 2vw, 2rem);
+  z-index: 1;
+  font-weight: 600;
+  color: var(--colorBg);
+}
+
+.preview-image img {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  z-index: 0;
+  filter: brightness(40%);
+}
+
 /*
 =======================
     Output
