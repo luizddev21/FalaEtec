@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { api } from '../../js/api.js'
+import api from '../../js/api.js'
 
 export default function Register() {
 

@@ -1,9 +1,9 @@
 import Screen from "../../components/Screen";
 import { useState } from "react";
 
-import { api } from "../../js/api.js";
+import api from "../../js/api.js";
 
-export default function Interaction() {
+export default function Sugestao() {
 
     const page = "sugestao"
 

@@ -12,6 +12,7 @@ router.post('/create', middleware.auth, controller.create);
 // Pegar informações do usuário
 router.get('/profile', middleware.auth, controller.get);
 router.get('/all-profile', middleware.admin, controller.getAll);
+router.get('/teacher-all-names', middleware.auth, controller.teacherGetAllName);
 
 // Mudar senha de um usuário
 router.post('/change-password', middleware.admin, controller.changePassword);

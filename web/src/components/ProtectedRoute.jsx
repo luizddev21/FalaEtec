@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { api } from "../js/api.js";
+import api from "../js/api.js";
 
 export default function ProtectedRoute({ children }) {
     const [authenticated, setAuthenticated] = useState(null);

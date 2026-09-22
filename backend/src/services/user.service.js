@@ -78,6 +78,24 @@ export const imp = {
         return users;
     },
 
+    async TeacherGetAllName() {
+        //TODO Pegar todos os nomes dos professores existentes
+
+        const teachers = await db.query(
+            `SELECT nome FROM professor`
+        );
+
+        const data = [];
+
+        teachers.forEach(teacher => {
+            if (teacher.nome !== undefined) {
+                data.push(teacher.nome);
+            }
+        });
+
+        return data;
+    },
+
     // Função responsável pelo cadastro de novos usuários no sistema.
     // Recebe os dados do usuário enviados pela camada de controle.
     async create({ rm, password, name, turma_id, type }) {

@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Avaliacao from "./pages/subpages/Avaliacao";
 import Solicitacao from "./pages/subpages/Solicitacao";
 import Sugestao from "./pages/subpages/Sugestao";
+import Relato from "./pages/subpages/Relato";
 
 function App() {
   return (
@@ -53,6 +54,11 @@ function App() {
         <Route path="/sub/sugestao" element={
           <ProtectedRoute>
             <Sugestao />
+          </ProtectedRoute>
+        } />
+        <Route path="/sub/relato" element={
+          <ProtectedRoute>
+            <Relato />
           </ProtectedRoute>
         } />
         <Route path="/sub/login" element={ <Login /> } />

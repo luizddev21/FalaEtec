@@ -1,170 +1,160 @@
 const API_URL = "http://localhost:3000";
 let refreshPromise = null;
 
-export const api = {
+// =========================
+// LOGIN
+// =========================
 
+async function login(rm, password, type) {
+  const response = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      rm,
+      password,
+      type,
+    }),
+  });
 
-  // =========================
-  // LOGIN
-  // =========================
+  const data = await response.json();
 
-  async login(rm, password, type) {
-    const response = await fetch(`${API_URL}/auth/login`, {
+  if (!response.ok) {
+    throw new Error(data.error || "Erro ao realizar login");
+  }
+
+  return data;
+}
+
+// =========================
+// LOGOUT
+// =========================
+
+async function logout() {
+  try {
+    await fetch(`${API_URL}/auth/logout`, {
       method: "POST",
       credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        rm,
-        password,
-        type,
-      }),
+    });
+  } catch (error) {
+    console.error("Erro ao tentar fazer logout:", error);
+  }
+}
+
+// =========================
+// CHECK AUTH
+// =========================
+
+async function checkAuth() {
+  try {
+    const response = await fetch(`${API_URL}/auth/check-auth`, {
+      method: "GET",
+      credentials: "include",
     });
 
-    const data = await response.json();
+    return response.ok;
+  } catch (error) {
+    console.error("Erro ao verificar autenticação:", error);
 
-    if (!response.ok) {
-      throw new Error(data.error || "Erro ao realizar login");
-    }
+    return false;
+  }
+}
 
-    return data;
-  },
+// =========================
+// REFRESH
+// =========================
 
-  // =========================
-  // LOGOUT
-  // =========================
 
-  async logout() {
+
+async function refresh() {
+  if (refreshPromise) {
+    console.log("Já existe um refresh acontecendo");
+
+    return refreshPromise;
+  }
+
+  refreshPromise = (async () => {
     try {
-      await fetch(`${API_URL}/auth/logout`, {
+      const response = await fetch(`${API_URL}/auth/refresh`, {
         method: "POST",
-        credentials: "include",
-      });
-    } catch (error) {
-      console.error("Erro ao tentar fazer logout:", error);
-    }
-  },
-
-  // =========================
-  // CHECK AUTH
-  // =========================
-
-  async checkAuth() {
-    try {
-      const response = await fetch(`${API_URL}/auth/check-auth`, {
-        method: "GET",
         credentials: "include",
       });
 
       return response.ok;
     } catch (error) {
-      console.error("Erro ao verificar autenticação:", error);
+      console.error("Erro ao renovar token:", error);
 
       return false;
+    } finally {
+      refreshPromise = null;
     }
-  },
+  })();
 
-  // =========================
-  // REFRESH
-  // =========================
+  return refreshPromise;
+}
 
+// =========================
+// API FETCH
+// =========================
 
+async function apiFetch(endpoint, options = {}) {
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    ...options,
+    credentials: "include",
+  });
 
-  async refresh() {
-    if (refreshPromise) {
-      console.log("Já existe um refresh acontecendo");
+  // Access token ainda é válido
+  if (response.status !== 401) {
+    return response;
+  }
 
-      return refreshPromise;
-    }
+  // Access token expirou.
+  // Tentamos utilizar o refresh token.
+  const refreshed = await refresh();
 
-    refreshPromise = (async () => {
-      try {
-        const response = await fetch(`${API_URL}/auth/refresh`, {
-          method: "POST",
-          credentials: "include",
-        });
+  // Não foi possível renovar a sessão
+  if (!refreshed) {
+    return response;
+  }
 
-        return response.ok;
-      } catch (error) {
-        console.error("Erro ao renovar token:", error);
+  // Access token foi renovado.
+  // Repetimos a requisição original.
+  return fetch(`${API_URL}${endpoint}`, {
+    ...options,
+    credentials: "include",
+  });
+}
 
-        return false;
-      } finally {
-        refreshPromise = null;
-      }
-    })();
+// =========================
+// INTERACTION
+// =========================
 
-    return refreshPromise;
-  },
-
-  // =========================
-  // API FETCH
-  // =========================
-
-  async apiFetch(endpoint, options = {}) {
-    const response = await fetch(`${API_URL}${endpoint}`, {
-      ...options,
-      credentials: "include",
-    });
-
-    // Access token ainda é válido
-    if (response.status !== 401) {
-      return response;
-    }
-
-    // Access token expirou.
-    // Tentamos utilizar o refresh token.
-    const refreshed = await refresh();
-
-    // Não foi possível renovar a sessão
-    if (!refreshed) {
-      return response;
-    }
-
-    // Access token foi renovado.
-    // Repetimos a requisição original.
-    return fetch(`${API_URL}${endpoint}`, {
-      ...options,
-      credentials: "include",
-    });
-  },
-
-  // =========================
-  // INTERACTION
-  // =========================
-
-  async createInteraction(formData) {
-    try {
-      const response = await fetch(
-        "http://localhost:3000/interaction/create",
-        {
-          method: "POST",
-          body: formData,
-          credentials: "include",
-        },
-      );
-
-      const data = await response.json();
-
-      return data;
-    } catch (error) {
-      return error;
-    }
-  },
-
-  // =========================
-  // Teachers
-  // =========================
-  async getAllNamesTeacher() {
-    const response = await api.apiFetch("/teacher/all-names");
-
-    if (!response.ok) {
-      return;
-    }
+async function createInteraction(formData) {
+  try {
+    const response = await fetch(
+      "http://localhost:3000/interaction/create",
+      {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      },
+    );
 
     const data = await response.json();
 
-    setTeachers(data);
+    return data;
+  } catch (error) {
+    return error;
   }
+}
+
+export default {
+  login,
+  logout,
+  checkAuth,
+  refresh,
+  apiFetch,
+  createInteraction
 }

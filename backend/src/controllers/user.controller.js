@@ -28,21 +28,36 @@ export const controller = {
         }
     },
 
+    async teacherGetAllName(req, res) {
+
+        try {
+            const data = await imp.teacherGetAllName();
+
+            return res.status(201).json(data);
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({
+                error: error.message
+            })
+        }
+
+    },
+
     async create(req, res) {
         try {
-        
+
             // Chama a função responsável pelo registro do usuário e aguarda um retorno.
             const data = await imp.create(req.body);
-        
+
             // Caso o retorno seja positivo, envia a mensagem ao servidor contendo o ID do usuário cadastrado.
             return res.status(201).json(data);
-          } catch (error) {
-        
+        } catch (error) {
+
             // Caso o retorno seja negativo, envia a mensagem ao servidor contendo a mensagem de erro.
             return res.status(400).json({
-              error: error.message
+                error: error.message
             });
-          }
+        }
     },
 
     async changePassword(req, res) {
