@@ -36,7 +36,7 @@ yarn-error.*
 ./backend/.env
 
 # additionals
-./backend/uploads/*
+./backend/uploads
 ./backend/node_modules
 
 # typescript
