@@ -35,6 +35,10 @@ yarn-error.*
 .env
 ./backend/.env
 
+# additionals
+./backend/uploads/*
+./backend/node_modules
+
 # typescript
 *.tsbuildinfo
 
