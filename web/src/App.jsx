@@ -15,6 +15,10 @@ import Solicitacao from "./pages/subpages/Solicitacao";
 import Sugestao from "./pages/subpages/Sugestao";
 import Relato from "./pages/subpages/Relato";
 
+import Feedbacks from "./pages/subpages/history/Feedbacks";
+import Relatos from "./pages/subpages/history/Relatos";
+import Info from "./pages/subpages/history/info/Info";
+
 function App() {
   return (
     <BrowserRouter>
@@ -59,6 +63,16 @@ function App() {
         <Route path="/sub/relato" element={
           <ProtectedRoute>
             <Relato />
+          </ProtectedRoute>
+        } />
+        <Route path="/sub/history/feedbacks" element={
+          <ProtectedRoute>
+            <Feedbacks />
+          </ProtectedRoute>
+        } />
+        <Route path="sub/history/relatos" element={
+          <ProtectedRoute>
+            <Relatos />
           </ProtectedRoute>
         } />
         <Route path="/sub/login" element={ <Login /> } />

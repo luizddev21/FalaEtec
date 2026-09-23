@@ -77,8 +77,8 @@ export default function Home() {
       <section className="user-info">
         <h2 className="title">Histórico</h2>
         <div className="button-box wrap">
-          <NavBlockButton page="../sub/avaliacao" image="HFE" mode="static" wrap />
-          <NavBlockButton page="../sub/solicitacao" image="HRE" mode="static" wrap />
+          <NavBlockButton page="../sub/history/feedbacks" image="HFE" mode="static" wrap />
+          <NavBlockButton page="../sub/history/relatos" image="HRE" mode="static" wrap />
         </div>
       </section>
     </Screen>

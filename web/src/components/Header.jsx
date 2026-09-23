@@ -10,9 +10,12 @@ export default function Header() {
   const links = [
     { name: "Canal Seguro", path: "/sub/canalseguro" },
     { name: "Feedback Escolar", path: "/sub/feedbackescolar" },
-    { name: "Feedback", path: "/sub/avaliacao" },
-    { name: "Feedback", path: "/sub/sugestao" },
-    { name: "Feedback", path: "/sub/solicitacao" },
+    { name: "Avaliação", path: "/sub/avaliacao" },
+    { name: "Sugestão", path: "/sub/sugestao" },
+    { name: "Solicitação", path: "/sub/solicitacao" },
+    { name: "Relato", path: "/sub/relato" },
+    { name: "Feedbacks", path: "/sub/history/feedbacks" },
+    { name: "Relatos", path: "/sub/history/relatos" },
   ];
 
   const show = links.some((link) => link.path === location.pathname);

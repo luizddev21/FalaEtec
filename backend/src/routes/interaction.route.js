@@ -24,5 +24,6 @@ const upload = multer({
 });
 
 router.post('/create', middleware.auth, upload.single("img"), controller.create);
+router.post('/get-all', middleware.auth, controller.getAll);
 
 export default router;

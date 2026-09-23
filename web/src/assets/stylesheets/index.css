@@ -17,6 +17,12 @@
   --feDarkYellow: #fd8f00;
   --feYellow: #ffd549;
   --feLightYellow: #fff564;
+
+  /* Tipografia responsiva */
+  --font-sm: clamp(1.6rem, 2vw, 2rem);
+  --font-md: clamp(1.8rem, 2vw, 2rem);
+  --font-lg: clamp(2rem, 3vw, 3rem);
+  --font-xl: clamp(2.2rem, 4vw, 4rem);
 }
 
 *,
@@ -171,7 +177,7 @@ header .content {
 header .title {
   justify-content: flex-end;
   color: var(--feMediumBlue);
-  font-size: clamp(2rem, 3vw, 3rem);
+  font-size: var(--font-lg);
 }
 
 /*
@@ -192,7 +198,7 @@ textarea {
   gap: 1rem;
   align-items: center;
   color: var(--feBlue);
-  font-size: clamp(2rem, 3vw, 3rem);
+  font-size: var(--font-lg);
 }
 
 .title span {
@@ -221,7 +227,7 @@ form {
 
 form .title {
   justify-content: center;
-  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-size: var(--font-xl);
 }
 
 form .info {
@@ -230,7 +236,7 @@ form .info {
   align-items: center;
   padding: 1.5rem;
   border-radius: 5rem;
-  font-size: clamp(1.8rem, 2vw, 2rem);
+  font-size: var(--font-md);
   background: var(--feLightBlue);
   color: var(--feBlue);
 }
@@ -262,7 +268,7 @@ form .info {
 .input button {
   width: 100%;
   padding: 2rem 1rem;
-  font-size: clamp(1.8rem, 2vw, 2rem);
+  font-size: var(--font-md);
   border: none;
   outline: none;
 }
@@ -290,7 +296,7 @@ form .info {
   top: 50%;
   left: 1rem;
   transform: translateY(-50%);
-  font-size: clamp(1.8rem, 2vw, 2rem);
+  font-size: var(--font-md);
   background: var(--colorBg);
   padding-inline: 0.5rem;
   border-radius: 1rem;
@@ -302,7 +308,7 @@ form .info {
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  font-size: clamp(1.8rem, 2vw, 2rem);
+  font-size: var(--font-md);
 }
 
 /* Type 2 */
@@ -317,7 +323,7 @@ form.type2 .input button,
 form.type2 .input textarea {
   width: 100%;
   padding: 2rem 1rem;
-  font-size: clamp(1.8rem, 2vw, 2rem);
+  font-size: var(--font-md);
   border: none;
   outline: none;
   border-radius: 1rem;
@@ -339,7 +345,7 @@ form.type2 .input label {
   top: 50%;
   left: 1rem;
   transform: translateY(-50%);
-  font-size: clamp(1.8rem, 2vw, 2rem);
+  font-size: var(--font-md);
   background: var(--mediumGrey);
   padding-inline: 0.5rem;
   border-radius: 1rem;
@@ -352,7 +358,7 @@ form.type2 .input.textarea label {
   top: 10%;
   left: 1rem;
   transform: translateY(-50%);
-  font-size: clamp(1.8rem, 2vw, 2rem);
+  font-size: var(--font-md);
   background: var(--mediumGrey);
   padding-inline: 0.5rem;
   border-radius: 1rem;
@@ -405,7 +411,7 @@ form.type2 .input.image input[type="file"] + label {
 
 .preview-image span {
   position: relative;
-  font-size: clamp(1.8rem, 2vw, 2rem);
+  font-size: var(--font-md);
   z-index: 1;
   font-weight: 600;
   color: var(--colorBg);
@@ -461,7 +467,7 @@ form.type3 .camp .input.column .buttons input {
   gap: 1rem;
   border-radius: 3rem;
   padding: 1.5rem 2rem;
-  font-size: clamp(1.6rem, 2vw, 2rem);
+  font-size: var(--font-sm);
   outline: none;
   resize: none;
 }
@@ -473,7 +479,7 @@ form.type3 .camp .input label {
   position: relative;
   top: 0;
   left: 0;
-  font-size: clamp(2rem, 3vw, 3rem);
+  font-size: var(--font-lg);
 }
 
 form.type3 .camp .input .warning {
@@ -485,7 +491,7 @@ form.type3 .camp .input .warning {
   justify-content: center;
   align-items: center;
   color: var(--colorBg);
-  font-size: clamp(1.6rem, 2vw, 2rem);
+  font-size: var(--font-sm);
   background: var(--feDarkBlue);
   padding: 1.5rem;
   border-radius: 1rem;
@@ -537,7 +543,7 @@ form.type3 .camp .input .buttons .submit {
 .output input {
   width: 100%;
   padding: 2rem 1rem;
-  font-size: clamp(2rem, 2vw, 2rem);
+  font-size: var(--font-md);
   background: var(--mediumGrey);
   border: none;
   outline: none;
@@ -550,7 +556,7 @@ form.type3 .camp .input .buttons .submit {
   top: 0;
   left: 1rem;
   transform: translateY(-50%);
-  font-size: clamp(2rem, 2vw, 2rem);
+  font-size: var(--font-md);
   background: var(--colorBg);
   color: var(--darkGrey);
   padding-inline: 0.5rem;
@@ -626,7 +632,38 @@ button.go-back {
   outline: none;
   background: var(--mediumGrey);
   padding: 0.5rem 1rem;
-  font-size: clamp(2rem, 3vw, 3rem);
+  font-size: var(--font-lg);
   font-weight: 500;
   color: var(--darkGrey);
+}
+
+/*
+=======================
+    History Cards
+=======================
+*/
+
+.history-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.history-card {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  background: var(--mediumGrey);
+  border-radius: 2rem;
+}
+
+.history-card h3 {
+  font-size: var(--font-lg);
+}
+
+.history-card span {
+  font-size: var(--font-sm);
 }

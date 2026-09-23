@@ -91,37 +91,37 @@ export const imp = {
     const result =
       formData.type === "avaliacao"
         ? await db.query(sql, [
+          id,
+          user.sub,
+          professorId,
+          formData.type,
+          formData.title,
+          formData.desc,
+          formData.level,
+        ])
+        : formData.type === "solicitacao"
+          ? await db.query(sql, [
             id,
             user.sub,
-            professorId,
             formData.type,
             formData.title,
             formData.desc,
-            formData.level,
+            formData.local,
+            formData.sublocal,
+            url_img,
           ])
-        : formData.type === "solicitacao"
-          ? await db.query(sql, [
+          : formData.type === "sugestao"
+            ? await db.query(sql, [id, user.sub, formData.type, formData.title, formData.desc])
+            : await db.query(sql, [
               id,
               user.sub,
               formData.type,
               formData.title,
               formData.desc,
-              formData.local,
-              formData.sublocal,
-              url_img,
-            ])
-          : formData.type === "sugestao"
-            ? await db.query(sql, [id, user.sub, formData.type, formData.title, formData.desc])
-            : await db.query(sql, [
-                id,
-                user.sub,
-                formData.type,
-                formData.title,
-                formData.desc,
-                formData.date,
-                formData.attendance,
-                formData.anonymous,
-              ]);
+              formData.date,
+              formData.attendance,
+              formData.anonymous,
+            ]);
 
     if (result.affectedRows > 0) {
       return {
@@ -132,4 +132,25 @@ export const imp = {
 
     throw new Error(`Não foi possível enviar ${formData.type}`);
   },
+
+  async getAll(user, { type }) {
+    console.log(type);
+    if (!["avaliacao", "sugestao", "relato", "solicitacao"].includes(type))
+      throw new Error("Tipo da interação inválido");
+
+    if (!user.sub)
+      throw new Error("Tipo de usuário inválido");
+
+    const userId = user.sub;
+    
+    const sql = `
+        SELECT interacao_id, tipo, titulo, descricao, aconteceu, acompanhamento, anonimo
+        FROM interacao
+        WHERE aluno_id = ? AND tipo = ?
+      `
+
+    const allInteraction = await db.query(sql, [userId, type]);
+
+    return allInteraction;
+  }
 };

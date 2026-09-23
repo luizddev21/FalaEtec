@@ -7,7 +7,7 @@ import { middleware } from '../middlewares/auth.middleware.js';
 const router = express.Router();
 
 // Cadastro de novos usuários.
-router.post('/create', middleware.auth, controller.create);
+router.post('/create', controller.create);
 
 // Pegar informações do usuário
 router.get('/profile', middleware.auth, controller.get);

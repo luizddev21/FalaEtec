@@ -99,7 +99,7 @@ async function refresh() {
 // API FETCH
 // =========================
 
-async function apiFetch(endpoint, options = {}) {
+async function apiFetch (endpoint, options = {}) {
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     credentials: "include",
