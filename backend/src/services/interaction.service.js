@@ -144,7 +144,7 @@ export const imp = {
     const userId = user.sub;
     
     const sql = `
-        SELECT interacao_id, tipo, titulo, descricao, aconteceu, acompanhamento, anonimo
+        SELECT interacao_id, tipo, titulo, descricao, data, status, nota, local, sub_local, url_img, aconteceu, acompanhamento, anonimo
         FROM interacao
         WHERE aluno_id = ? AND tipo = ?
       `
