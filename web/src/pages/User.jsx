@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
 
   const navigate = useNavigate();
 
@@ -40,32 +40,26 @@ export default function Home() {
     <Screen>
       <section className="user-info">
         <h2 className="title">Informações Pessoais</h2>
+
         <div className="camp">
           <div className="output">
-            <label htmlFor="name">Nome</label>
-            <input
-              type="text"
-              className="name"
-              value={userData.name}
-              readOnly
-            />
+            <p className="label">Nome</p>
+            <p className="value">{userData.name}</p>
           </div>
         </div>
+
         <div className="camp">
           <div className="output">
-            <label htmlFor="classroom">Sala</label>
-            <input
-              type="text"
-              className="classroom"
-              value={userData.classroom}
-              readOnly
-            />
+            <p className="label">Sala</p>
+            <p className="value">{userData.classroom}</p>
           </div>
+
           <div className="output">
-            <label htmlFor="rm">RM</label>
-            <input type="text" className="rm" value={userData.rm} readOnly />
+            <p className="label">RM</p>
+            <p className="value">{userData.rm}</p>
           </div>
         </div>
+
         <div className="camp">
           <div className="input">
             <button className="danger" onClick={handleLogout}>
@@ -74,11 +68,38 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       <section className="user-info">
         <h2 className="title">Histórico</h2>
+
         <div className="button-box wrap">
-          <NavBlockButton page="../sub/history/feedbacks" image="HFE" mode="static" wrap />
-          <NavBlockButton page="../sub/history/relatos" image="HRE" mode="static" wrap />
+          <NavBlockButton
+            page="../sub/history/solicitacoes"
+            image="VSO"
+            mode="static"
+            wrap
+          />
+
+          <NavBlockButton
+            page="../sub/history/relatos"
+            image="HRE"
+            mode="static"
+            wrap
+          />
+
+          <NavBlockButton
+            page="../sub/history/sugestoes"
+            image="VSU"
+            mode="static"
+            wrap
+          />
+
+          <NavBlockButton
+            page="../sub/history/avaliacoes"
+            image="VAV"
+            mode="static"
+            wrap
+          />
         </div>
       </section>
     </Screen>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, matchPath } from "react-router-dom";
 
 export default function Header() {
   const [pageTitle, setPageTitle] = useState("");
@@ -14,32 +14,41 @@ export default function Header() {
     { name: "Sugestão", path: "/sub/sugestao" },
     { name: "Solicitação", path: "/sub/solicitacao" },
     { name: "Relato", path: "/sub/relato" },
-    { name: "Feedbacks", path: "/sub/history/feedbacks" },
     { name: "Relatos", path: "/sub/history/relatos" },
+    { name: "Sugestões", path: "/sub/history/sugestoes" },
+    { name: "Solicitações", path: "/sub/history/solicitacoes" },
+    { name: "Avaliações", path: "/sub/history/avaliacoes" },
+    { name: "Informações", path: "/interaction/:id" }
   ];
 
-  const show = links.some((link) => link.path === location.pathname);
+  const currentLink = links.find((link) =>
+    matchPath(
+      { path: link.path, end: true },
+      location.pathname
+    )
+  );
 
   useEffect(() => {
-    links.forEach((link) => {
-      if (link.path === location.pathname) setPageTitle(link.name);
-    });
-  }, [location.pathname]);
+    setPageTitle(currentLink?.name || "");
+  }, [currentLink]);
 
   return (
     <header>
-      {!show && (
+      {!currentLink && (
         <img
           src="/src/assets/images/falaetec_logo.png"
           alt="Logotipo do FalaEtec"
         />
       )}
+
       <div className="content">
-        {show && (
+        {currentLink && (
           <>
             <button className="go-back" onClick={() => navigate(-1)}>
-              <ion-icon name="chevron-back-outline"></ion-icon> Voltar
+              <ion-icon name="chevron-back-outline"></ion-icon>
+              Voltar
             </button>
+
             <h1 className="title">{pageTitle}</h1>
           </>
         )}

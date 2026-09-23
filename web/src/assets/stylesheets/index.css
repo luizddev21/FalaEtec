@@ -540,18 +540,16 @@ form.type3 .camp .input .buttons .submit {
   width: 100%;
 }
 
-.output input {
+.output .value{
   width: 100%;
-  padding: 2rem 1rem;
+  padding: 2rem;
   font-size: var(--font-md);
   background: var(--mediumGrey);
-  border: none;
-  outline: none;
   border-radius: 2rem;
   color: var(--darkGrey);
 }
 
-.output label {
+.output .label {
   position: absolute;
   top: 0;
   left: 1rem;
@@ -599,8 +597,6 @@ form.type3 .camp .input .buttons .submit {
 }
 
 button {
-  border-radius: 2rem;
-  font-weight: 500;
   cursor: pointer;
   transition: all ease 0.2s;
 }
@@ -608,11 +604,15 @@ button {
 button.default {
   color: var(--colorBg);
   background: linear-gradient(90deg, var(--feBlue), var(--feMediumBlue));
+  font-weight: 500;
+  border-radius: 2rem;
 }
 
 button.danger {
   color: var(--colorBg);
   background: rgb(255, 78, 78);
+  font-weight: 500;
+  border-radius: 2rem;
 }
 
 button:hover {
@@ -628,6 +628,7 @@ button.go-back {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  border-radius: 2rem;
   border: none;
   outline: none;
   background: var(--mediumGrey);
@@ -652,18 +653,36 @@ button.go-back {
 
 .history-card {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem;
   background: var(--mediumGrey);
   border-radius: 2rem;
+  overflow: hidden;
+}
+
+.history-card button {
+  width: 100%;
+  display: flex;
+  padding: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0;
+  border: none;
+  outline: none;
+  text-align: left;
+}
+
+.history-card button .info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .history-card h3 {
-  font-size: var(--font-lg);
+  color: var(--feBlue);
+  font-size: var(--font-md);
+  font-weight: 600;
 }
 
 .history-card span {
+  color: var(--darkGrey);
   font-size: var(--font-sm);
 }

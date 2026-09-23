@@ -3,13 +3,13 @@ import Screen from "../../../components/Screen";
 import api from "../../../js/api.js";
 import { useNavigate } from "react-router-dom";
 
-export default function Relatos() {
-  const [reList, setReList] = useState([]);
+export default function Sugestoes() {
+  const [suList, setReList] = useState([]);
   let userCount = 0;
 
   const navigate = useNavigate();
 
-  const type = "relato";
+  const type = "sugestao";
 
   useEffect(() => {
     async function loadInteractionData() {
@@ -25,7 +25,7 @@ export default function Relatos() {
         console.error(response.error);
       }
       setReList(await response.json());
-      console.log(reList);
+      console.log(suList);
     }
 
     loadInteractionData();
@@ -41,25 +41,22 @@ export default function Relatos() {
     <Screen>
       <section>
         <ul className="history-list">
-          {reList.map((relato) => {
+          {suList.map((sugestao) => {
             userCount++;
 
-            const relatoObj = {
-                "Sobre": relato.titulo,
-                "Quando aconteceu": relato.aconteceu,
-                "Relato anônimo": relato.anonimo === 1 ? "Sim" : "Não",
-                "Precisa de acompanhamento": relato.acompanhamento === 1 ? "Sim" : "Não",
-                "Descrição": relato.descricao
+            const sugestaoObj = {
+                "Sobre": sugestao.titulo,
+                "Descrição": sugestao.descricao
             }
 
-            const date = new Date(relato.data);
+            const date = new Date(sugestao.data);
             const formattedDate = date.toLocaleDateString("pt-BR")
 
             return (
               <li key={userCount} className="history-card">
-                <button onClick={() => handleNavigate(relatoObj, relato.interacao_id)}>
+                <button onClick={() => handleNavigate(sugestaoObj, sugestao.interacao_id)}>
                   <div className="info">
-                    <h3>Sobre: {relato.titulo}</h3>
+                    <h3>{sugestao.titulo}</h3>
                     <span>Data de envio: {formattedDate}</span>
                   </div>
                   <div className="instruction">

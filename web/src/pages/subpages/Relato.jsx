@@ -6,7 +6,7 @@ function ChoiceButtons({ options, nextStep }) {
   return (
     <div className="buttons">
       {options.map(([text, name, value]) => (
-        <button key={text} type="button" onClick={() => nextStep(name, value)}>
+        <button key={text} className="default" type="button" onClick={() => nextStep(name, value)}>
           {text}
         </button>
       ))}
@@ -48,7 +48,7 @@ function TextQuestion({
             placeholder={placeholder}
           />
 
-          <button type="button" onClick={() => setStep((prev) => prev + 1)}>
+          <button className="default" type="button" onClick={() => setStep((prev) => prev + 1)}>
             Continuar
           </button>
         </div>
@@ -62,7 +62,7 @@ function SendButton() {
     <div className="camp">
       <div className="input">
         <div className="buttons">
-          <button className="submit" type="submit">
+          <button className="submit default" type="submit">
             Enviar relato
           </button>
         </div>
@@ -191,6 +191,7 @@ export default function Relato() {
 
                   <button
                     type="button"
+                    className="default"
                     disabled={!form.otherTitle.trim()}
                     onClick={() => setStep((prev) => prev + 1)}
                   >

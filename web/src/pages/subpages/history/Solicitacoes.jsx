@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import Screen from "../../../components/Screen";
+import Screen from "../../../components/Screen.jsx";
 import api from "../../../js/api.js";
 import { useNavigate } from "react-router-dom";
 
-export default function Relatos() {
-  const [reList, setReList] = useState([]);
+export default function Solicitações() {
+  const [soList, setReList] = useState([]);
   let userCount = 0;
 
   const navigate = useNavigate();
 
-  const type = "relato";
+  const type = "solicitacao";
 
   useEffect(() => {
     async function loadInteractionData() {
@@ -25,7 +25,7 @@ export default function Relatos() {
         console.error(response.error);
       }
       setReList(await response.json());
-      console.log(reList);
+      console.log(soList);
     }
 
     loadInteractionData();
@@ -41,25 +41,23 @@ export default function Relatos() {
     <Screen>
       <section>
         <ul className="history-list">
-          {reList.map((relato) => {
+          {soList.map((solicitacao) => {
             userCount++;
 
-            const relatoObj = {
-                "Sobre": relato.titulo,
-                "Quando aconteceu": relato.aconteceu,
-                "Relato anônimo": relato.anonimo === 1 ? "Sim" : "Não",
-                "Precisa de acompanhamento": relato.acompanhamento === 1 ? "Sim" : "Não",
-                "Descrição": relato.descricao
+            const solicitacaoObj = {
+                "Título": solicitacao.titulo,
+                "Local": `${solicitacao.local} - ${solicitacao.sub_local}`,
+                "Descrição": solicitacao.descricao,
             }
 
-            const date = new Date(relato.data);
+            const date = new Date(solicitacao.data);
             const formattedDate = date.toLocaleDateString("pt-BR")
 
             return (
               <li key={userCount} className="history-card">
-                <button onClick={() => handleNavigate(relatoObj, relato.interacao_id)}>
+                <button onClick={() => handleNavigate(solicitacaoObj, solicitacao.interacao_id)}>
                   <div className="info">
-                    <h3>Sobre: {relato.titulo}</h3>
+                    <h3>{solicitacao.titulo}</h3>
                     <span>Data de envio: {formattedDate}</span>
                   </div>
                   <div className="instruction">

@@ -55,6 +55,7 @@ CREATE TABLE interacao (
     titulo VARCHAR(150) NOT NULL,
     descricao TEXT,
     aconceceu VARCHAR(50),
+    data DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50),
     nota DECIMAL(5,2),
     local VARCHAR(100),

@@ -15,9 +15,10 @@ import Solicitacao from "./pages/subpages/Solicitacao";
 import Sugestao from "./pages/subpages/Sugestao";
 import Relato from "./pages/subpages/Relato";
 
-import Feedbacks from "./pages/subpages/history/Feedbacks";
 import Relatos from "./pages/subpages/history/Relatos";
-import Info from "./pages/subpages/history/info/Info";
+import Sugestoes from "./pages/subpages/history/Sugestoes";
+import Solicitacoes from "./pages/subpages/history/Solicitacoes";
+import Info from "./pages/subpages/history/info/[id]";
 
 function App() {
   return (
@@ -65,14 +66,24 @@ function App() {
             <Relato />
           </ProtectedRoute>
         } />
-        <Route path="/sub/history/feedbacks" element={
-          <ProtectedRoute>
-            <Feedbacks />
-          </ProtectedRoute>
-        } />
         <Route path="sub/history/relatos" element={
           <ProtectedRoute>
             <Relatos />
+          </ProtectedRoute>
+        } />
+        <Route path="sub/history/sugestoes" element={
+          <ProtectedRoute>
+            <Sugestoes />
+          </ProtectedRoute>
+        } />
+        <Route path="sub/history/solicitacoes" element={
+          <ProtectedRoute>
+            <Solicitacoes />
+          </ProtectedRoute>
+        } />
+        <Route path="interaction/:id" element={
+          <ProtectedRoute>
+            <Info />
           </ProtectedRoute>
         } />
         <Route path="/sub/login" element={ <Login /> } />
