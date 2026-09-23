@@ -78,7 +78,7 @@ export const imp = {
         return users;
     },
 
-    async TeacherGetAllName() {
+    async teacherGetAllName() {
         //TODO Pegar todos os nomes dos professores existentes
 
         const teachers = await db.query(

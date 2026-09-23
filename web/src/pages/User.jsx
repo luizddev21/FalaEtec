@@ -1,4 +1,5 @@
 import Screen from "../components/Screen";
+import NavBlockButton from "../components/NavBlockButton.jsx";
 
 import api from "../js/api.js";
 import { useEffect, useState } from "react";
@@ -71,6 +72,13 @@ export default function Home() {
               Sair
             </button>
           </div>
+        </div>
+      </section>
+      <section className="user-info">
+        <h2 className="title">Histórico</h2>
+        <div className="button-box wrap">
+          <NavBlockButton page="../sub/avaliacao" image="HFE" mode="static" wrap />
+          <NavBlockButton page="../sub/solicitacao" image="HRE" mode="static" wrap />
         </div>
       </section>
     </Screen>

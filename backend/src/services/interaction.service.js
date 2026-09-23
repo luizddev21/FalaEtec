@@ -52,9 +52,9 @@ export const imp = {
             `
             : `
                 INSERT INTO interacao
-                (interacao_id, aluno_id, tipo, titulo, descricao, local, data, acompanhamento, anonimo)
+                (interacao_id, aluno_id, tipo, titulo, descricao, aconteceu, acompanhamento, anonimo)
                 VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?);
+                (?, ?, ?, ?, ?, ?, ?, ?);
             `;
 
     // Pega o id do professor no banco de dados

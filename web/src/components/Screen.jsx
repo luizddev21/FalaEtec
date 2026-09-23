@@ -1,6 +1,6 @@
-import Header from './Header';
+import Header from "./Header";
 
-export default function Screen({ children, banner }) {
+export default function Screen({ children, banner, fullscreen = false }) {
   return (
     <>
       <Header />
@@ -12,16 +12,30 @@ export default function Screen({ children, banner }) {
             className="hero-banner potrait"
           />
         )}
-        <div className="content">
-          {banner && (
-            <img
-              src={banner}
-              alt="Banner principal"
-              className="hero-banner landscape"
-            />
-          )}
-          {children}
-        </div>
+        {!fullscreen ? (
+          <div className="content">
+            {banner && (
+              <img
+                src={banner}
+                alt="Banner principal"
+                className="hero-banner landscape"
+              />
+            )}
+            {children}
+          </div>
+        ) : (
+          <div>
+            {banner && (
+              <img
+                src={banner}
+                alt="Banner principal"
+                className="hero-banner landscape"
+              />
+              
+            )}
+            {children}
+          </div>
+        )}
       </main>
     </>
   );
