@@ -2,11 +2,14 @@ import Screen from "../components/Screen.jsx";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
 import api from "../js/api.js";
 
 export default function Login() {
   const [authenticated, setAuthenticated] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function verifyAuthentication() {
@@ -26,10 +29,6 @@ export default function Login() {
     verifyAuthentication();
   }, []);
 
-  if (authenticated === null) {
-    return <div>Carregando...</div>;
-  }
-
   if (authenticated) {
     return <Navigate to="/" replace />;
   }
@@ -44,15 +43,20 @@ export default function Login() {
     const password = formData.get("password");
 
     try {
+      setLoading(true);
       await api.login(rm, password, type);
       setAuthenticated(true);
     } catch (error) {
-      console.error("Erro no login:", error.message);
+      console.error(error.message);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
-    <Screen>
+    !loading ?
+      <Screen>
       <section className="login center">
         <form onSubmit={handleSubmit}>
           <h2 className="title">Login</h2>
@@ -82,10 +86,22 @@ export default function Login() {
           <div className="camp">
             <div className="input">
               <span>
-                <Link to="/sub/forgot-my-password">Esqueci a minha senha</Link>
+                <Link to="/sub/forgot-password">Esqueci a minha senha</Link>
               </span>
             </div>
           </div>
+
+          {
+            error !== "" &&
+            <div className="camp error">
+              <div className="input">
+                <span>
+                  {error}
+                </span>
+              </div>
+            </div>
+          }
+
 
           <div className="camp">
             <div className="input">
@@ -97,5 +113,6 @@ export default function Login() {
         </form>
       </section>
     </Screen>
+    : <Loading />
   );
 }

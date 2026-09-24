@@ -23,17 +23,16 @@ export const middleware = {
         const token = req.cookies.accessToken;
 
         if (!token)
-            return res.sendStatus(401);
+            return res.sendStatus(403);
 
         try {
             req.user = tokenUtil.verifyAccessToken(token);
 
             if (!req.user === "gestor") return res.sendStatus(401);
 
-            console.log("passou")
             next()
         } catch {
-            return res.sendStatus(401);
+            return res.sendStatus(403);
         }
 
     }

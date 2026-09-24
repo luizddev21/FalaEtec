@@ -3,13 +3,19 @@ import { Link } from "react-router-dom";
 
 import "../assets/stylesheets/components/navblockbutton.css";
 
-export default function NavBlockButton({ image, page, mode, wrap }) {
+export default function NavBlockButton({ image, page, mode, wrap, column }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [isWrap, setIsWrap] = useState("");
+  const [isColumn, setIsColumn] = useState("");
 
   useEffect(() => {
     if (wrap) {
       setIsWrap("wrap");
+    }
+
+    if (column) {
+      setIsColumn("column");
+      setIsWrap("");
     }
   }, []);
 
@@ -38,7 +44,7 @@ export default function NavBlockButton({ image, page, mode, wrap }) {
   }
 
   return (
-    <Link to={`/${page}`} className={`nav-block-button ${isWrap}`}>
+    <Link to={`/${page}`} className={`nav-block-button ${isWrap} ${isColumn}`}>
       <img
         src={`/src/assets/images/button_assets/${image}-${buttonType}.png`}
         alt=""

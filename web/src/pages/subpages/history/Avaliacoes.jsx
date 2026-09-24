@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import Screen from "../../../components/Screen.jsx";
+import Screen from "../../../components/Screen";
 import api from "../../../js/api.js";
 import { useNavigate } from "react-router-dom";
 
-export default function Solicitações() {
-  const [soList, setReList] = useState([]);
+export default function Avaliacoes() {
+  const [avList, setAvList] = useState([]);
   let userCount = 0;
 
   const navigate = useNavigate();
 
-  const type = "solicitacao";
+  const type = "avaliacao";
 
   useEffect(() => {
     async function loadInteractionData() {
@@ -24,8 +24,8 @@ export default function Solicitações() {
       if (!response.ok) {
         console.error(response.error);
       }
-      setReList(await response.json());
-      console.log(soList);
+      setAvList(await response.json());
+      console.log(avList);
     }
 
     loadInteractionData();
@@ -41,27 +41,26 @@ export default function Solicitações() {
     <Screen>
       <section>
         <ul className="history-list">
-          {soList.map((solicitacao) => {
+          {avList.map((avaliacao) => {
             userCount++;
 
-            const solicitacaoObj = {
-                "Título": solicitacao.titulo,
-                "Local": `${solicitacao.local} - ${solicitacao.sub_local}`,
-                "Descrição": solicitacao.descricao,
+            const avaliacaoObj = {
+                "Sobre": avaliacao.titulo,
+                "Descrição": avaliacao.descricao
             }
 
             const props = {
-              urlImg: solicitacao.url_img
+                level: avaliacao.nota
             }
 
-            const date = new Date(solicitacao.data);
+            const date = new Date(avaliacao.data);
             const formattedDate = date.toLocaleDateString("pt-BR")
 
             return (
               <li key={userCount} className="history-card">
-                <button onClick={() => handleNavigate(solicitacaoObj, props, solicitacao.interacao_id)}>
+                <button onClick={() => handleNavigate(avaliacaoObj, props, avaliacao.interacao_id)}>
                   <div className="info">
-                    <h3>{solicitacao.titulo}</h3>
+                    <h3>{avaliacao.titulo}</h3>
                     <span>Data de envio: {formattedDate}</span>
                   </div>
                   <div className="instruction">

@@ -156,5 +156,6 @@ export default {
   checkAuth,
   refresh,
   apiFetch,
-  createInteraction
+  createInteraction,
+  API_URL
 }

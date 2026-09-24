@@ -6,7 +6,7 @@ export const controller = {
 
             const data = await imp.get(req.user);
 
-            return res.status(201).json(data);
+            return res.status(200).json(data);
 
         } catch (error) {
 
@@ -20,7 +20,7 @@ export const controller = {
         try {
             const data = await imp.getAll(req.user);
 
-            return res.status(201).json(data);
+            return res.status(200).json(data);
         } catch (error) {
             return res.status(500).json({
                 error: error.message
@@ -33,7 +33,7 @@ export const controller = {
         try {
             const data = await imp.teacherGetAllName();
 
-            return res.status(201).json(data);
+            return res.status(200).json(data);
         } catch (error) {
             console.log(error)
             return res.status(500).json({
@@ -54,7 +54,7 @@ export const controller = {
         } catch (error) {
 
             // Caso o retorno seja negativo, envia a mensagem ao servidor contendo a mensagem de erro.
-            return res.status(400).json({
+            return res.status(500).json({
                 error: error.message
             });
         }

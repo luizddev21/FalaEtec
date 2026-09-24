@@ -31,9 +31,9 @@ export default function Relatos() {
     loadInteractionData();
   }, []);
 
-  function handleNavigate(obj, id) {
+  function handleNavigate(obj, props, id) {
     navigate(`/interaction/${id}?type=${type}`, {
-      state: { obj },
+      state: { obj, props },
     });
   }
 
@@ -57,7 +57,7 @@ export default function Relatos() {
 
             return (
               <li key={userCount} className="history-card">
-                <button onClick={() => handleNavigate(relatoObj, relato.interacao_id)}>
+                <button onClick={() => handleNavigate(relatoObj, null, relato.interacao_id)}>
                   <div className="info">
                     <h3>Sobre: {relato.titulo}</h3>
                     <span>Data de envio: {formattedDate}</span>

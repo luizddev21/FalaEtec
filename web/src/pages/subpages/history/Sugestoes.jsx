@@ -31,9 +31,9 @@ export default function Sugestoes() {
     loadInteractionData();
   }, []);
 
-  function handleNavigate(obj, id) {
+  function handleNavigate(obj, props, id) {
     navigate(`/interaction/${id}?type=${type}`, {
-      state: { obj },
+      state: { obj, props },
     });
   }
 
@@ -54,7 +54,7 @@ export default function Sugestoes() {
 
             return (
               <li key={userCount} className="history-card">
-                <button onClick={() => handleNavigate(sugestaoObj, sugestao.interacao_id)}>
+                <button onClick={() => handleNavigate(sugestaoObj, null, sugestao.interacao_id)}>
                   <div className="info">
                     <h3>{sugestao.titulo}</h3>
                     <span>Data de envio: {formattedDate}</span>

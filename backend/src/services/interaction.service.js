@@ -3,13 +3,7 @@ import crypto from "crypto";
 
 export const imp = {
   async create(user, formData, file) {
-    console.log("Chegou aqui");
-    console.log(formData);
-    console.log(user.sub);
-    console.log(formData.type);
-    console.log(formData.title);
-    console.log(formData.sublocal)
-
+    
     // TODO:
     // 1. Decidir qual o tipo de interação (avaliação, solicitação, relato ou sugestão)
     // 2. Com base nisso definir um sql para cada tipo
@@ -22,6 +16,11 @@ export const imp = {
     // solicitacao: tipo, titulo, local, sublocal, descricao, url_img
     // sugestao: tipo, titulo, descricao
     // relato: tipo, titulo, descricao, local, data, acompanhamento (0, 1), anonimo (0, 1)
+
+    // Verifica se quem ta fazendo é um aluno.
+
+    if (user.type !== "aluno")
+      throw new Error ("Somente alunos podem enviar interações!")
 
     // Definindo o tipo da interação
 
@@ -62,7 +61,7 @@ export const imp = {
     let professorQuery;
     let professorId;
 
-    if (formData.type === "avaliacao") {
+    if (formData.type === "avaliacao" && formData.professor !== "") {
       professorQuery = await db.query(
         `
             SELECT professor_id
@@ -76,7 +75,7 @@ export const imp = {
     };
 
     // No caso de ser uma solicitação
-    // Recebe e guarda uma imagem
+    // Recebe uma imagem
 
     let url_img = "";
 
@@ -93,7 +92,7 @@ export const imp = {
         ? await db.query(sql, [
           id,
           user.sub,
-          professorId,
+          professorId !== undefined ? professorId : null,
           formData.type,
           formData.title,
           formData.desc,
@@ -108,7 +107,7 @@ export const imp = {
             formData.desc,
             formData.local,
             formData.sublocal,
-            url_img,
+            url_img !== "" ? url_img : null
           ])
           : formData.type === "sugestao"
             ? await db.query(sql, [id, user.sub, formData.type, formData.title, formData.desc])

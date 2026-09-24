@@ -14,10 +14,12 @@ import Avaliacao from "./pages/subpages/Avaliacao";
 import Solicitacao from "./pages/subpages/Solicitacao";
 import Sugestao from "./pages/subpages/Sugestao";
 import Relato from "./pages/subpages/Relato";
+import ForgotPassword from "./pages/ForgotPassword";
 
 import Relatos from "./pages/subpages/history/Relatos";
 import Sugestoes from "./pages/subpages/history/Sugestoes";
 import Solicitacoes from "./pages/subpages/history/Solicitacoes";
+import Avaliacoes from "./pages/subpages/history/Avaliacoes";
 import Info from "./pages/subpages/history/info/[id]";
 
 function App() {
@@ -81,12 +83,18 @@ function App() {
             <Solicitacoes />
           </ProtectedRoute>
         } />
+        <Route path="sub/history/avaliacoes" element={
+          <ProtectedRoute>
+            <Avaliacoes />
+          </ProtectedRoute>
+        } />
         <Route path="interaction/:id" element={
           <ProtectedRoute>
             <Info />
           </ProtectedRoute>
         } />
         <Route path="/sub/login" element={ <Login /> } />
+        <Route path="/sub/forgot-password" element={ <ForgotPassword /> } />
         <Route path="/debug/register" element={<Register />} />
 
       </Routes>

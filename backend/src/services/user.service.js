@@ -50,7 +50,8 @@ export const imp = {
     },
 
     async getAll({ sub: rm, type }) {
-        if (!type === "gestor") return;
+        if (!type === "gestor") 
+            throw new Error("Você não tem permissão para executar esta ação");
 
         const alunoSql = `
         SELECT aluno.aluno_id, aluno.nome, turma.classe
@@ -168,16 +169,13 @@ export const imp = {
         if (newUser.length > 0) {
             return {
                 status: 'success',
-                msg: newUser
+                message: newUser
             };
         }
 
         // Caso o usuário não seja localizado após a tentativa de cadastro,
         // retorna uma mensagem informando que ocorreu um erro inesperado.
-        return {
-            status: 'failed',
-            msg: 'Ocorreu um erro inesperado.'
-        };
+        throw new Error("Ocorreu um erro inesperado.")
     },
 
     async changePassword({ rm, newPassword, type }) {
@@ -202,7 +200,7 @@ export const imp = {
             };
         }
 
-        throw new Error('Não foi possível alterar a senha');
+        throw new Error('Não foi possível alterar a senha do usuário');
     },
 
     async delete({ rm, type }) {
