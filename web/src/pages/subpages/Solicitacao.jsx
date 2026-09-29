@@ -1,9 +1,17 @@
 import Screen from "../../components/Screen";
 import { useState, useRef } from "react";
+import Loading from "../../components/Loading";
+import Message from "../../components/Message.jsx";
+import { useNavigate } from "react-router-dom";
 
 import api from "../../js/api.js";
 
 export default function Solicitacao() {
+  const navigate = useNavigate();
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const [form, setForm] = useState({
     title: "",
     local: "",
@@ -72,11 +80,21 @@ export default function Solicitacao() {
       formData.append("img", file);
     }
 
-    return await api.createInteraction(formData);
+    try {
+      setLoading(true);
+      await api.createInteraction(formData);
+    } catch (error) {
+      console.error("Erro ao tentar enviar interação: ", error);
+      setError("Erro ao tentar enviar interação.");
+    } finally {
+      setLoading(false);
+      navigate("/confirm");
+    }
   };
 
-  return (
+  return !loading ? (
     <Screen>
+      {error !== "" && <Message type="error" message={error} />}
       <section>
         <form onSubmit={handleSubmit} className="type2">
           <h2 className="title">Faça a sua solicitação!</h2>
@@ -174,5 +192,7 @@ export default function Solicitacao() {
         </form>
       </section>
     </Screen>
+  ) : (
+    <Loading />
   );
 }

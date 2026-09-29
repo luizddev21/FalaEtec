@@ -2,7 +2,8 @@ import Screen from "../components/Screen.jsx";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import Loading from "../components/Loading";
+import Loading from "../components/Loading.jsx";
+import Message from "../components/Message.jsx";
 
 import api from "../js/api.js";
 
@@ -56,7 +57,7 @@ export default function Login() {
 
   return (
     !loading ?
-      <Screen>
+      <Screen center fullscreen>
       <section className="login center">
         <form onSubmit={handleSubmit}>
           <h2 className="title">Login</h2>
@@ -91,17 +92,7 @@ export default function Login() {
             </div>
           </div>
 
-          {
-            error !== "" &&
-            <div className="camp error">
-              <div className="input">
-                <span>
-                  {error}
-                </span>
-              </div>
-            </div>
-          }
-
+          { error !== "" && <Message type="error" message={error} form /> }
 
           <div className="camp">
             <div className="input">

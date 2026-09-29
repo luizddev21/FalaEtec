@@ -3,9 +3,15 @@ import Screen from "../../../components/Screen";
 import api from "../../../js/api.js";
 import { useNavigate } from "react-router-dom";
 
+import Loading from "../../../components/Loading";
+import Message from "../../../components/Message.jsx";
+
 export default function Relatos() {
   const [reList, setReList] = useState([]);
   let userCount = 0;
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,13 +28,20 @@ export default function Relatos() {
       });
 
       if (!response.ok) {
-        console.error(response.error);
+        throw new Error(response.error);
       }
       setReList(await response.json());
-      console.log(reList);
     }
 
-    loadInteractionData();
+    try {
+      setLoading(true);
+      loadInteractionData();
+    } catch (error) {
+      console.error("Erro ao buscar interações: ", error);
+      setError("Erro ao buscar interações");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   function handleNavigate(obj, props, id) {
@@ -38,26 +51,33 @@ export default function Relatos() {
   }
 
   return (
+    !loading ?
     <Screen>
+      { error !== "" && <Message type="error" message={error} /> }
       <section>
         <ul className="history-list">
           {reList.map((relato) => {
             userCount++;
 
             const relatoObj = {
-                "Sobre": relato.titulo,
-                "Quando aconteceu": relato.aconteceu,
-                "Relato anônimo": relato.anonimo === 1 ? "Sim" : "Não",
-                "Precisa de acompanhamento": relato.acompanhamento === 1 ? "Sim" : "Não",
-                "Descrição": relato.descricao
-            }
+              Sobre: relato.titulo,
+              "Quando aconteceu": relato.aconteceu,
+              "Relato anônimo": relato.anonimo === 1 ? "Sim" : "Não",
+              "Precisa de acompanhamento":
+                relato.acompanhamento === 1 ? "Sim" : "Não",
+              Descrição: relato.descricao,
+            };
 
             const date = new Date(relato.data);
-            const formattedDate = date.toLocaleDateString("pt-BR")
+            const formattedDate = date.toLocaleDateString("pt-BR");
 
             return (
               <li key={userCount} className="history-card">
-                <button onClick={() => handleNavigate(relatoObj, null, relato.interacao_id)}>
+                <button
+                  onClick={() =>
+                    handleNavigate(relatoObj, null, relato.interacao_id)
+                  }
+                >
                   <div className="info">
                     <h3>Sobre: {relato.titulo}</h3>
                     <span>Data de envio: {formattedDate}</span>
@@ -68,10 +88,9 @@ export default function Relatos() {
                 </button>
               </li>
             );
-          })
-        }
+          })}
         </ul>
       </section>
-    </Screen>
+    </Screen> : <Loading />
   );
 }

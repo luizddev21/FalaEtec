@@ -1,38 +1,42 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import api from "../js/api.js";
+import Loading from "./Loading.jsx";
 
 export default function ProtectedRoute({ children }) {
-    const [authenticated, setAuthenticated] = useState(null);
+  const [authenticated, setAuthenticated] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        async function verifyAuthentication() {
-            let isAuthenticated = await api.checkAuth();
+  useEffect(() => {
+    async function verifyAuthentication() {
+      setLoading(true);
 
-            if (!isAuthenticated) {
-                const refreshed = await api.refresh();
+      let isAuthenticated = await api.checkAuth();
 
-                if (refreshed) {
-                    isAuthenticated = await api.checkAuth();
-                }
-            }
-            setAuthenticated(isAuthenticated);
+      if (!isAuthenticated) {
+        const refreshed = await api.refresh();
+
+        if (refreshed) {
+          isAuthenticated = await api.checkAuth();
         }
-        verifyAuthentication();
-    }, []);
+      }
 
-    if (authenticated === null) {
-        return <div>Carregando...</div>;
+      setAuthenticated(isAuthenticated);
+      setLoading(false);
     }
 
-    if (!authenticated) {
-        return (
-            <Navigate
-                to="/sub/login"
-                replace
-            />
-        );
-    }
-    
-    return children;
+    verifyAuthentication();
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (authenticated === false) {
+    return <Navigate to="/sub/login" replace />;
+  }
+
+  return children;
+
+  return children;
 }

@@ -19,7 +19,6 @@ export const controller = {
 
     async getAll(req, res) {
         try {
-            console.log("Body: ", req.body)
             const data = await imp.getAll(req.user, req.body);
 
             return res.status(200).json(data);
@@ -28,5 +27,5 @@ export const controller = {
                 error: error.message
             })
         }
-    },
+    }
 }

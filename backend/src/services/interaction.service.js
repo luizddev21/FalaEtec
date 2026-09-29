@@ -132,7 +132,7 @@ export const imp = {
     throw new Error(`Não foi possível enviar ${formData.type}`);
   },
 
-  async getAll(user, { type }) {
+  async getAll(user, { type, limit }) {
     console.log(type);
     if (!["avaliacao", "sugestao", "relato", "solicitacao"].includes(type))
       throw new Error("Tipo da interação inválido");
@@ -142,10 +142,17 @@ export const imp = {
 
     const userId = user.sub;
     
-    const sql = `
+    const sql = limit > 0 ?
+      `
         SELECT interacao_id, tipo, titulo, descricao, data, status, nota, local, sub_local, url_img, aconteceu, acompanhamento, anonimo
         FROM interacao
-        WHERE aluno_id = ? AND tipo = ?
+        WHERE ${user.type}_id = ? AND tipo = ? LIMIT ${limit}
+      `
+      :
+      `
+        SELECT interacao_id, tipo, titulo, descricao, data, status, nota, local, sub_local, url_img, aconteceu, acompanhamento, anonimo
+        FROM interacao
+        WHERE ${user.type}_id = ? AND tipo = ?
       `
 
     const allInteraction = await db.query(sql, [userId, type]);

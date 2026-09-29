@@ -3,9 +3,15 @@ import Screen from "../../../components/Screen.jsx";
 import api from "../../../js/api.js";
 import { useNavigate } from "react-router-dom";
 
+import Loading from "../../../components/Loading";
+import Message from "../../../components/Message.jsx";
+
 export default function Solicitações() {
   const [soList, setReList] = useState([]);
   let userCount = 0;
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,13 +28,20 @@ export default function Solicitações() {
       });
 
       if (!response.ok) {
-        console.error(response.error);
+        throw new Error(response.error);
       }
       setReList(await response.json());
-      console.log(soList);
     }
 
-    loadInteractionData();
+    try {
+      setLoading(true);
+      loadInteractionData();
+    } catch (error) {
+      console.error("Erro ao buscar interações: ", error);
+      setError("Erro ao buscar interações");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   function handleNavigate(obj, props, id) {
@@ -37,29 +50,38 @@ export default function Solicitações() {
     });
   }
 
-  return (
+  return !loading ? (
     <Screen>
+      {error !== "" && <Message type="error" message={error} />}
       <section>
         <ul className="history-list">
           {soList.map((solicitacao) => {
             userCount++;
 
             const solicitacaoObj = {
-                "Título": solicitacao.titulo,
-                "Local": `${solicitacao.local} - ${solicitacao.sub_local}`,
-                "Descrição": solicitacao.descricao,
-            }
+              Título: solicitacao.titulo,
+              Local: `${solicitacao.local} - ${solicitacao.sub_local}`,
+              Descrição: solicitacao.descricao,
+            };
 
             const props = {
-              urlImg: solicitacao.url_img
-            }
+              urlImg: solicitacao.url_img,
+            };
 
             const date = new Date(solicitacao.data);
-            const formattedDate = date.toLocaleDateString("pt-BR")
+            const formattedDate = date.toLocaleDateString("pt-BR");
 
             return (
               <li key={userCount} className="history-card">
-                <button onClick={() => handleNavigate(solicitacaoObj, props, solicitacao.interacao_id)}>
+                <button
+                  onClick={() =>
+                    handleNavigate(
+                      solicitacaoObj,
+                      props,
+                      solicitacao.interacao_id,
+                    )
+                  }
+                >
                   <div className="info">
                     <h3>{solicitacao.titulo}</h3>
                     <span>Data de envio: {formattedDate}</span>
@@ -70,10 +92,11 @@ export default function Solicitações() {
                 </button>
               </li>
             );
-          })
-        }
+          })}
         </ul>
       </section>
     </Screen>
+  ) : (
+    <Loading />
   );
 }

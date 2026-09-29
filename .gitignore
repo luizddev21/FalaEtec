@@ -36,8 +36,8 @@ yarn-error.*
 ./backend/.env
 
 # additionals
-./backend/uploads/*
-./backend/node_modules
+/backend/uploads/
+/backend/node_modules
 
 # typescript
 *.tsbuildinfo

@@ -3,9 +3,15 @@ import Screen from "../../../components/Screen";
 import api from "../../../js/api.js";
 import { useNavigate } from "react-router-dom";
 
+import Loading from "../../../components/Loading";
+import Message from "../../../components/Message.jsx";
+
 export default function Sugestoes() {
   const [suList, setReList] = useState([]);
   let userCount = 0;
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,13 +28,20 @@ export default function Sugestoes() {
       });
 
       if (!response.ok) {
-        console.error(response.error);
+        throw new Error(response.error);
       }
       setReList(await response.json());
-      console.log(suList);
     }
 
-    loadInteractionData();
+    try {
+      setLoading(true);
+      loadInteractionData();
+    } catch (error) {
+      console.error("Erro ao buscar interações: ", error);
+      setError("Erro ao buscar interações");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   function handleNavigate(obj, props, id) {
@@ -38,23 +51,29 @@ export default function Sugestoes() {
   }
 
   return (
-    <Screen>
+      !loading ?
+      <Screen>
+        { error !== "" && <Message type="error" message={error} /> }
       <section>
         <ul className="history-list">
           {suList.map((sugestao) => {
             userCount++;
 
             const sugestaoObj = {
-                "Sobre": sugestao.titulo,
-                "Descrição": sugestao.descricao
-            }
+              Sobre: sugestao.titulo,
+              Descrição: sugestao.descricao,
+            };
 
             const date = new Date(sugestao.data);
-            const formattedDate = date.toLocaleDateString("pt-BR")
+            const formattedDate = date.toLocaleDateString("pt-BR");
 
             return (
               <li key={userCount} className="history-card">
-                <button onClick={() => handleNavigate(sugestaoObj, null, sugestao.interacao_id)}>
+                <button
+                  onClick={() =>
+                    handleNavigate(sugestaoObj, null, sugestao.interacao_id)
+                  }
+                >
                   <div className="info">
                     <h3>{sugestao.titulo}</h3>
                     <span>Data de envio: {formattedDate}</span>
@@ -65,10 +84,9 @@ export default function Sugestoes() {
                 </button>
               </li>
             );
-          })
-        }
+          })}
         </ul>
       </section>
-    </Screen>
-  );
+    </Screen> : <Loading />
+  )
 }

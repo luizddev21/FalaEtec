@@ -1,12 +1,20 @@
 import Screen from "../../components/Screen";
 import { useState } from "react";
 import api from "../../js/api.js";
+import Loading from "../../components/Loading";
+import Message from "../../components/Message.jsx";
+import { useNavigate } from "react-router-dom";
 
 function ChoiceButtons({ options, nextStep }) {
   return (
     <div className="buttons">
       {options.map(([text, name, value]) => (
-        <button key={text} className="default" type="button" onClick={() => nextStep(name, value)}>
+        <button
+          key={text}
+          className="default"
+          type="button"
+          onClick={() => nextStep(name, value)}
+        >
           {text}
         </button>
       ))}
@@ -48,7 +56,11 @@ function TextQuestion({
             placeholder={placeholder}
           />
 
-          <button className="default" type="button" onClick={() => setStep((prev) => prev + 1)}>
+          <button
+            className="default"
+            type="button"
+            onClick={() => setStep((prev) => prev + 1)}
+          >
             Continuar
           </button>
         </div>
@@ -72,6 +84,10 @@ function SendButton() {
 }
 
 export default function Relato() {
+  const navigate = useNavigate();
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const page = "relato";
 
   const [step, setStep] = useState(0);
@@ -113,7 +129,16 @@ export default function Relato() {
     formData.append("anonymous", form.anonymous);
     formData.append("type", page);
 
-    return await api.createInteraction(formData);
+    try {
+      setLoading(true);
+      await api.createInteraction(formData);
+    } catch (error) {
+      console.error("Erro ao tentar enviar interação: ", error);
+      setError("Erro ao tentar enviar interação.");
+    } finally {
+      setLoading(false);
+      navigate("/confirm");
+    }
   };
 
   const isOther = form.title === "outro";
@@ -130,8 +155,9 @@ export default function Relato() {
       ? 4
       : 5;
 
-  return (
+  return !loading ? (
     <Screen fullscreen={true}>
+      {error !== "" && <Message type="error" message={error} />}
       <section className={`relato ${step % 2 === 0 ? "blue" : "green"}`}>
         <form onSubmit={handleSubmit} className="type3">
           {/* ANÔNIMO */}
@@ -247,5 +273,7 @@ export default function Relato() {
         </form>
       </section>
     </Screen>
+  ) : (
+    <Loading />
   );
 }

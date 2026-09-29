@@ -22,7 +22,7 @@ async function login(rm, password, type) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.error || "Erro ao realizar login");
+    throw new Error(data.error || "Erro ao realizar login.");
   }
 
   return data;
@@ -33,13 +33,14 @@ async function login(rm, password, type) {
 // =========================
 
 async function logout() {
-  try {
-    await fetch(`${API_URL}/auth/logout`, {
-      method: "POST",
-      credentials: "include",
-    });
-  } catch (error) {
-    console.error("Erro ao tentar fazer logout:", error);
+  const response = await fetch(`${API_URL}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data || "Erro ao tentar fazer logout.");
   }
 }
 
@@ -48,18 +49,39 @@ async function logout() {
 // =========================
 
 async function checkAuth() {
-  try {
     const response = await fetch(`${API_URL}/auth/check-auth`, {
       method: "GET",
       credentials: "include",
     });
 
-    return response.ok;
-  } catch (error) {
-    console.error("Erro ao verificar autenticação:", error);
+    const data = await response.json();
 
-    return false;
-  }
+    if (!response.ok) {
+      console.error(data.error || "Erro ao verificar autenticação.");
+      return false;
+    }
+
+    return true;
+}
+
+// =========================
+// CHECK ADMIN
+// =========================
+
+async function checkAdmin() {
+    const response = await fetch(`${API_URL}/auth/check-admin`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error(data.error || "Erro ao verificar o cargo.");
+      return false;
+    }
+
+    return true;
 }
 
 // =========================
@@ -70,8 +92,6 @@ async function checkAuth() {
 
 async function refresh() {
   if (refreshPromise) {
-    console.log("Já existe um refresh acontecendo");
-
     return refreshPromise;
   }
 
@@ -132,7 +152,6 @@ async function apiFetch (endpoint, options = {}) {
 // =========================
 
 async function createInteraction(formData) {
-  try {
     const response = await fetch(
       "http://localhost:3000/interaction/create",
       {
@@ -144,16 +163,18 @@ async function createInteraction(formData) {
 
     const data = await response.json();
 
+    if (!response.ok) {
+      throw new Error(data.error || "Erro ao tentar criar interação.");
+    }
+    
     return data;
-  } catch (error) {
-    return error;
-  }
 }
 
 export default {
   login,
   logout,
   checkAuth,
+  checkAdmin,
   refresh,
   apiFetch,
   createInteraction,

@@ -1,0 +1,82 @@
+.admin-screen header {
+  display: flex;
+  justify-content: space-between;
+  padding: 3rem;
+  border-radius: 2rem;
+}
+
+@media screen and (max-width: 425px) {
+  .admin-screen header {
+    padding: 1.5rem;
+  }
+
+  .admin-screen header button {
+    padding: 1rem 2rem;
+  }
+
+  .admin-screen section .section-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+.admin-screen .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.admin-screen .info h2,
+.admin-screen .info p {
+  font-size: var(--font-md);
+}
+
+.admin-screen section .section-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.admin-screen section .section-header img {
+  width: clamp(5rem, 30%, 20rem);
+}
+
+.admin-screen section {
+  align-items: center;
+}
+
+.admin-screen section ul {
+  padding: 1.5rem;
+  border-radius: 2rem;
+  background: var(--lightGrey);
+  box-shadow: 0em 1em 1em rgba(0, 0, 0, 0.048);
+}
+
+.admin-screen .latest-feedback {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title.type2 {
+  color: var(--darkGrey);
+  font-size: var(--font-md);
+}
+
+/*
+=======================
+    Modal de Resposta
+=======================
+*/
+
+.reply-modal {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    width: clamp(30rem, 80%, 100rem);
+    left: 50%;
+    top: 50%;
+    z-index: 100000;
+}

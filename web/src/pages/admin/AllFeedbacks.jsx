@@ -1,21 +1,18 @@
+import AdminScreen from "../../components/AdminScreen";
+import api from "../../js/api.js";
 import { useEffect, useState } from "react";
-import Screen from "../../../components/Screen";
-import api from "../../../js/api.js";
+import Loading from "../../components/Loading.jsx";
 import { useNavigate } from "react-router-dom";
 
-import Loading from "../../../components/Loading";
-import Message from "../../../components/Message.jsx";
-
-export default function Avaliacoes() {
+export default function AllFeedbacks() {
   const [avList, setAvList] = useState([]);
-  let userCount = 0;
-
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  let userCount = 0;
 
   const navigate = useNavigate();
 
   const type = "avaliacao";
+  const limit = 0;
 
   useEffect(() => {
     async function loadInteractionData() {
@@ -23,7 +20,7 @@ export default function Avaliacoes() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ type }),
+        body: JSON.stringify({ type, limit }),
         method: "POST",
       });
 
@@ -37,25 +34,25 @@ export default function Avaliacoes() {
       setLoading(true);
       loadInteractionData();
     } catch (error) {
-      console.error("Erro ao buscar interações: ", error);
-      setError("Erro ao buscar interações")
+      console.error("Erro ao buscar feedbacks: ", error);
+      setError("Erro ao buscar feedbacks");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }, []);
 
-  function handleNavigate(obj, props, id) {
-    navigate(`/interaction/${id}?type=${type}`, {
-      state: { obj, props },
-    });
-  }
-
   return (
-    !loading ?
-      <Screen>
-      { error !== "" && <Message type="error" message={error} /> }
+    <AdminScreen>
       <section>
-        <ul className="history-list">
+        <div className="section-header">
+            
+          <h1 className="title"><button className="go-back" onClick={() => navigate(-1)}><ion-icon name="chevron-back-outline"></ion-icon> Voltar</button> Todos os Feedbacks</h1>
+          <img
+            src="/src/assets/images/falaetec_logo.png"
+            alt="Logotipo do FalaEtec"
+          />
+        </div>
+        <ul className="latest-feedback">
           {avList.map((avaliacao) => {
             userCount++;
 
@@ -70,6 +67,12 @@ export default function Avaliacoes() {
 
             const date = new Date(avaliacao.data);
             const formattedDate = date.toLocaleDateString("pt-BR");
+
+            function handleNavigate(obj, props, id) {
+              navigate(`/interaction/${id}?type=${type}`, {
+                state: { obj, props },
+              });
+            }
 
             return (
               <li key={userCount} className="history-card">
@@ -91,6 +94,6 @@ export default function Avaliacoes() {
           })}
         </ul>
       </section>
-    </Screen> : <Loading />
-  ) 
+    </AdminScreen>
+  );
 }

@@ -81,6 +81,9 @@ ul {
 }
 
 @media screen and (min-width: 1100px) {
+  main.center .content {
+    max-width: 100%;
+  }
 
   .content,
   .hero-banner {
@@ -102,6 +105,15 @@ main {
   padding-bottom: 10rem;
 }
 
+main.center {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 main,
 section {
   display: flex;
@@ -121,6 +133,64 @@ section.center {
   left: 50%;
   transform: translateX(-50%);
   width: clamp(300px, 95%, 600px);
+}
+
+.non-clickable {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.521);
+  z-index: 10000;
+}
+
+/*
+=======================
+    Página de confirmação
+=======================
+*/
+
+main.center .guide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+main.center .guide h2 {
+  font-size: var(--font-xl);
+}
+
+/*
+=======================
+    Mensagem
+=======================
+*/
+
+.top-message {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 2rem;
+  width: 100vw;
+  background: rgb(126, 126, 126);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.top-message h2 {
+  color: var(--colorBg);
+  font-size: var(--font-md);
+}
+
+.top-message.error {
+  background: rgb(255, 78, 116);
+}
+
+.top-message.alert {
+  background: rgb(255, 158, 68);
 }
 
 /*
@@ -332,8 +402,8 @@ form .info {
   transition: all ease 0.2s;
 }
 
-.input input:focus+label,
-.input input:valid+label {
+.input input:focus + label,
+.input input:valid + label {
   top: 0;
   left: 0;
   color: var(--feMediumBlue);
@@ -435,10 +505,10 @@ form.type2 .input textarea:focus {
   transition: all ease 0.2s;
 }
 
-form.type2 .input input:focus+label,
-form.type2 .input input:valid+label,
-form.type2 .input textarea:focus+label,
-form.type2 .input textarea:valid+label {
+form.type2 .input input:focus + label,
+form.type2 .input input:valid + label,
+form.type2 .input textarea:focus + label,
+form.type2 .input textarea:valid + label {
   top: 0;
   left: 0;
   color: var(--feMediumBlue);
@@ -448,7 +518,7 @@ form.type2 .input.image input[type="file"] {
   display: none;
 }
 
-form.type2 .input.image input[type="file"]+label {
+form.type2 .input.image input[type="file"] + label {
   position: relative;
   top: auto;
   left: auto;
@@ -464,6 +534,7 @@ form.type2 .input.image input[type="file"]+label {
 }
 
 .preview-image {
+  border-radius: 1rem;
   position: relative;
   padding-block: 5%;
   width: 100%;
@@ -653,12 +724,21 @@ form.type3 .camp .input .buttons .submit {
   gap: 1rem;
 }
 
+.button-box.wrap {
+  flex-wrap: wrap;
+}
+
 .button-box.column {
   flex-direction: column;
   justify-content: left;
 }
 
 .nav-block-button.column {
+  min-width: 25rem;
+  max-width: 40%;
+}
+
+.nav-block-button.wrap {
   min-width: 25rem;
   max-width: 40%;
 }
@@ -676,8 +756,13 @@ form.type3 .camp .input .buttons .submit {
     max-width: 100%;
     min-width: 0;
   }
-}
 
+  .nav-block-button.wrap {
+    width: 100%;
+    max-width: 100%;
+    min-width: 25rem;
+  }
+}
 
 button {
   cursor: pointer;
@@ -689,6 +774,10 @@ button.default {
   background: linear-gradient(90deg, var(--feBlue), var(--feMediumBlue));
   font-weight: 500;
   border-radius: 2rem;
+  padding: 2rem 3rem;
+  font-size: var(--font-md);
+  border: none;
+  outline: none;
 }
 
 button.danger {
@@ -696,6 +785,10 @@ button.danger {
   background: rgb(255, 78, 78);
   font-weight: 500;
   border-radius: 2rem;
+  padding: 2rem 3rem;
+  font-size: var(--font-md);
+  border: none;
+  outline: none;
 }
 
 button:hover {
@@ -735,6 +828,7 @@ button.go-back {
 }
 
 .history-card {
+  
   width: 100%;
   background: var(--mediumGrey);
   border-radius: 2rem;
@@ -745,6 +839,7 @@ button.go-back {
   width: 100%;
   display: flex;
   padding: 2rem;
+  gap: 1rem;
   justify-content: space-between;
   align-items: center;
   border-radius: 0;

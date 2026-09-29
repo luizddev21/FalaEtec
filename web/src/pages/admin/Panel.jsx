@@ -1,21 +1,35 @@
+import AdminScreen from "../../components/AdminScreen";
+import api from "../../js/api.js";
 import { useEffect, useState } from "react";
-import Screen from "../../../components/Screen";
-import api from "../../../js/api.js";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../components/Loading.jsx";
 
-import Loading from "../../../components/Loading";
-import Message from "../../../components/Message.jsx";
-
-export default function Avaliacoes() {
+export default function Panel() {
+  const [userData, setUserData] = useState({});
   const [avList, setAvList] = useState([]);
-  let userCount = 0;
-
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  let userCount = 0;
 
   const navigate = useNavigate();
 
   const type = "avaliacao";
+  const limit = 4;
+
+  useEffect(() => {
+    async function loadUserData() {
+      const response = await api.apiFetch("/user/profile");
+
+      if (!response.ok) {
+        return;
+      }
+
+      const data = await response.json();
+
+      setUserData(data.user);
+    }
+
+    loadUserData();
+  }, []);
 
   useEffect(() => {
     async function loadInteractionData() {
@@ -23,7 +37,7 @@ export default function Avaliacoes() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ type }),
+        body: JSON.stringify({ type, limit }),
         method: "POST",
       });
 
@@ -37,25 +51,32 @@ export default function Avaliacoes() {
       setLoading(true);
       loadInteractionData();
     } catch (error) {
-      console.error("Erro ao buscar interações: ", error);
-      setError("Erro ao buscar interações")
+      console.error("Erro ao buscar feedbacks: ", error);
+      setError("Erro ao buscar feedbacks");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }, []);
 
-  function handleNavigate(obj, props, id) {
-    navigate(`/interaction/${id}?type=${type}`, {
-      state: { obj, props },
-    });
-  }
-
   return (
-    !loading ?
-      <Screen>
-      { error !== "" && <Message type="error" message={error} /> }
+    <AdminScreen>
+      <header>
+        <div className="info">
+          <h2 className="name">{userData.name}</h2>
+          <p className="id">{userData.rm}</p>
+        </div>
+        <button className="default">Sair</button>
+      </header>
       <section>
-        <ul className="history-list">
+        <div className="section-header">
+          <h1 className="title">Painel do Professor</h1>
+          <img
+            src="/src/assets/images/falaetec_logo.png"
+            alt="Logotipo do FalaEtec"
+          />
+        </div>
+        <h2 className="title type2">Últimos Feedbacks</h2>
+        <ul className="latest-feedback">
           {avList.map((avaliacao) => {
             userCount++;
 
@@ -66,10 +87,17 @@ export default function Avaliacoes() {
 
             const props = {
               level: avaliacao.nota,
+              userType: userData.type
             };
 
             const date = new Date(avaliacao.data);
             const formattedDate = date.toLocaleDateString("pt-BR");
+
+            function handleNavigate(obj, props, id) {
+              navigate(`/interaction/${id}?type=${type}`, {
+                state: { obj, props },
+              });
+            }
 
             return (
               <li key={userCount} className="history-card">
@@ -90,7 +118,13 @@ export default function Avaliacoes() {
             );
           })}
         </ul>
+        <button
+          className="default"
+          onClick={() => navigate("/admin/all-feedbacks")}
+        >
+          Ver mais
+        </button>
       </section>
-    </Screen> : <Loading />
-  ) 
+    </AdminScreen>
+  );
 }

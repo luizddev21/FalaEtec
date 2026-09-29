@@ -97,5 +97,17 @@ export const controller = {
       }
     });
 
+  },
+
+  async checkAdmin(req, res) {
+
+    return res.status(200).json({
+      admin: true,
+      user: {
+        id: req.user.sub,
+        type: req.user.type
+      }
+    });
+
   }
 }

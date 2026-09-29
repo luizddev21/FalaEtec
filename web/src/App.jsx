@@ -4,6 +4,7 @@ import User from "./pages/User";
 import Navbar from "./components/Navbar";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FeedbackEscolar from "./pages/subpages/FeedbackEscolar";
@@ -21,6 +22,11 @@ import Sugestoes from "./pages/subpages/history/Sugestoes";
 import Solicitacoes from "./pages/subpages/history/Solicitacoes";
 import Avaliacoes from "./pages/subpages/history/Avaliacoes";
 import Info from "./pages/subpages/history/info/[id]";
+
+import Confirm from "./pages/Confirm";
+
+import Panel from "./pages/admin/Panel";
+import AllFeedbacks from "./pages/admin/AllFeedbacks";
 
 function App() {
   return (
@@ -68,30 +74,45 @@ function App() {
             <Relato />
           </ProtectedRoute>
         } />
-        <Route path="sub/history/relatos" element={
+        <Route path="/sub/history/relatos" element={
           <ProtectedRoute>
             <Relatos />
           </ProtectedRoute>
         } />
-        <Route path="sub/history/sugestoes" element={
+        <Route path="/sub/history/sugestoes" element={
           <ProtectedRoute>
             <Sugestoes />
           </ProtectedRoute>
         } />
-        <Route path="sub/history/solicitacoes" element={
+        <Route path="/sub/history/solicitacoes" element={
           <ProtectedRoute>
             <Solicitacoes />
           </ProtectedRoute>
         } />
-        <Route path="sub/history/avaliacoes" element={
+        <Route path="/sub/history/avaliacoes" element={
           <ProtectedRoute>
             <Avaliacoes />
           </ProtectedRoute>
         } />
-        <Route path="interaction/:id" element={
+        <Route path="/interaction/:id" element={
           <ProtectedRoute>
             <Info />
           </ProtectedRoute>
+        } />
+        <Route path="/confirm" element={
+          <ProtectedRoute>
+            <Confirm />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin" element={
+          <AdminRoute>
+            <Panel />
+          </AdminRoute>
+        } />
+        <Route path="/admin/all-feedbacks" element={
+          <AdminRoute>
+            <AllFeedbacks />
+          </AdminRoute>
         } />
         <Route path="/sub/login" element={ <Login /> } />
         <Route path="/sub/forgot-password" element={ <ForgotPassword /> } />

@@ -17,5 +17,7 @@ router.post('/logout', controller.logout);
 
 router.get('/check-auth', middleware.auth, controller.checkAuth);
 
+router.get('/check-admin', middleware.admin, controller.checkAdmin);
+
 // Disponibiliza o roteador para utilização em outras partes da aplicação.
 export default router;
