@@ -1,9 +1,10 @@
 import Screen from "../../components/Screen";
 import { useState } from "react";
 import api from "../../js/api.js";
-import Loading from "../../components/Loading";
 import Message from "../../components/Message.jsx";
 import { useNavigate } from "react-router-dom";
+
+import "../../assets/stylesheets/pages/relato.css"
 
 function ChoiceButtons({ options, nextStep }) {
   return (
@@ -87,7 +88,10 @@ export default function Relato() {
   const navigate = useNavigate();
 
   const [error, setError] = useState("");
+
+  // Loading
   const [loading, setLoading] = useState(false);
+
   const page = "relato";
 
   const [step, setStep] = useState(0);
@@ -132,12 +136,12 @@ export default function Relato() {
     try {
       setLoading(true);
       await api.createInteraction(formData);
+      navigate("/confirm");
     } catch (error) {
       console.error("Erro ao tentar enviar interação: ", error);
       setError("Erro ao tentar enviar interação.");
     } finally {
       setLoading(false);
-      navigate("/confirm");
     }
   };
 
@@ -155,8 +159,8 @@ export default function Relato() {
       ? 4
       : 5;
 
-  return !loading ? (
-    <Screen fullscreen={true}>
+  return (
+    <Screen fullscreen={true} loading={loading}>
       {error !== "" && <Message type="error" message={error} />}
       <section className={`relato ${step % 2 === 0 ? "blue" : "green"}`}>
         <form onSubmit={handleSubmit} className="type3">
@@ -273,7 +277,5 @@ export default function Relato() {
         </form>
       </section>
     </Screen>
-  ) : (
-    <Loading />
   );
 }

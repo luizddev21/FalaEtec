@@ -1,3 +1,5 @@
+import "../assets/stylesheets/components/message.css";
+
 export default function Message({ type = "error", form, message }) {
   return form ? (
     <div className={`camp message ${type}`}>

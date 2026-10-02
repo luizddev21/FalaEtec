@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import "../assets/stylesheets/pages/forgot-password.css";
 
 export default function ForgotPassword() {
     return (

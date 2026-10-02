@@ -1,0 +1,25 @@
+.top-message {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 2rem;
+  width: 100vw;
+  background: rgb(126, 126, 126);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.top-message h2 {
+  color: var(--colorBg);
+  font-size: var(--font-md);
+}
+
+.top-message.error {
+  background: rgb(255, 78, 116);
+}
+
+.top-message.alert {
+  background: rgb(255, 158, 68);
+}

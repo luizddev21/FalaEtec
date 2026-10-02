@@ -1,0 +1,15 @@
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading svg {
+  width: clamp(10rem, 30%, 10rem);
+  height: auto;
+}

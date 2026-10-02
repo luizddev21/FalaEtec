@@ -17,10 +17,7 @@ import Sugestao from "./pages/subpages/Sugestao";
 import Relato from "./pages/subpages/Relato";
 import ForgotPassword from "./pages/ForgotPassword";
 
-import Relatos from "./pages/subpages/history/Relatos";
-import Sugestoes from "./pages/subpages/history/Sugestoes";
-import Solicitacoes from "./pages/subpages/history/Solicitacoes";
-import Avaliacoes from "./pages/subpages/history/Avaliacoes";
+import Interactions from "./pages/subpages/history/Interactions";
 import Info from "./pages/subpages/history/info/[id]";
 
 import Confirm from "./pages/Confirm";
@@ -74,24 +71,9 @@ function App() {
             <Relato />
           </ProtectedRoute>
         } />
-        <Route path="/sub/history/relatos" element={
+        <Route path="/interaction/all" element={
           <ProtectedRoute>
-            <Relatos />
-          </ProtectedRoute>
-        } />
-        <Route path="/sub/history/sugestoes" element={
-          <ProtectedRoute>
-            <Sugestoes />
-          </ProtectedRoute>
-        } />
-        <Route path="/sub/history/solicitacoes" element={
-          <ProtectedRoute>
-            <Solicitacoes />
-          </ProtectedRoute>
-        } />
-        <Route path="/sub/history/avaliacoes" element={
-          <ProtectedRoute>
-            <Avaliacoes />
+            <Interactions />
           </ProtectedRoute>
         } />
         <Route path="/interaction/:id" element={

@@ -1,3 +1,4 @@
+import "../assets/stylesheets/components/loading.css";
 
 export default function Loading() {
     return (

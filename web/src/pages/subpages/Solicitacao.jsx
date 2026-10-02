@@ -1,6 +1,5 @@
 import Screen from "../../components/Screen";
 import { useState, useRef } from "react";
-import Loading from "../../components/Loading";
 import Message from "../../components/Message.jsx";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +9,8 @@ export default function Solicitacao() {
   const navigate = useNavigate();
 
   const [error, setError] = useState("");
+
+  // Loading
   const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
@@ -83,17 +84,17 @@ export default function Solicitacao() {
     try {
       setLoading(true);
       await api.createInteraction(formData);
+      navigate("/confirm");
     } catch (error) {
       console.error("Erro ao tentar enviar interação: ", error);
       setError("Erro ao tentar enviar interação.");
     } finally {
       setLoading(false);
-      navigate("/confirm");
     }
   };
 
-  return !loading ? (
-    <Screen>
+  return (
+    <Screen loading={loading}>
       {error !== "" && <Message type="error" message={error} />}
       <section>
         <form onSubmit={handleSubmit} className="type2">
@@ -192,7 +193,5 @@ export default function Solicitacao() {
         </form>
       </section>
     </Screen>
-  ) : (
-    <Loading />
-  );
+  )
 }

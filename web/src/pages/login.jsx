@@ -2,7 +2,6 @@ import Screen from "../components/Screen.jsx";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import Loading from "../components/Loading.jsx";
 import Message from "../components/Message.jsx";
 
 import api from "../js/api.js";
@@ -10,6 +9,8 @@ import api from "../js/api.js";
 export default function Login() {
   const [authenticated, setAuthenticated] = useState(null);
   const [error, setError] = useState("");
+
+  // Loading
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -56,8 +57,7 @@ export default function Login() {
   }
 
   return (
-    !loading ?
-      <Screen center fullscreen>
+      <Screen center fullscreen loading={loading}>
       <section className="login center">
         <form onSubmit={handleSubmit}>
           <h2 className="title">Login</h2>
@@ -104,6 +104,5 @@ export default function Login() {
         </form>
       </section>
     </Screen>
-    : <Loading />
   );
 }

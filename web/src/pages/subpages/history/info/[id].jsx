@@ -61,7 +61,8 @@ export default function Info() {
         <section>
           {Object.entries(interacao).map(([key, data]) => {
             return (
-              <div key={key} className="camp">
+              data !== null &&
+                <div key={key} className="camp">
                 <div className="output">
                   <p className="label">{key}</p>
                   <p className="value">{data}</p>

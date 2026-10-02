@@ -1,0 +1,26 @@
+header {
+  position: sticky;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  padding-block: 1.2rem;
+  background: white;
+  box-shadow: 0em 1em 1em rgba(0, 0, 0, 0.048);
+  z-index: 1000;
+}
+
+header img {
+  width: clamp(5rem, 30%, 20rem);
+}
+
+header .content {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .title {
+  justify-content: flex-end;
+  color: var(--feMediumBlue);
+  font-size: var(--font-lg);
+}

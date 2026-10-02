@@ -49,19 +49,19 @@ async function logout() {
 // =========================
 
 async function checkAuth() {
-    const response = await fetch(`${API_URL}/auth/check-auth`, {
-      method: "GET",
-      credentials: "include",
-    });
+  const response = await fetch(`${API_URL}/auth/check-auth`, {
+    method: "GET",
+    credentials: "include",
+  });
 
-    const data = await response.json();
+  const data = await response.json();
 
-    if (!response.ok) {
-      console.error(data.error || "Erro ao verificar autenticação.");
-      return false;
-    }
+  if (!response.ok) {
+    console.error(data.error || "Erro ao verificar autenticação.");
+    return false;
+  }
 
-    return true;
+  return true;
 }
 
 // =========================
@@ -69,19 +69,19 @@ async function checkAuth() {
 // =========================
 
 async function checkAdmin() {
-    const response = await fetch(`${API_URL}/auth/check-admin`, {
-      method: "GET",
-      credentials: "include",
-    });
+  const response = await fetch(`${API_URL}/auth/check-admin`, {
+    method: "GET",
+    credentials: "include",
+  });
 
-    const data = await response.json();
+  const data = await response.json();
 
-    if (!response.ok) {
-      console.error(data.error || "Erro ao verificar o cargo.");
-      return false;
-    }
+  if (!response.ok) {
+    console.error(data.error || "Erro ao verificar o cargo.");
+    return false;
+  }
 
-    return true;
+  return true;
 }
 
 // =========================
@@ -119,7 +119,7 @@ async function refresh() {
 // API FETCH
 // =========================
 
-async function apiFetch (endpoint, options = {}) {
+async function apiFetch(endpoint, options = {}) {
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     credentials: "include",
@@ -152,22 +152,40 @@ async function apiFetch (endpoint, options = {}) {
 // =========================
 
 async function createInteraction(formData) {
-    const response = await fetch(
-      "http://localhost:3000/interaction/create",
-      {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      },
-    );
+  const response = await fetch(
+    "http://localhost:3000/interaction/create",
+    {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    },
+  );
 
-    const data = await response.json();
+  const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.error || "Erro ao tentar criar interação.");
-    }
-    
-    return data;
+  if (!response.ok) {
+    throw new Error(data.error || "Erro ao tentar criar interação.");
+  }
+
+  return data;
+}
+
+async function getAllInteraction(type) {
+  const response = await apiFetch("/interaction/get-all", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ type }),
+    method: "POST",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(response.error || "Erro ao tentar pegar interações");
+  }
+
+  return data;
 }
 
 export default {
@@ -178,5 +196,6 @@ export default {
   refresh,
   apiFetch,
   createInteraction,
+  getAllInteraction,
   API_URL
 }

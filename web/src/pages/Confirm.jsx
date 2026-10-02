@@ -1,5 +1,6 @@
 import Screen from "../components/Screen";
 import { useNavigate } from "react-router-dom";
+import "../assets/stylesheets/pages/confirm.css";
 
 export default function Confirm() {
   const navigate = useNavigate();

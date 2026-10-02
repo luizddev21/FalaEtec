@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, matchPath } from "react-router-dom";
+import "../assets/stylesheets/components/header.css"
 
 export default function Header() {
   const [pageTitle, setPageTitle] = useState("");

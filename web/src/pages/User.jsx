@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 export default function Home() {
   const [userData, setUserData] = useState({});
 
+  // Loading
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   async function handleLogout() {
@@ -22,22 +25,35 @@ export default function Home() {
 
   useEffect(() => {
     async function loadUserData() {
-      const response = await api.apiFetch("/user/profile");
+      try {
+        setLoading(true)
 
-      if (!response.ok) {
-        return;
+        const response = await api.apiFetch("/user/profile");
+
+        const data = await response.json();
+
+        setUserData(data.user);
+      } catch (error) {
+        console.error("Erro ao carregar informações do usuário", error);
+        setError("Erro ao carregar informações do usuário.");
+      } finally {
+        setLoading(false);
       }
 
-      const data = await response.json();
-
-      setUserData(data.user);
+      
     }
 
     loadUserData();
   }, []);
 
+  function handleNavigate(type) {
+    navigate(`/interaction/all`, {
+      state: { type },
+    });
+  }
+
   return (
-    <Screen>
+    <Screen loading={loading}>
       <section className="user-info">
         <h2 className="title">Informações Pessoais</h2>
 
@@ -74,31 +90,35 @@ export default function Home() {
 
         <div className="button-box column">
           <NavBlockButton
-            page="../sub/history/solicitacoes"
+            onClick={() => handleNavigate("solicitacao")}
             image="VSO"
             mode="static"
             column
+            button
           />
 
           <NavBlockButton
-            page="../sub/history/relatos"
+            onClick={() => handleNavigate("relato")}
             image="HRE"
             mode="static"
             column
+            button
           />
 
           <NavBlockButton
-            page="../sub/history/sugestoes"
+            onClick={() => handleNavigate("sugestao")}
             image="VSU"
             mode="static"
             column
+            button
           />
 
           <NavBlockButton
-            page="../sub/history/avaliacoes"
+            onClick={() => handleNavigate("avaliacao")}
             image="VAV"
             mode="static"
             column
+            button
           />
         </div>
       </section>
