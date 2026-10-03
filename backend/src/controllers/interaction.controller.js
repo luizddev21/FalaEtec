@@ -3,9 +3,6 @@ import { imp } from '../services/interaction.service.js';
 export const controller = {
     async create(req, res) {
 
-        console.log("Chegou aqui");
-        console.log(req);
-
         try {
             const data = await imp.create(req.user, req.body, req.file);
 
@@ -19,7 +16,7 @@ export const controller = {
 
     async getAll(req, res) {
         try {
-            const data = await imp.getAll(req.user, req.body);
+            const data = await imp.getAll(req.user, req.body, req.query);
 
             return res.status(200).json(data);
         } catch (error) {

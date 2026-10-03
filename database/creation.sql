@@ -56,7 +56,7 @@ CREATE TABLE interacao (
     descricao TEXT,
     aconceceu VARCHAR(50),
     data DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(50),
+    status ENUM("pendente", "rejeitado", "concluído") DEFAULT "pendente",
     nota DECIMAL(5,2),
     local VARCHAR(100),
     sub_local VARCHAR(100),

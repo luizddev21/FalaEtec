@@ -8,6 +8,8 @@ import cors from 'cors';
 import authRoute from './routes/auth.route.js';
 import userRoute from './routes/user.route.js';
 import interactionRoute from './routes/interaction.route.js';
+import turmaRoute from './routes/turma.route.js';
+import answerRoute from './routes/answer.route.js';
 
 const app = express();
 
@@ -25,6 +27,8 @@ app.use('/uploads', express.static('uploads'));
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
 app.use('/interaction', interactionRoute);
+app.use('/turma', turmaRoute);
+app.use('/answer', answerRoute);
 
 const PORT = process.env.PORT
 

@@ -3,7 +3,6 @@ import crypto from "crypto";
 
 export const imp = {
   async create(user, formData, file) {
-    
     // TODO:
     // 1. Decidir qual o tipo de interação (avaliação, solicitação, relato ou sugestão)
     // 2. Com base nisso definir um sql para cada tipo
@@ -20,11 +19,15 @@ export const imp = {
     // Verifica se quem ta fazendo é um aluno.
 
     if (user.type !== "aluno")
-      throw new Error ("Somente alunos podem enviar interações!")
+      throw new Error("Somente alunos podem enviar interações!");
 
     // Definindo o tipo da interação
 
-    if (!["avaliacao", "solicitacao", "sugestao", "relato"].includes(formData.type))
+    if (
+      !["avaliacao", "solicitacao", "sugestao", "relato"].includes(
+        formData.type,
+      )
+    )
       throw new Error("Tipo da interação inválido");
 
     const sql =
@@ -72,7 +75,7 @@ export const imp = {
       );
 
       professorId = professorQuery[0].professor_id;
-    };
+    }
 
     // No caso de ser uma solicitação
     // Recebe uma imagem
@@ -90,37 +93,43 @@ export const imp = {
     const result =
       formData.type === "avaliacao"
         ? await db.query(sql, [
-          id,
-          user.sub,
-          professorId !== undefined ? professorId : null,
-          formData.type,
-          formData.title,
-          formData.desc,
-          formData.level,
-        ])
-        : formData.type === "solicitacao"
-          ? await db.query(sql, [
             id,
             user.sub,
+            professorId !== undefined ? professorId : null,
             formData.type,
             formData.title,
             formData.desc,
-            formData.local,
-            formData.sublocal,
-            url_img !== "" ? url_img : null
+            formData.level,
           ])
-          : formData.type === "sugestao"
-            ? await db.query(sql, [id, user.sub, formData.type, formData.title, formData.desc])
-            : await db.query(sql, [
+        : formData.type === "solicitacao"
+          ? await db.query(sql, [
               id,
               user.sub,
               formData.type,
               formData.title,
               formData.desc,
-              formData.date,
-              formData.attendance,
-              formData.anonymous,
-            ]);
+              formData.local,
+              formData.sublocal,
+              url_img !== "" ? url_img : null,
+            ])
+          : formData.type === "sugestao"
+            ? await db.query(sql, [
+                id,
+                user.sub,
+                formData.type,
+                formData.title,
+                formData.desc,
+              ])
+            : await db.query(sql, [
+                id,
+                user.sub,
+                formData.type,
+                formData.title,
+                formData.desc,
+                formData.date,
+                formData.attendance,
+                formData.anonymous,
+              ]);
 
     if (result.affectedRows > 0) {
       return {
@@ -132,31 +141,75 @@ export const imp = {
     throw new Error(`Não foi possível enviar ${formData.type}`);
   },
 
-  async getAll(user, { type, limit }) {
-    console.log(type);
+  async getAll(user, { type, limit }, { classe, search, status }) {
     if (!["avaliacao", "sugestao", "relato", "solicitacao"].includes(type))
       throw new Error("Tipo da interação inválido");
 
-    if (!user.sub)
-      throw new Error("Tipo de usuário inválido");
+    if (!user.sub) throw new Error("Tipo de usuário inválido");
 
-    const userId = user.sub;
-    
-    const sql = limit > 0 ?
-      `
-        SELECT interacao_id, tipo, titulo, descricao, data, status, nota, local, sub_local, url_img, aconteceu, acompanhamento, anonimo
-        FROM interacao
-        WHERE ${user.type}_id = ? AND tipo = ? LIMIT ${limit}
-      `
-      :
-      `
-        SELECT interacao_id, tipo, titulo, descricao, data, status, nota, local, sub_local, url_img, aconteceu, acompanhamento, anonimo
-        FROM interacao
-        WHERE ${user.type}_id = ? AND tipo = ?
-      `
+    const where = [`i.tipo = ?`];
 
-    const allInteraction = await db.query(sql, [userId, type]);
+    const params = [type];
+
+    if (user.type !== "gestor") {
+      where.push(`i.${user.type}_id = ?`);
+      params.push(user.sub);
+    }
+
+    // Filtro por turma (classe)
+    if (classe) {
+      where.push("t.classe = ?");
+      params.push(classe);
+    }
+
+    // Filtro por pesquisa
+    if (search) {
+      where.push("(i.descricao LIKE ? OR a.nome LIKE ?)");
+      params.push(`%${search}%`, `%${search}%`);
+    }
+
+    if (status) {
+      where.push("i.status = ?");
+      params.push(status);
+    }
+
+    let sql = `
+      SELECT
+      i.interacao_id,
+      i.tipo,
+      i.titulo,
+      i.descricao,
+      i.data,
+      i.status,
+      i.nota,
+      i.local,
+      i.sub_local,
+      i.url_img,
+      i.aconteceu,
+      i.acompanhamento,
+      i.anonimo,
+      IF(i.anonimo = 1, "Anônimo", a.nome) AS aluno_nome,
+      t.classe,
+      t.curso,
+      r.mensagem AS resposta
+      FROM interacao i
+      LEFT JOIN aluno a
+      ON i.aluno_id = a.aluno_id
+      LEFT JOIN turma t
+      ON a.turma_id = t.turma_id
+      LEFT JOIN resposta r
+      ON i.interacao_id = r.interacao_id
+      WHERE ${where.join(" AND ")}
+      ORDER BY i.data DESC
+    `;
+
+    if (limit > 0) {
+      sql += " LIMIT ?";
+      params.push(Number(limit));
+    }
+
+    const allInteraction = await db.query(sql, params);
 
     return allInteraction;
-  }
+  },
 };
