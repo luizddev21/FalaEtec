@@ -24,7 +24,6 @@
   padding: 2rem;
   gap: 1rem;
   justify-content: space-between;
-  align-items: center;
   border-radius: 0;
   border: none;
   outline: none;
@@ -44,7 +43,29 @@
   font-weight: 600;
 }
 
+.history-card .column {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
 .history-card span {
+  position: relative;
   color: var(--darkGrey);
   font-size: var(--font-sm);
 }
+
+.history-card span.pendente {
+  color: var(--feDarkYellow);
+}
+
+.history-card span.rejeitado {
+  color: var(--feRed);
+}
+
+.history-card span.concluido {
+  color: var(--feGreen);
+}
+

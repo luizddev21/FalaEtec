@@ -8,7 +8,6 @@ export default function Interacions() {
     const [interactionData, setInteractionData] = useState([]);
 
     const { state } = useLocation();
-    console.log(state);
     const type = state ? state.type : null;
 
     // Error
@@ -63,12 +62,14 @@ export default function Interacions() {
                                 "Precisa de acompanhamento":
                                     interacao?.acompanhamento === 1 ? "Sim" : "Não",
                                 Local: interacao?.local !== null ? `${interacao?.local} - ${interacao?.sub_local}` : null,
+                                Resposta: interacao.resposta
                             };
                         } else {
                             interacaoObj = {
                                 Sobre: interacao?.titulo,
                                 Descrição: interacao?.descricao,
                                 Local: interacao?.local !== null ? `${interacao?.local} - ${interacao?.sub_local}` : null,
+                                Resposta: interacao.resposta
                             };
                         }
 
@@ -85,7 +86,7 @@ export default function Interacions() {
                                 onClick={() =>
                                     handleNavigate(interacaoObj, props, interacao.interacao_id)
                                 }
-                                key={interacao?.interacao_id}
+                                key={interacao.interacao_id}
                             >
                                 <div className="info">
                                     <h3>{interacao?.titulo}</h3>

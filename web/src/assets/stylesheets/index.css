@@ -14,9 +14,13 @@
   --feGreen: #4a9932;
   --feLightGreen: #4ec527;
 
-  --feDarkYellow: #fd8f00;
+  --feDarkYellow: #fdba00;
   --feYellow: #ffd549;
   --feLightYellow: #fff564;
+
+  --feDarkRed: #a50031;
+  --feRed: #d31e54;
+  --feLightRed: #eb2f67;
 
   --font-sm: clamp(1.6rem, 2vw, 2rem);
   --font-md: clamp(1.8rem, 2vw, 2rem);
@@ -177,6 +181,10 @@ form {
   flex-direction: column;
   gap: 3rem;
   padding: 6rem 4rem;
+}
+
+form.no-padding {
+  padding: 0;
 }
 
 form .title {

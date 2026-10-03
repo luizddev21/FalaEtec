@@ -26,7 +26,7 @@ export default function Home() {
   useEffect(() => {
     async function loadUserData() {
       try {
-        setLoading(true)
+        setLoading(true);
 
         const response = await api.apiFetch("/user/profile");
 
@@ -39,8 +39,6 @@ export default function Home() {
       } finally {
         setLoading(false);
       }
-
-      
     }
 
     loadUserData();
@@ -65,10 +63,12 @@ export default function Home() {
         </div>
 
         <div className="camp">
-          <div className="output">
-            <p className="label">Sala</p>
-            <p className="value">{userData.classroom}</p>
-          </div>
+          {userData.type === "aluno" && (
+            <div className="output">
+              <p className="label">Sala</p>
+              <p className="value">{userData.classroom}</p>
+            </div>
+          )}
 
           <div className="output">
             <p className="label">RM</p>
@@ -77,6 +77,13 @@ export default function Home() {
         </div>
 
         <div className="camp">
+          {["professor", "gestor"].includes(userData.type) && (
+            <div className="input">
+              <button className="default" onClick={() => navigate("/admin")}>
+                Painel Administrativo
+              </button>
+            </div>
+          )}
           <div className="input">
             <button className="danger" onClick={handleLogout}>
               Sair
@@ -85,43 +92,45 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="user-info">
-        <h2 className="title">Histórico</h2>
+      {userData.type === "aluno" && (
+        <section className="history">
+          <h2 className="title">Histórico</h2>
 
-        <div className="button-box column">
-          <NavBlockButton
-            onClick={() => handleNavigate("solicitacao")}
-            image="VSO"
-            mode="static"
-            column
-            button
-          />
+          <div className="button-box column">
+            <NavBlockButton
+              onClick={() => handleNavigate("solicitacao")}
+              image="VSO"
+              mode="static"
+              column
+              button
+            />
 
-          <NavBlockButton
-            onClick={() => handleNavigate("relato")}
-            image="HRE"
-            mode="static"
-            column
-            button
-          />
+            <NavBlockButton
+              onClick={() => handleNavigate("relato")}
+              image="HRE"
+              mode="static"
+              column
+              button
+            />
 
-          <NavBlockButton
-            onClick={() => handleNavigate("sugestao")}
-            image="VSU"
-            mode="static"
-            column
-            button
-          />
+            <NavBlockButton
+              onClick={() => handleNavigate("sugestao")}
+              image="VSU"
+              mode="static"
+              column
+              button
+            />
 
-          <NavBlockButton
-            onClick={() => handleNavigate("avaliacao")}
-            image="VAV"
-            mode="static"
-            column
-            button
-          />
-        </div>
-      </section>
+            <NavBlockButton
+              onClick={() => handleNavigate("avaliacao")}
+              image="VAV"
+              mode="static"
+              column
+              button
+            />
+          </div>
+        </section>
+      )}
     </Screen>
   );
 }

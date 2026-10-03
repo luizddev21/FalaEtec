@@ -4,15 +4,26 @@ import { motion } from "framer-motion";
 
 import "../assets/stylesheets/components/navbar.css";
 
-export default function Navbar() {
+const defaultLinks = [
+  { name: "Início", path: "/", icon: "home" },
+  { name: "Usuário", path: "/user", icon: "person" },
+];
+
+export default function Navbar({
+  admin,
+  type2,
+  value,
+  onChange,
+  links = defaultLinks,
+}) {
   const location = useLocation();
 
-  const links = [
-    { name: "Início", path: "/", icon: "home" },
-    { name: "Usuário", path: "/user", icon: "person" },
-  ];
+  // Se "value" foi passado, usa modo controlado
+  const controlled = value !== undefined;
 
-  const show = links.some((link) => link.path === location.pathname);
+  const show = admin
+    ? true
+    : links.some((link) => link.path === location.pathname);
 
   const linksRef = useRef([]);
 
@@ -22,55 +33,72 @@ export default function Navbar() {
   });
 
   useEffect(() => {
-    const activeIndex = links.findIndex(
-      (link) => link.path === location.pathname,
-    );
+    const activeIndex = controlled
+      ? links.findIndex((link) => link.path === value)
+      : links.findIndex((link) => link.path === location.pathname);
 
     if (activeIndex === -1) return;
 
-    const activeElement = linksRef.current[activeIndex];
+    const element = linksRef.current[activeIndex];
 
-    if (!activeElement) return;
+    if (!element) return;
 
     setIndicator({
-      left: activeElement.offsetLeft,
-      width: activeElement.offsetWidth,
+      left: element.offsetLeft,
+      width: element.offsetWidth,
     });
-  }, [location.pathname]);
+  }, [location.pathname, value, controlled, links]);
+
+  if (!show) return null;
 
   return (
-    show && (
-      <nav className="navbar">
-        <div className="navbar-links">
-          <motion.div
-            className="nav-indicator"
-            animate={{
-              left: indicator.left,
-              width: indicator.width,
-            }}
-            transition={{
-              duration: 0.35,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          />
+    <nav className={`navbar ${type2 ? "type2" : ""}`}>
+      <div className="navbar-links">
+        <motion.div
+          className="nav-indicator"
+          animate={{
+            left: indicator.left,
+            width: indicator.width,
+          }}
+          transition={{
+            duration: 0.35,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        />
 
-          {links.map((link, index) => (
+        {links.map((link, index) => {
+          const active = controlled
+            ? value === link.path
+            : location.pathname === link.path;
+
+          if (controlled) {
+            return (
+              <button
+                key={link.path}
+                ref={(el) => (linksRef.current[index] = el)}
+                className={`nav-link ${active ? "active" : ""}`}
+                onClick={() => onChange?.(link.path)}
+                type="button"
+              >
+                <ion-icon name={link.icon}></ion-icon>
+                {link.name}
+              </button>
+            );
+          }
+
+          return (
             <NavLink
               key={link.path}
               to={link.path}
-              ref={(element) => {
-                linksRef.current[index] = element;
-              }}
-              className={({ isActive }) =>
-                `nav-link ${isActive ? "active" : ""}`
-              }
+              ref={(el) => (linksRef.current[index] = el)}
+              className={`nav-link ${active ? "active" : ""}`}
             >
               <ion-icon name={link.icon}></ion-icon>
               {link.name}
             </NavLink>
-          ))}
-        </div>
-      </nav>
-    )
+          );
+        })}
+      </div>
+    </nav>
   );
 }

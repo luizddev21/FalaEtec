@@ -65,6 +65,22 @@ async function checkAuth() {
 }
 
 // =========================
+// GET ALL USERS
+// =========================
+
+async function getAllUsers() {
+  const response = await apiFetch("/user/all-profile");
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Erro ao tentar criar interação.");
+  }
+
+  return data;
+}
+
+// =========================
 // CHECK ADMIN
 // =========================
 
@@ -87,8 +103,6 @@ async function checkAdmin() {
 // =========================
 // REFRESH
 // =========================
-
-
 
 async function refresh() {
   if (refreshPromise) {
@@ -152,14 +166,11 @@ async function apiFetch(endpoint, options = {}) {
 // =========================
 
 async function createInteraction(formData) {
-  const response = await fetch(
-    "http://localhost:3000/interaction/create",
-    {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    },
-  );
+  const response = await fetch("http://localhost:3000/interaction/create", {
+    method: "POST",
+    body: formData,
+    credentials: "include",
+  });
 
   const data = await response.json();
 
@@ -170,12 +181,12 @@ async function createInteraction(formData) {
   return data;
 }
 
-async function getAllInteraction(type) {
-  const response = await apiFetch("/interaction/get-all", {
+async function getAllInteraction(type, limit = 0, params) {
+  const response = await apiFetch(`/interaction/get-all?${params}`, {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ type }),
+    body: JSON.stringify({ type, limit }),
     method: "POST",
   });
 
@@ -183,6 +194,74 @@ async function getAllInteraction(type) {
 
   if (!response.ok) {
     throw new Error(response.error || "Erro ao tentar pegar interações");
+  }
+
+  return data;
+}
+
+// =========================
+// Turma
+// =========================
+
+async function getAllTurma() {
+  const response = await apiFetch(`/turma/get-all`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "GET",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(response.error || "Erro ao tentar pegar turmas");
+  }
+
+  return data;
+}
+
+// =========================
+// ANSWER
+// =========================
+
+async function createAnswer(message, interactionId) {
+  const response = await fetch("http://localhost:3000/answer/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message: message,
+      interactionId: interactionId,
+    }),
+    credentials: "include",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Erro ao tentar criar resposta.");
+  }
+
+  return data;
+}
+
+async function deleteAnswer(id) {
+  const response = await fetch("http://localhost:3000/answer/delete", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      answerId: id,
+    }),
+    credentials: "include",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Erro ao tentar apagar.");
   }
 
   return data;
@@ -196,6 +275,10 @@ export default {
   refresh,
   apiFetch,
   createInteraction,
+  createAnswer,
   getAllInteraction,
-  API_URL
-}
+  getAllTurma,
+  deleteAnswer,
+  getAllUsers,
+  API_URL,
+};

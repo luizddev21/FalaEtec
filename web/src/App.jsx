@@ -22,8 +22,7 @@ import Info from "./pages/subpages/history/info/[id]";
 
 import Confirm from "./pages/Confirm";
 
-import Panel from "./pages/admin/Panel";
-import AllFeedbacks from "./pages/admin/AllFeedbacks";
+import AdminPanel from "./pages/admin/AdminPanel";
 
 function App() {
   return (
@@ -88,12 +87,7 @@ function App() {
         } />
         <Route path="/admin" element={
           <AdminRoute>
-            <Panel />
-          </AdminRoute>
-        } />
-        <Route path="/admin/all-feedbacks" element={
-          <AdminRoute>
-            <AllFeedbacks />
+            <AdminPanel />
           </AdminRoute>
         } />
         <Route path="/sub/login" element={ <Login /> } />
