@@ -2,12 +2,44 @@ CREATE DATABASE IF NOT EXISTS falaetec;
 USE falaetec;
 
 -- =====================================================
+-- TABELA: CURSO
+-- =====================================================
+
+CREATE TABLE curso (
+    curso_id VARCHAR(255) PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL
+);
+
+-- =====================================================
 -- TABELA: TURMA
 -- =====================================================
+
 CREATE TABLE turma (
-    turma_id varchar(255) PRIMARY KEY,
-    classe VARCHAR(50) NOT NULL,
-    curso VARCHAR(100) NOT NULL
+    turma_id VARCHAR(255) PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL
+);
+
+-- =====================================================
+-- TABELA ASSOCIATIVA: CURSO_TURMA
+-- =====================================================
+
+CREATE TABLE curso_turma (
+    curso_id VARCHAR(255) NOT NULL,
+    turma_id VARCHAR(255) NOT NULL,
+
+    PRIMARY KEY (curso_id, turma_id),
+
+    CONSTRAINT fk_curso_turma_curso
+        FOREIGN KEY (curso_id)
+        REFERENCES curso(curso_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_curso_turma_turma
+        FOREIGN KEY (turma_id)
+        REFERENCES turma(turma_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 -- =====================================================
@@ -54,7 +86,7 @@ CREATE TABLE interacao (
     tipo VARCHAR(50) NOT NULL,
     titulo VARCHAR(150) NOT NULL,
     descricao TEXT,
-    aconceceu VARCHAR(50),
+    aconteceu VARCHAR(50),
     data DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     status ENUM("pendente", "rejeitado", "concluído") DEFAULT "pendente",
     nota DECIMAL(5,2),
@@ -62,7 +94,7 @@ CREATE TABLE interacao (
     sub_local VARCHAR(100),
     url_img VARCHAR(500),
     acompanhamento TINYINT DEFAULT 0,
-    anonimo TINYINT DEFAULT 0
+    anonimo TINYINT DEFAULT 0,
 
     -- Relacionamento: aluno 1:N interacao
     aluno_id CHAR(5) NOT NULL,
