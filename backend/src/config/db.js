@@ -3,7 +3,7 @@ import mariadb from 'mariadb';
 const pool = mariadb.createPool({
     host: "localhost",
     user: "root",
-    password: "",
+    password: "3386",
     database: "falaetec"
 });
 

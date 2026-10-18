@@ -1,0 +1,40 @@
+
+.user {
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    background: var(--colorBg);
+    padding: 2rem;
+    border-radius: 2rem;
+}
+
+.user .tools {
+    display: flex;
+    gap: 1.5rem;
+}
+
+@media screen and (max-width: 768px) {
+    .user .tools {
+        flex-direction: column;
+    }
+    
+    .user .tools button {
+        padding: 1rem 2rem;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .user {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2rem;
+    }
+
+    .user .tools {
+        flex-direction: row;
+    }
+    
+    .user .tools button {
+        padding: 1rem 2rem;
+    }
+}

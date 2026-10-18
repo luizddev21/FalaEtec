@@ -4,6 +4,8 @@ import api from "../../../../js/api.js";
 import Rating from "@mui/material/Rating";
 import { useState, useEffect } from "react";
 
+import { textFormatter } from "../../../../js/utils/text.formatter.js";
+
 export default function Info() {
   const { state } = useLocation();
   const [loading, setLoading] = useState(false);
@@ -90,7 +92,7 @@ export default function Info() {
                 <div key={key} className="camp">
                   <div className="output">
                     <p className="label">{key}</p>
-                    <p className="value">{data}</p>
+                    <p className="value">{!["Classe", "Resposta", "Descrição"].includes(key) ? textFormatter.capitalize(data) : data}</p>
                   </div>
                 </div>
               )

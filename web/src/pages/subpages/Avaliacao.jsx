@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Message from "../../components/Message.jsx";
 import { useNavigate } from "react-router-dom";
 
+import { textFormatter } from "../../js/utils/text.formatter.js";
+
 import api from "../../js/api.js";
 
 export default function Avaliacao() {
@@ -130,7 +132,7 @@ export default function Avaliacao() {
                   </option>
                   {teachers.map((teacher, index) => (
                     <option key={index} value={teacher}>
-                      {teacher}
+                      {textFormatter.capitalize(teacher)}
                     </option>
                   ))}
                 </select>

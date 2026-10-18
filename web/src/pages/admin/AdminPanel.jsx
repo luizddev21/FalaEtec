@@ -5,7 +5,7 @@ import AdminScreen from "../../components/AdminScreen.jsx";
 import Navbar from "../../components/Navbar.jsx";
 
 import api from "../../js/api.js";
-import { textFormatter } from "../../js/utils/textFormatter.js";
+import { textFormatter } from "../../js/utils/text.formatter.js";
 
 import AdminFeedbacks from "./tabs/AdminAvaliacoes.jsx";
 import AdminSuggestions from "./tabs/AdminSugestoes.jsx";
@@ -53,7 +53,7 @@ export default function AdminPanel() {
     <AdminScreen loading={loading}>
       <header>
         <div className="info">
-          <h2 className="name">{userData.name}</h2>
+          <h2 className="name">{textFormatter.capitalize(userData.name)}</h2>
           <p className="id">{userData.rm}</p>
         </div>
 

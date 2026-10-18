@@ -1,6 +1,8 @@
 import db from "../config/db.js";
 import crypto from "crypto";
 
+import { textFormatter } from "../utils/text.formatter.js";
+
 export const imp = {
   async create(user, formData, file) {
     // TODO:
@@ -97,8 +99,8 @@ export const imp = {
             user.sub,
             professorId !== undefined ? professorId : null,
             formData.type,
-            formData.title,
-            formData.desc,
+            textFormatter.normalize(formData.title, true),
+            normalize(formData.desc, false),
             formData.level,
           ])
         : formData.type === "solicitacao"
@@ -106,10 +108,10 @@ export const imp = {
               id,
               user.sub,
               formData.type,
-              formData.title,
-              formData.desc,
+              textFormatter.normalize(formData.title, true),
+              textFormatter.normalize(formData.desc, false),
               formData.local,
-              formData.sublocal,
+              textFormatter.normalize(formData.sublocal, false),
               url_img !== "" ? url_img : null,
             ])
           : formData.type === "sugestao"
@@ -117,15 +119,15 @@ export const imp = {
                 id,
                 user.sub,
                 formData.type,
-                formData.title,
-                formData.desc,
+                textFormatter.normalize(formData.title, true),
+                textFormatter.normalize(formData.desc, false)
               ])
             : await db.query(sql, [
                 id,
                 user.sub,
                 formData.type,
-                formData.title,
-                formData.desc,
+                textFormatter.normalize(formData.title, true),
+                textFormatter.normalize(formData.desc, false),
                 formData.date,
                 formData.attendance,
                 formData.anonymous,

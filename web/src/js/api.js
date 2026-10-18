@@ -253,12 +253,43 @@ async function deleteAnswer(id) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      answerId: id,
+      answerId: id
     }),
-    credentials: "include",
+    credentials: "include"
   });
 
   const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Erro ao tentar apagar.");
+  }
+
+  return data;
+}
+
+// =========================
+// User
+// =========================
+
+async function deleteUser(rm, type) {
+
+  const proceed = confirm("Deseja apagar este usuário? Todas as suas informações serão perdidas.");
+
+  if (!proceed) return
+
+  const response = await fetch("http://localhost:3000/user/delete", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      rm: rm,
+      type: type
+    }),
+    credentials: "include"
+  });
+
+  const data = await response.json()
 
   if (!response.ok) {
     throw new Error(data.error || "Erro ao tentar apagar.");
@@ -280,5 +311,6 @@ export default {
   getAllTurma,
   deleteAnswer,
   getAllUsers,
+  deleteUser,
   API_URL,
 };

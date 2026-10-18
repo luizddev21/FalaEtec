@@ -112,7 +112,7 @@ CREATE TABLE interacao (
         FOREIGN KEY (professor_id)
         REFERENCES professor(professor_id)
         ON UPDATE CASCADE
-        ON DELETE RESTRICT
+        ON DELETE CASCADE
 );
 
 -- =====================================================
@@ -143,13 +143,13 @@ CREATE TABLE resposta (
         FOREIGN KEY (professor_id)
         REFERENCES professor(professor_id)
         ON UPDATE CASCADE
-        ON DELETE RESTRICT,
+        ON DELETE CASCADE,
 
     CONSTRAINT fk_resposta_gestor
         FOREIGN KEY (gestor_id)
         REFERENCES gestor(gestor_id)
         ON UPDATE CASCADE
-        ON DELETE RESTRICT
+        ON DELETE CASCADE
 );
 
 -- =====================================================

@@ -1,5 +1,6 @@
 import db from "../config/db.js";
 import crypto from "crypto";
+import textFormatter from "../utils/text.formatter.js";
 
 export const imp = {
   async create(user, { message, interactionId }) {
@@ -16,7 +17,7 @@ export const imp = {
 
     const result = await db.query(sql, [
       id,
-      message,
+      textFormatter.normalize(message, false),
       user.type,
       interactionId,
       user.sub

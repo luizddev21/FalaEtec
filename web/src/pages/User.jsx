@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import { textFormatter } from "../js/utils/text.formatter.js";
+
 export default function Home() {
   const [userData, setUserData] = useState({});
 
@@ -58,7 +60,7 @@ export default function Home() {
         <div className="camp">
           <div className="output">
             <p className="label">Nome</p>
-            <p className="value">{userData.name}</p>
+            <p className="value">{textFormatter.capitalize(userData.name)}</p>
           </div>
         </div>
 
@@ -66,7 +68,7 @@ export default function Home() {
           {userData.type === "aluno" && (
             <div className="output">
               <p className="label">Sala</p>
-              <p className="value">{userData.classroom}</p>
+              <p className="value">{textFormatter.capitalize(userData.name)}</p>
             </div>
           )}
 

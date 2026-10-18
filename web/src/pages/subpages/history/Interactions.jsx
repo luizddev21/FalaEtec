@@ -4,6 +4,8 @@ import api from "../../../js/api.js";
 import { useNavigate, useLocation } from "react-router-dom";
 import HistoryCard from "../../../components/HistoryCard.jsx";
 
+import { textFormatter } from "../../../js/utils/text.formatter.js";
+
 export default function Interacions() {
     const [interactionData, setInteractionData] = useState([]);
 
@@ -61,15 +63,19 @@ export default function Interacions() {
                                     interacao?.anonimo === 1 ? "Sim" : "Não",
                                 "Precisa de acompanhamento":
                                     interacao?.acompanhamento === 1 ? "Sim" : "Não",
-                                Local: interacao?.local !== null ? `${interacao?.local} - ${interacao?.sub_local}` : null,
-                                Resposta: interacao.resposta
+                                Local: interacao?.local !== null 
+                                    ? `${interacao?.local} - ${interacao?.sub_local}` 
+                                    : null,
+                                Resposta: interacao?.resposta
                             };
                         } else {
                             interacaoObj = {
                                 Sobre: interacao?.titulo,
                                 Descrição: interacao?.descricao,
-                                Local: interacao?.local !== null ? `${interacao?.local} - ${interacao?.sub_local}` : null,
-                                Resposta: interacao.resposta
+                                Local: interacao?.local !== null 
+                                    ? `${interacao?.local} - ${interacao?.sub_local}` 
+                                    : null,
+                                Resposta: interacao?.resposta
                             };
                         }
 
@@ -89,7 +95,7 @@ export default function Interacions() {
                                 key={interacao.interacao_id}
                             >
                                 <div className="info">
-                                    <h3>{interacao?.titulo}</h3>
+                                    <h3>{textFormatter.capitalize(interacao?.titulo)}</h3>
                                     <span>Data de envio: {formattedDate}</span>
                                 </div>
                                 <div className="instruction">
