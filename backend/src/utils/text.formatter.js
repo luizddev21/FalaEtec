@@ -1,10 +1,8 @@
 export const textFormatter = {
   normalize(text, lowercase) {
-    // Apaga os espaços em branco
-    text.trim();
+    if (lowercase) return text.trim().toLowerCase();
 
-    // Deixa tudo em minusculo
-    if (lowercase) text.toLowerCase();
+    return text.trim();
   },
 };
 

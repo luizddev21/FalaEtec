@@ -34,7 +34,10 @@ export default function Home() {
 
         const data = await response.json();
 
+        console.log("data: ", data);
+
         setUserData(data.user);
+        console.log(userData);
       } catch (error) {
         console.error("Erro ao carregar informações do usuário", error);
         setError("Erro ao carregar informações do usuário.");
@@ -68,7 +71,7 @@ export default function Home() {
           {userData.type === "aluno" && (
             <div className="output">
               <p className="label">Sala</p>
-              <p className="value">{textFormatter.capitalize(userData.name)}</p>
+              <p className="value">{userData.classroom.toUpperCase()}</p>
             </div>
           )}
 

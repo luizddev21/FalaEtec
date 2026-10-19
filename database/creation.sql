@@ -16,7 +16,7 @@ CREATE TABLE curso (
 
 CREATE TABLE turma (
     turma_id VARCHAR(255) PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL
+    classe VARCHAR(50) NOT NULL
 );
 
 -- =====================================================

@@ -100,7 +100,7 @@ export const imp = {
             professorId !== undefined ? professorId : null,
             formData.type,
             textFormatter.normalize(formData.title, true),
-            normalize(formData.desc, false),
+            textFormatter.normalize(formData.desc, false),
             formData.level,
           ])
         : formData.type === "solicitacao"
@@ -192,7 +192,6 @@ export const imp = {
       i.anonimo,
       IF(i.anonimo = 1, "Anônimo", a.nome) AS aluno_nome,
       t.classe,
-      t.curso,
       r.mensagem AS resposta
       FROM interacao i
       LEFT JOIN aluno a
