@@ -64,7 +64,19 @@ export const controller = {
         try {
             const data = await imp.changePassword(req.body);
 
-            return res.status(200).json(data)
+            return res.status(200).json(data);
+        } catch (error) {
+            return res.status(500).json({
+                error: error.message
+            })
+        }
+    },
+
+    async update(req, res) {
+        try {
+            const data = await imp.update(req.body);
+
+            return res.status(200).json(data);
         } catch (error) {
             return res.status(500).json({
                 error: error.message

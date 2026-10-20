@@ -7,11 +7,11 @@ import Navbar from "../../components/Navbar.jsx";
 import api from "../../js/api.js";
 import { textFormatter } from "../../js/utils/text.formatter.js";
 
-import AdminFeedbacks from "./tabs/AdminAvaliacoes.jsx";
-import AdminSuggestions from "./tabs/AdminSugestoes.jsx";
-import AdminRequests from "./tabs/AdminSolicitacoes.jsx";
-import AdminReports from "./tabs/AdminRelatos.jsx";
-import AdminUsers from "./tabs/AdminUsuarios.jsx";
+import AdminAvaliacoes from "./tabs/AdminAvaliacoes.jsx";
+import AdminSugestoes from "./tabs/AdminSugestoes.jsx";
+import AdminSolicitacoes from "./tabs/AdminSolicitacoes.jsx";
+import AdminRelatos from "./tabs/AdminRelatos.jsx";
+import AdminGerenciamento from "./tabs/AdminGerenciamento.jsx";
 
 export default function AdminPanel() {
   const [userData, setUserData] = useState({});
@@ -90,9 +90,9 @@ export default function AdminPanel() {
               icon: "heart",
             },
             {
-              name: "Usuários",
-              path: "usuarios",
-              icon: "people",
+              name: "Gerenciamento",
+              path: "gerenciamento",
+              icon: "settings",
             },
           ]}
         />
@@ -110,11 +110,11 @@ export default function AdminPanel() {
           />
         </div>
 
-        {activeIndex === "avaliacoes" && <AdminFeedbacks />}
-        {activeIndex === "sugestoes" && <AdminSuggestions />}
-        {activeIndex === "solicitacoes" && <AdminRequests />}
-        {activeIndex === "relatos" && <AdminReports />}
-        {activeIndex === "usuarios" && <AdminUsers />}
+        {activeIndex === "avaliacoes" && <AdminAvaliacoes />}
+        {activeIndex === "sugestoes" && <AdminSugestoes />}
+        {activeIndex === "solicitacoes" && <AdminSolicitacoes />}
+        {activeIndex === "relatos" && <AdminRelatos />}
+        {activeIndex === "gerenciamento" && <AdminGerenciamento />}
       </section>
     </AdminScreen>
   );

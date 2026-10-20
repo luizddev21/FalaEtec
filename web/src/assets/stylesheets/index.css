@@ -28,6 +28,123 @@
   --font-xl: clamp(2.2rem, 4vw, 4rem);
 }
 
+html.normal {
+  --feDarkBlue: #072257;
+  --feBlue: #0f3e9a;
+  --feMediumBlue: #3562b9;
+  --feLightBlue: #abc7ff;
+
+  --feDarkGreen: #245e13;
+  --feGreen: #4a9932;
+  --feLightGreen: #4ec527;
+
+  --feDarkYellow: #fdba00;
+  --feYellow: #ffd549;
+  --feLightYellow: #fff564;
+
+  --feDarkRed: #a50031;
+  --feRed: #d31e54;
+  --feLightRed: #eb2f67;
+}
+
+html.protanopia,
+html.deuteranopia {
+  --feDarkBlue: #004b87;
+  --feBlue: #006fd6;
+  --feMediumBlue: #63a9ff;
+  --feLightBlue: #d6ecff;
+
+  --feDarkGreen: #5b5f00;
+  --feGreen: #8d9200;
+  --feLightGreen: #c6cb58;
+
+  --feDarkYellow: #996800;
+  --feYellow: #c88f00;
+  --feLightYellow: #f3cb61;
+
+  /* vermelho vira marrom/laranja */
+  --feDarkRed: #6d4200;
+  --feRed: #a76400;
+  --feLightRed: #d89d4d;
+}
+
+html.protanomalia,
+html.deuteranomalia {
+  --feDarkBlue: #0b3678;
+  --feBlue: #2d67c7;
+  --feMediumBlue: #79aaff;
+  --feLightBlue: #d8e9ff;
+
+  --feDarkGreen: #4b6d2a;
+  --feGreen: #7ea343;
+  --feLightGreen: #b0d175;
+
+  --feDarkYellow: #c89000;
+  --feYellow: #e5b739;
+  --feLightYellow: #ffe983;
+
+  --feDarkRed: #94422b;
+  --feRed: #c86446;
+  --feLightRed: #e89473;
+}
+
+html.tritanopia {
+  --feDarkBlue: #32496d;
+  --feBlue: #5574a4;
+  --feMediumBlue: #89abd4;
+  --feLightBlue: #d8e6f5;
+
+  --feDarkGreen: #18705b;
+  --feGreen: #2fa38a;
+  --feLightGreen: #72d4bc;
+
+  --feDarkYellow: #b65d00;
+  --feYellow: #df8c18;
+  --feLightYellow: #ffc968;
+
+  --feDarkRed: #97284c;
+  --feRed: #c55379;
+  --feLightRed: #e38ea8;
+}
+
+html.tritanomalia {
+  --feDarkBlue: #35537c;
+  --feBlue: #6284bc;
+  --feMediumBlue: #95b8e8;
+  --feLightBlue: #dfeaf8;
+
+  --feDarkGreen: #2a7567;
+  --feGreen: #4ba89a;
+  --feLightGreen: #84d6c8;
+
+  --feDarkYellow: #c77700;
+  --feYellow: #e9a52b;
+  --feLightYellow: #ffd985;
+
+  --feDarkRed: #a43758;
+  --feRed: #cf6587;
+  --feLightRed: #eba3bb;
+}
+
+html.acromatopsia {
+  --feDarkBlue: #1f1f1f;
+  --feBlue: #555;
+  --feMediumBlue: #999;
+  --feLightBlue: #efefef;
+
+  --feDarkGreen: #1f1f1f;
+  --feGreen: #555;
+  --feLightGreen: #999;
+
+  --feDarkYellow: #2f2f2f;
+  --feYellow: #777;
+  --feLightYellow: #efefef;
+
+  --feDarkRed: #1f1f1f;
+  --feRed: #555;
+  --feLightRed: #999;
+}
+
 *,
 *::before,
 *::after {
@@ -578,7 +695,7 @@ button.default {
 
 button.danger {
   color: var(--colorBg);
-  background: rgb(255, 78, 78);
+  background: var(--feLightRed);
   font-weight: 500;
   border-radius: 2rem;
   padding: 2rem 3rem;

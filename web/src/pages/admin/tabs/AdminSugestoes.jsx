@@ -1,7 +1,8 @@
-import AdminScreen from "../../../components/AdminScreen.jsx";
 import api from "../../../js/api.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { textFormatter } from "../../../js/utils/text.formatter.js";
 
 export default function AdminFeedbacks() {
   // TODO: Pegar todos os feedbacks dos usuários
@@ -137,7 +138,7 @@ export default function AdminFeedbacks() {
             name="classe"
             id="clasee"
           >
-            <option value="" disabled>
+            <option value="">
               Classe
             </option>
 
@@ -177,9 +178,9 @@ export default function AdminFeedbacks() {
             >
               <button>
                 <div className="info">
-                  <h3>Sobre: {interaction.titulo}</h3>
+                  <h3>Sobre: {textFormatter.capitalize(interaction.titulo)}</h3>
                   <span>Data de envio: {formattedDate}</span>
-                  <span>Classe: {interaction.classe}</span>
+                  <span>Classe: {interaction.classe.toUpperCase()}</span>
                 </div>
                 <div className="instruction">
                   <span>Abrir</span>

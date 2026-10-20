@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 import { textFormatter } from "../js/utils/text.formatter.js";
 
+import ColorBlindnessSelector from "../components/ColorBlindnessSelector.jsx";
+
 export default function Home() {
   const [userData, setUserData] = useState({});
 
@@ -95,6 +97,10 @@ export default function Home() {
             </button>
           </div>
         </div>
+      </section>
+
+      <section>
+        <ColorBlindnessSelector />
       </section>
 
       {userData.type === "aluno" && (

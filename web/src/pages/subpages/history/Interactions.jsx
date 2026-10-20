@@ -52,6 +52,8 @@ export default function Interacions() {
                 <ul className="history-list">
                     {interactionData.map((interacao) => {
 
+                        console.log(interacao.status)
+
                         let interacaoObj
 
                         if (type === "relato") {
@@ -66,9 +68,9 @@ export default function Interacions() {
                                 Local: interacao?.local !== null 
                                     ? `${interacao?.local} - ${interacao?.sub_local}` 
                                     : null,
-                                Resposta: interacao?.resposta
+                                Resposta: interacao?.resposta,
                             };
-                        } else {
+                        }  else {
                             interacaoObj = {
                                 Sobre: interacao?.titulo,
                                 Descrição: interacao?.descricao,

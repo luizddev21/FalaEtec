@@ -10,6 +10,7 @@ import userRoute from './routes/user.route.js';
 import interactionRoute from './routes/interaction.route.js';
 import turmaRoute from './routes/turma.route.js';
 import answerRoute from './routes/answer.route.js';
+import cursoRoute from './routes/curso.route.js';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/auth', authRoute);
 app.use('/user', userRoute);
 app.use('/interaction', interactionRoute);
 app.use('/turma', turmaRoute);
+app.use('/curso', cursoRoute);
 app.use('/answer', answerRoute);
 
 const PORT = process.env.PORT

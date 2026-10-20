@@ -1,0 +1,7 @@
+.colorBlindnessFilterSelector {
+  width: 100%;
+  padding: 2rem 1rem;
+  font-size: var(--font-md);
+  border: none;
+  outline: none;
+}

@@ -24,6 +24,15 @@ import Confirm from "./pages/Confirm";
 
 import AdminPanel from "./pages/admin/AdminPanel";
 
+import ManageUser from "./pages/admin/tabs/sub/ManageUser";
+import AddUser from "./pages/admin/tabs/sub/AddUser";
+
+import ManageTurma from "./pages/admin/tabs/sub/ManageTurma";
+import AddTurma from "./pages/admin/tabs/sub/AddTurma";
+
+import ManageCurso from "./pages/admin/tabs/sub/ManageCurso";
+import AddCurso from "./pages/admin/tabs/sub/AddCurso";
+
 function App() {
   return (
     <BrowserRouter>
@@ -88,6 +97,36 @@ function App() {
         <Route path="/admin" element={
           <AdminRoute>
             <AdminPanel />
+          </AdminRoute>
+        } />
+        <Route path="/admin/manage-user" element={
+          <AdminRoute>
+            <ManageUser />
+          </AdminRoute>
+        } />
+        <Route path="/admin/add-user" element={
+          <AdminRoute>
+            <AddUser />
+          </AdminRoute>
+        } />
+        <Route path="/admin/manage-turma" element={
+          <AdminRoute>
+            <ManageTurma />
+          </AdminRoute>
+        } />
+        <Route path="/admin/add-turma" element={
+          <AdminRoute>
+            <AddTurma />
+          </AdminRoute>
+        } />
+        <Route path="/admin/manage-curso" element={
+          <AdminRoute>
+            <ManageCurso />
+          </AdminRoute>
+        } />
+        <Route path="/admin/add-curso" element={
+          <AdminRoute>
+            <AddCurso />
           </AdminRoute>
         } />
         <Route path="/sub/login" element={ <Login /> } />

@@ -19,7 +19,13 @@ export default function Header() {
     { name: "Sugestões", path: "/sub/history/sugestoes" },
     { name: "Solicitações", path: "/sub/history/solicitacoes" },
     { name: "Avaliações", path: "/sub/history/avaliacoes" },
-    { name: "Informações", path: "/interaction/:id" }
+    { name: "Informações", path: "/interaction/:id" },
+    { name: "Gerenciar Usuário", path: "/admin/manage-user"},
+    { name: "Adicionar Usuário", path: "/admin/add-user"},
+    { name: "Gerenciar Turma", path: "/admin/manage-turma"},
+    { name: "Adicionar Turma", path: "/admin/add-turma"},
+    { name: "Gerenciar Curso", path: "/admin/manage-curso"},
+    { name: "Adicionar Curso", path: "/admin/add-curso"}
   ];
 
   const currentLink = links.find((link) =>

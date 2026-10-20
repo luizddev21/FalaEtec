@@ -1,7 +1,8 @@
-import AdminScreen from "../../../components/AdminScreen.jsx";
 import api from "../../../js/api.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { textFormatter } from "../../../js/utils/text.formatter.js";
 
 export default function AdminAvaliacoes() {
   // TODO: Pegar todos os feedbacks dos usuários
@@ -135,9 +136,9 @@ export default function AdminAvaliacoes() {
             onChange={handleChange}
             value={filters.classe}
             name="classe"
-            id="clasee"
+            id="classe"
           >
-            <option value="" disabled>
+            <option value="">
               Classe
             </option>
 
@@ -177,9 +178,9 @@ export default function AdminAvaliacoes() {
             >
               <button>
                 <div className="info">
-                  <h3>{`${interaction.aluno_nome} - ${interaction.classe}`}</h3>
+                  <h3>{`${textFormatter.capitalize(interaction.aluno_nome)} - ${interaction.classe.toUpperCase()}`}</h3>
                   <span>Data de envio: {formattedDate}</span>
-                  <span>Sobre: {interaction.titulo}</span>
+                  <span>Sobre: {textFormatter.capitalize(interaction.titulo)}</span>
                 </div>
                 <div className="instruction">
                   <span>Abrir</span>

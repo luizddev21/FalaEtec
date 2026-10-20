@@ -191,7 +191,7 @@ export const imp = {
       i.acompanhamento,
       i.anonimo,
       IF(i.anonimo = 1, "Anônimo", a.nome) AS aluno_nome,
-      t.classe,
+      CONCAT(t.classe, ' - ', c.nome) AS classe,
       r.mensagem AS resposta
       FROM interacao i
       LEFT JOIN aluno a
@@ -200,6 +200,10 @@ export const imp = {
       ON a.turma_id = t.turma_id
       LEFT JOIN resposta r
       ON i.interacao_id = r.interacao_id
+      LEFT JOIN curso_turma ct
+      ON t.turma_id = ct.turma_id
+      LEFT JOIN curso c
+      ON ct.curso_id = c.curso_id
       WHERE ${where.join(" AND ")}
       ORDER BY i.data DESC
     `;

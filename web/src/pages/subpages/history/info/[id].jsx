@@ -88,15 +88,18 @@ export default function Info() {
         <section>
           {Object.entries(interacao).map(([key, data]) => {
             return (
-              data !== null && (
+              data !== null &&
                 <div key={key} className="camp">
                   <div className="output">
                     <p className="label">{key}</p>
-                    <p className="value">{!["Classe", "Resposta", "Descrição"].includes(key) ? textFormatter.capitalize(data) : data}</p>
+                    <p className="value">
+                      {!["Classe", "Resposta", "Descrição"].includes(key)
+                        ? textFormatter.capitalize(data)
+                        : data}
+                    </p>
                   </div>
                 </div>
               )
-            );
           })}
           {props?.urlImg && (
             <div className="camp">

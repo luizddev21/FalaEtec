@@ -1,3 +1,10 @@
+.admin-tab .toolbar {
+    width: 100%;
+}
+
+.admin-tab .toolbar button {
+    width: 100%;
+}
 
 .user {
     display: flex; 

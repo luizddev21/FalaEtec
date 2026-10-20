@@ -3,6 +3,8 @@ import api from "../../../js/api.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { textFormatter } from "../../../js/utils/text.formatter.js";
+
 export default function AdminSolicitacoes() {
   // TODO: Pegar todos os feedbacks dos usuários
 
@@ -138,7 +140,7 @@ export default function AdminSolicitacoes() {
             name="classe"
             id="clasee"
           >
-            <option value="" disabled>
+            <option value="">
               Classe
             </option>
 
@@ -150,11 +152,11 @@ export default function AdminSolicitacoes() {
           </select>
           <select
             onChange={handleChange}
-            value={filters.classe}
+            value={filters.status}
             name="status"
             id="status"
           >
-            <option value="" disabled>
+            <option value="">
               Status
             </option>
 
@@ -198,12 +200,11 @@ export default function AdminSolicitacoes() {
               >
                 <button>
                   <div className="info">
-                    <h3>{`${interaction.aluno_nome} - ${interaction.classe}`}</h3>
+                    <h3>{`${textFormatter.capitalize(interaction.aluno_nome)} - ${interaction.classe.toUpperCase()}`}</h3>
                     <span>Data de envio: {formattedDate}</span>
-                    <span>Sobre: {interaction.titulo}</span>
+                    <span>Sobre: {textFormatter.capitalize(interaction.titulo)}</span>
                   </div>
                   <div className="instruction column">
-                    <span className={interaction.status}>{interaction.status}</span>
                     <span>Abrir</span>
                   </div>
                 </button>
@@ -224,7 +225,7 @@ export default function AdminSolicitacoes() {
                   <span>Sobre: {interaction.titulo}</span>
                 </div>
                 <div className="instruction column">
-                  <span className={interaction.status}>{interaction.status}</span>
+                  <span className={interaction.status}>{textFormatter.capitalize(interaction.status)}</span>
                   <span>Abrir</span>
                 </div>
               </button>

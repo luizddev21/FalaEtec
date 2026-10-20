@@ -1,6 +1,8 @@
 import db from "../config/db.js";
 import bcrypt from "bcrypt";
 import textFormatter from "../utils/text.formatter.js";
+import { hash } from "crypto";
+import { stat } from "fs";
 
 export const imp = {
   async get({ sub: rm, type }) {
@@ -9,11 +11,15 @@ export const imp = {
     const sql =
       type === "aluno"
         ? `
-                SELECT aluno.nome, turma.classe
-                FROM aluno
-                JOIN turma
-                    ON aluno.turma_id = turma.turma_id
-                WHERE aluno.aluno_id = ?;
+                SELECT a.nome, t.classe, c.nome AS curso
+                FROM aluno a
+                JOIN turma t
+                    ON a.turma_id = t.turma_id
+                JOIN curso_turma ct
+                    ON t.turma_id = ct.turma_id
+                JOIN curso c
+                    ON ct.curso_id = c.curso_id
+                WHERE a.aluno_id = ?;
             `
         : `
                 SELECT nome
@@ -31,7 +37,7 @@ export const imp = {
     }
 
     if (user.classe !== undefined) {
-      classroom = user.classe;
+      classroom = `${user.classe} - ${user.curso}`;
     }
 
     const name = user.nome;
@@ -105,7 +111,7 @@ export const imp = {
 
   // Função responsável pelo cadastro de novos usuários no sistema.
   // Recebe os dados do usuário enviados pela camada de controle.
-  async create({ rm, password, name, turma_id, type }) {
+  async create({ rm, name, classroom, type, password }) {
     // Verifica se o tipo de usuário informado é válido.
     // O sistema permite o cadastro de alunos, professores e gestores.
     if (!["aluno", "professor", "gestor"].includes(type)) {
@@ -154,7 +160,7 @@ export const imp = {
     // Para alunos, também é informado o identificador da turma.
     const params =
       type === "aluno"
-        ? [rm, hashedPassword, textFormatter.normalize(name, true), turma_id]
+        ? [rm, hashedPassword, textFormatter.normalize(name, true), classroom]
         : [rm, hashedPassword, textFormatter.normalize(name, true)];
 
     // Executa a instrução de inserção e cadastra o novo usuário
@@ -208,6 +214,55 @@ export const imp = {
     }
 
     throw new Error("Não foi possível alterar a senha do usuário");
+  },
+
+  async update({ oldRm, rm, name, classroom, type, newPassword }) {
+    if (!["aluno", "professor", "gestor"].includes(type)) {
+      throw new Error("Tipo de usuário inválido");
+    }
+
+    const hashedNewPassword =
+      newPassword !== "" ? await bcrypt.hash(newPassword, 12) : undefined;
+
+    const sql =
+      hashedNewPassword === undefined
+        ? `
+          UPDATE ${type}
+          SET ${type}_id = ?, nome = ?, turma_id = ?
+          WHERE ${type}_id = ?
+        `
+        : `
+          UPDATE ${type}
+          SET ${type}_id = ?, nome = ?, turma_id = ?, senha = ?
+          WHERE ${type}_id = ?
+        `;
+
+    const result =
+      hashedNewPassword === undefined
+        ? await db.query(sql, [
+          rm,
+          name,
+          classroom,
+          oldRm,
+        ])
+        : await db.query(sql, [
+          rm,
+          name,
+          classroom,
+          hashedNewPassword,
+          oldRm,
+        ]);
+
+    if (result.affectedRows > 0) {
+      return {
+        status: "success",
+        msg: "Usuário atualizado!",
+      };
+    }
+
+    console.log(result);
+
+    throw new Error("Não foi possível atualizar o usuário");
   },
 
   async delete({ rm, type }) {

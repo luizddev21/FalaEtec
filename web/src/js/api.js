@@ -200,27 +200,6 @@ async function getAllInteraction(type, limit = 0, params) {
 }
 
 // =========================
-// Turma
-// =========================
-
-async function getAllTurma() {
-  const response = await apiFetch(`/turma/get-all`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "GET",
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(response.error || "Erro ao tentar pegar turmas");
-  }
-
-  return data;
-}
-
-// =========================
 // ANSWER
 // =========================
 
@@ -253,9 +232,9 @@ async function deleteAnswer(id) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      answerId: id
+      answerId: id,
     }),
-    credentials: "include"
+    credentials: "include",
   });
 
   const data = await response.json();
@@ -272,10 +251,11 @@ async function deleteAnswer(id) {
 // =========================
 
 async function deleteUser(rm, type) {
+  const proceed = confirm(
+    "Deseja apagar este usuário? Todas as suas informações serão perdidas.",
+  );
 
-  const proceed = confirm("Deseja apagar este usuário? Todas as suas informações serão perdidas.");
-
-  if (!proceed) return
+  if (!proceed) return;
 
   const response = await fetch("http://localhost:3000/user/delete", {
     method: "POST",
@@ -284,12 +264,12 @@ async function deleteUser(rm, type) {
     },
     body: JSON.stringify({
       rm: rm,
-      type: type
+      type: type,
     }),
-    credentials: "include"
+    credentials: "include",
   });
 
-  const data = await response.json()
+  const data = await response.json();
 
   if (!response.ok) {
     throw new Error(data.error || "Erro ao tentar apagar.");
@@ -297,6 +277,224 @@ async function deleteUser(rm, type) {
 
   return data;
 }
+
+async function updateUser(user) {
+  const response = await fetch("http://localhost:3000/user/update", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+    credentials: "include",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.error || "Erro ao tentar alterar informações do usuário.",
+    );
+  }
+
+  return data;
+}
+
+async function createUser(user) {
+  const response = await fetch("http://localhost:3000/user/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+    credentials: "include",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Erro ao tentar criar o usuário.");
+  }
+
+  return data;
+}
+
+// =========================
+// Class
+// =========================
+
+async function deleteTurma(turma_id) {
+  const proceed = confirm(
+    "Deseja apagar esta turma? Todas as suas informações serão perdidas, incluindo os usuários ligados à ela.",
+  );
+
+  if (!proceed) return;
+
+  const response = await fetch("http://localhost:3000/turma/delete", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      turma_id: turma_id,
+    }),
+    credentials: "include",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Erro ao tentar apagar.");
+  }
+
+  return data;
+}
+
+async function getAllTurma() {
+  const response = await apiFetch(`/turma/get-all`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "GET",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(response.error || "Erro ao tentar pegar turmas");
+  }
+
+  return data;
+}
+
+async function createTurma(turma) {
+  const response = await fetch("http://localhost:3000/turma/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(turma),
+    credentials: "include",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Erro ao tentar criar a turma.");
+  }
+
+  return data;
+}
+
+async function updateTurma(turma) {
+  const response = await fetch("http://localhost:3000/turma/update", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(turma),
+    credentials: "include",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.error || "Erro ao tentar alterar informações da turma.",
+    );
+  }
+
+  return data;
+}
+
+// =========================
+// Course
+// =========================
+
+async function deleteCurso(curso_id) {
+  const proceed = confirm(
+    "Deseja apagar esta turma? Ele ficará permanentemente desabilitado! (As turmas ligadas à ele não são apagadas).",
+  );
+
+  if (!proceed) return;
+
+  const response = await fetch("http://localhost:3000/curso/delete", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      curso_id: curso_id,
+    }),
+    credentials: "include",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Erro ao tentar apagar.");
+  }
+
+  return data;
+}
+
+async function getAllCurso() {
+  const response = await apiFetch(`/curso/get-all`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "GET",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(response.error || "Erro ao tentar pegar cursos");
+  }
+
+  return data;
+}
+
+async function createCurso(curso) {
+  const response = await fetch("http://localhost:3000/curso/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(curso),
+    credentials: "include",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Erro ao tentar criar o curso.");
+  }
+
+  return data;
+}
+
+async function updateCurso(curso) {
+  const response = await fetch("http://localhost:3000/curso/update", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(curso),
+    credentials: "include",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.error || "Erro ao tentar alterar informações do curso.",
+    );
+  }
+
+  return data;
+}
+
+
 
 export default {
   login,
@@ -312,5 +510,14 @@ export default {
   deleteAnswer,
   getAllUsers,
   deleteUser,
+  updateUser,
+  createUser,
+  deleteTurma,
+  getAllCurso,
+  createTurma,
+  updateTurma,
+  createCurso,
+  updateCurso,
+  deleteCurso,
   API_URL,
 };
