@@ -1,3 +1,5 @@
+// Lista avaliações enviadas à escola ou a docentes. Busca e turma filtram a
+// consulta; cada cartão abre detalhes e a nota associada.
 import api from "../../../js/api.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +26,7 @@ export default function AdminAvaliacoes() {
 
   const [limit, setLimit] = useState(4);
 
+  // Reconsulta as avaliações ao mudar busca, turma ou limite exibido.
   useEffect(() => {
     async function loadInteractionData() {
       try {
@@ -55,6 +58,7 @@ export default function AdminAvaliacoes() {
     loadInteractionData();
   }, [limit, filters]);
 
+  // Alterna entre quatro resultados e o conjunto completo.
   function handleSeeAll() {
     if (limit > 0) {
       setLimit(0);
@@ -67,6 +71,7 @@ export default function AdminAvaliacoes() {
   //    SISTEMA DE FILTRAGEM
   //
 
+  // Atualiza os filtros de pesquisa; a dependência do efeito recarrega a lista.
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -82,6 +87,7 @@ export default function AdminAvaliacoes() {
 
   const [turmaData, setTurmaData] = useState([]);
 
+  // Carrega as classes disponíveis para o filtro.
   useEffect(() => {
     async function loadTurmaData() {
       try {
@@ -118,7 +124,7 @@ export default function AdminAvaliacoes() {
         {limit > 0 ? "Últimas avaliações" : "Todas as avaliações"}
       </h2>
 
-      <nav>
+      <nav aria-label="Pesquisar e filtrar avaliações">
         <div className="search-input">
           <ion-icon name="search"></ion-icon>
           <input
@@ -128,11 +134,13 @@ export default function AdminAvaliacoes() {
             type="search"
             className="search"
             placeholder="Pesquisar..."
+            aria-label="Pesquisar avaliações"
           />
         </div>
 
         <div className="filters">
           <select
+            aria-label="Filtrar avaliações por turma"
             onChange={handleChange}
             value={filters.classe}
             name="classe"
@@ -152,6 +160,7 @@ export default function AdminAvaliacoes() {
       </nav>
 
       <ul>
+        {/* Os dados auxiliares da nota acompanham o resumo até a tela de detalhe. */}
         {interactionData.map((interaction) => {
           let interactionObj = {
             Aluno: interaction?.aluno_nome,

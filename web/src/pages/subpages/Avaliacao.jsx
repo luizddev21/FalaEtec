@@ -1,3 +1,5 @@
+// Formulário de avaliação: carrega docentes para seleção opcional, coleta nota
+// e comentário e envia os campos como FormData à API.
 import Screen from "../../components/Screen";
 import Rating from "@mui/material/Rating";
 import { useEffect, useState } from "react";
@@ -24,6 +26,7 @@ export default function Avaliacao() {
 
   // Teacher DATA GET
   useEffect(() => {
+    // Carrega nomes que alimentam a lista quando o alvo da avaliação é professor.
     async function loadTeacherData() {
       const response = await api.apiFetch("/user/teacher-all-names");
       if (!response.ok) throw new Error(response.error);
@@ -60,6 +63,7 @@ export default function Avaliacao() {
   };
 
   const handleSubmit = async (e) => {
+    // Consolida o alvo escolhido, nota e descrição no formato esperado pelo serviço.
     e.preventDefault();
 
     const formData = new FormData();
@@ -100,6 +104,7 @@ export default function Avaliacao() {
           <div className="camp">
             <div className="input">
               <select
+                aria-label="Sobre quem é a avaliação?"
                 name="title"
                 id="title"
                 value={form.title}
@@ -120,6 +125,7 @@ export default function Avaliacao() {
             <div className="camp">
               <div className="input">
                 <select
+                  aria-label="Professor avaliado"
                   onChange={handleChange}
                   value={form.professor}
                   name="professor"
@@ -160,6 +166,7 @@ export default function Avaliacao() {
 
           <div className="camp">
             <Rating
+              getLabelText={(rating) => `${rating} de 5 estrelas`}
               sx={{ fontSize: "3rem" }}
               value={value}
               onChange={(event, newValue) => setValue(newValue)}

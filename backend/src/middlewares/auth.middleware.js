@@ -1,7 +1,10 @@
+// Portas de entrada das rotas protegidas: valida o cookie de acesso e anexa
+// as informações do token em req.user para controladores e serviços usarem.
 import tokenUtil from "../utils/token.util.js";
 
 export const middleware = {
   auth(req, res, next) {
+    // Exige sessão válida para qualquer usuário autenticado.
     const token = req.cookies.accessToken;
 
     if (!token) {
@@ -21,6 +24,7 @@ export const middleware = {
   },
 
   admin(req, res, next) {
+    // Restringe recursos administrativos a professores e gestores.
     const token = req.cookies.accessToken;
 
     if (!token) {
@@ -47,6 +51,7 @@ export const middleware = {
   },
 
   super(req, res, next) {
+    // Reservado ao gestor: usado nas operações de gerenciamento de cadastros.
     const token = req.cookies.accessToken;
 
     if (!token) {

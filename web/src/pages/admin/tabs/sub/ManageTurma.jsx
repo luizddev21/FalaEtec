@@ -1,3 +1,5 @@
+// Edição de turma recebida por location.state. Recupera cursos para permitir
+// alterar o vínculo e envia nome/chaves ao endpoint /turma/update.
 import Screen from "../../../../components/Screen";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -13,6 +15,7 @@ export default function ManageTurma() {
 
   const navigate = useNavigate();
 
+  // Prepara opções de curso para a relação curso_turma.
   useEffect(() => {
     async function loadCursoData() {
       try {
@@ -53,6 +56,7 @@ export default function ManageTurma() {
   };
 
   const handleSubmit = async (e) => {
+    // Persiste alterações e volta ao painel administrativo.
     e.preventDefault();
 
     console.log(form)
@@ -93,6 +97,7 @@ export default function ManageTurma() {
           <div className="camp">
               <div className="input">
                 <select
+                  aria-label="Curso da turma"
                   value={form.course}
                   name="course"
                   id="course"

@@ -1,3 +1,5 @@
+// Perfil do usuário autenticado: busca seus dados, oferece logout e, para
+// alunos, atalhos para consultar os próprios relatos e demais interações.
 import Screen from "../components/Screen";
 import NavBlockButton from "../components/NavBlockButton.jsx";
 
@@ -19,6 +21,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   async function handleLogout() {
+    // Encerra os cookies no backend e substitui a tela atual pelo login.
     try {
       await api.logout();
       navigate("/sub/login", { replace: true });
@@ -28,6 +31,7 @@ export default function Home() {
   }
 
   useEffect(() => {
+    // Consulta o perfil derivado da identidade que veio no token de sessão.
     async function loadUserData() {
       try {
         setLoading(true);
@@ -42,6 +46,7 @@ export default function Home() {
         console.log(userData);
       } catch (error) {
         console.error("Erro ao carregar informações do usuário", error);
+        // O fluxo prevê guardar a falha, mas setError não é declarado neste componente.
         setError("Erro ao carregar informações do usuário.");
       } finally {
         setLoading(false);
@@ -52,6 +57,7 @@ export default function Home() {
   }, []);
 
   function handleNavigate(type) {
+    // Passa a categoria selecionada ao histórico sem duplicar sua página.
     navigate(`/interaction/all`, {
       state: { type },
     });
@@ -59,8 +65,9 @@ export default function Home() {
 
   return (
     <Screen loading={loading}>
+      {/* Dados pessoais e ações comuns a todos os tipos de conta. */}
       <section className="user-info">
-        <h2 className="title">Informações Pessoais</h2>
+        <h1 className="title">Informações Pessoais</h1>
 
         <div className="camp">
           <div className="output">
@@ -103,6 +110,7 @@ export default function Home() {
         <ColorBlindnessSelector />
       </section>
 
+      {/* O histórico de interações é apresentado apenas a contas de aluno. */}
       {userData.type === "aluno" && (
         <section className="history">
           <h2 className="title">Histórico</h2>
@@ -111,6 +119,7 @@ export default function Home() {
             <NavBlockButton
               onClick={() => handleNavigate("solicitacao")}
               image="VSO"
+              label="Ver solicitações"
               mode="static"
               column
               button
@@ -119,6 +128,7 @@ export default function Home() {
             <NavBlockButton
               onClick={() => handleNavigate("relato")}
               image="HRE"
+              label="Ver relatos"
               mode="static"
               column
               button
@@ -127,6 +137,7 @@ export default function Home() {
             <NavBlockButton
               onClick={() => handleNavigate("sugestao")}
               image="VSU"
+              label="Ver sugestões"
               mode="static"
               column
               button
@@ -135,6 +146,7 @@ export default function Home() {
             <NavBlockButton
               onClick={() => handleNavigate("avaliacao")}
               image="VAV"
+              label="Ver avaliações"
               mode="static"
               column
               button

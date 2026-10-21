@@ -1,3 +1,5 @@
+// Ferramenta de depuração para cadastrar contas, consultar usuários e exercitar
+// alteração de senha/exclusão pela API; não é o fluxo normal do painel.
 import { useState, useEffect } from 'react';
 import api from '../../js/api.js'
 
@@ -8,6 +10,7 @@ export default function Register() {
     const [allUserData, setAllUserData] = useState([]);
 
     useEffect(() => {
+        // Carrega os perfis para a lista de teste quando a tela é montada.
         async function loadAllUserData() {
             const response = await api.apiFetch("/user/all-profile");
 
@@ -58,6 +61,8 @@ export default function Register() {
     }
 
     // Envia os dados do formulário para a API.
+    // Os três handlers seguintes chamam diretamente as rotas de usuário e
+    // mostram o JSON devolvido para facilitar inspeção durante o desenvolvimento.
     async function handleSubmitRegisterForm(event) {
         event.preventDefault();
 
@@ -275,6 +280,7 @@ export default function Register() {
 
                                     <input
                                         type="password"
+                                        aria-label={`Nova senha para ${user.nome || rm}`}
                                         id={`new-password-${userKey}`}
                                         name={`new-password-${userKey}`}
                                         className="new-password"

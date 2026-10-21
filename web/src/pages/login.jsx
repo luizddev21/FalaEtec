@@ -1,3 +1,5 @@
+// Tela de entrada: valida a sessão existente, coleta RM/tipo/senha e envia as
+// credenciais à API; sucesso leva ao início e falha aparece junto ao formulário.
 import Screen from "../components/Screen.jsx";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -14,6 +16,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    // Se o token de acesso venceu, tenta renová-lo antes de manter o login aberto.
     async function verifyAuthentication() {
       let isAuthenticated = await api.checkAuth();
 
@@ -36,6 +39,7 @@ export default function Login() {
   }
 
   async function handleSubmit(event) {
+    // Lê os valores pelos nomes dos campos, autentica e atualiza o estado da tela.
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -60,7 +64,7 @@ export default function Login() {
       <Screen center fullscreen loading={loading}>
       <section className="login center">
         <form onSubmit={handleSubmit}>
-          <h2 className="title">Login</h2>
+          <h1 className="title">Login</h1>
 
           <div className="camp">
             <div className="input">
@@ -69,7 +73,7 @@ export default function Login() {
             </div>
 
             <div className="input">
-              <select name="type" id="type">
+              <select name="type" id="type" aria-label="Tipo de usuário">
                 <option value="aluno">Aluno</option>
                 <option value="professor">Professor</option>
                 <option value="gestor">Gestor</option>

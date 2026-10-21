@@ -1,4 +1,7 @@
+// Cliente HTTP central do frontend. Mantém a origem da API, inclui cookies nas
+// chamadas autenticadas e concentra funções usadas pelas telas.
 const API_URL = "http://localhost:3000";
+// Evita que várias requisições simultâneas tentem renovar a mesma sessão ao mesmo tempo.
 let refreshPromise = null;
 
 // =========================
@@ -6,6 +9,7 @@ let refreshPromise = null;
 // =========================
 
 async function login(rm, password, type) {
+  // Envia as credenciais escolhidas na tela de login e propaga erros do servidor.
   const response = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     credentials: "include",
@@ -33,6 +37,7 @@ async function login(rm, password, type) {
 // =========================
 
 async function logout() {
+  // Solicita revogação da sessão; o backend apaga os cookies no navegador.
   const response = await fetch(`${API_URL}/auth/logout`, {
     method: "POST",
     credentials: "include",
@@ -49,6 +54,7 @@ async function logout() {
 // =========================
 
 async function checkAuth() {
+  // Retorna true somente quando o backend aceita o cookie de acesso atual.
   const response = await fetch(`${API_URL}/auth/check-auth`, {
     method: "GET",
     credentials: "include",
@@ -69,6 +75,7 @@ async function checkAuth() {
 // =========================
 
 async function getAllUsers() {
+  // Recupera a lista administrativa usando apiFetch para renovar a sessão se preciso.
   const response = await apiFetch("/user/all-profile");
 
   const data = await response.json();
@@ -85,6 +92,7 @@ async function getAllUsers() {
 // =========================
 
 async function checkAdmin() {
+  // Consulta a permissão específica do painel, distinta da autenticação básica.
   const response = await fetch(`${API_URL}/auth/check-admin`, {
     method: "GET",
     credentials: "include",
@@ -105,6 +113,7 @@ async function checkAdmin() {
 // =========================
 
 async function refresh() {
+  // Renova a sessão uma única vez e compartilha a Promise com chamadas concorrentes.
   if (refreshPromise) {
     return refreshPromise;
   }
@@ -134,6 +143,7 @@ async function refresh() {
 // =========================
 
 async function apiFetch(endpoint, options = {}) {
+  // Camada autenticada comum: tenta a chamada original, renova em 401 e repete.
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     credentials: "include",
@@ -166,6 +176,7 @@ async function apiFetch(endpoint, options = {}) {
 // =========================
 
 async function createInteraction(formData) {
+  // Envia FormData para permitir campos e anexo opcional sem montar JSON manualmente.
   const response = await fetch("http://localhost:3000/interaction/create", {
     method: "POST",
     body: formData,
@@ -182,6 +193,7 @@ async function createInteraction(formData) {
 }
 
 async function getAllInteraction(type, limit = 0, params) {
+  // Consulta interações por categoria, limite e filtros serializados na query string.
   const response = await apiFetch(`/interaction/get-all?${params}`, {
     headers: {
       "Content-Type": "application/json",
@@ -204,6 +216,7 @@ async function getAllInteraction(type, limit = 0, params) {
 // =========================
 
 async function createAnswer(message, interactionId) {
+  // Encaminha texto de resposta e identificador da interação ao backend.
   const response = await fetch("http://localhost:3000/answer/create", {
     method: "POST",
     headers: {
@@ -226,6 +239,7 @@ async function createAnswer(message, interactionId) {
 }
 
 async function deleteAnswer(id) {
+  // Solicita a remoção da resposta associada ao identificador informado.
   const response = await fetch("http://localhost:3000/answer/delete", {
     method: "POST",
     headers: {
@@ -251,6 +265,7 @@ async function deleteAnswer(id) {
 // =========================
 
 async function deleteUser(rm, type) {
+  // Pede confirmação antes de excluir uma conta e então chama a rota administrativa.
   const proceed = confirm(
     "Deseja apagar este usuário? Todas as suas informações serão perdidas.",
   );
@@ -279,6 +294,7 @@ async function deleteUser(rm, type) {
 }
 
 async function updateUser(user) {
+  // Envia os campos editados de uma conta para a rota de atualização.
   const response = await fetch("http://localhost:3000/user/update", {
     method: "POST",
     headers: {
@@ -300,6 +316,7 @@ async function updateUser(user) {
 }
 
 async function createUser(user) {
+  // Envia os dados de uma nova conta para criação pelo painel.
   const response = await fetch("http://localhost:3000/user/create", {
     method: "POST",
     headers: {
@@ -323,6 +340,7 @@ async function createUser(user) {
 // =========================
 
 async function deleteTurma(turma_id) {
+  // Pede confirmação antes da exclusão de uma turma, que pode afetar vínculos.
   const proceed = confirm(
     "Deseja apagar esta turma? Todas as suas informações serão perdidas, incluindo os usuários ligados à ela.",
   );
@@ -350,6 +368,7 @@ async function deleteTurma(turma_id) {
 }
 
 async function getAllTurma() {
+  // Lista turmas disponíveis para filtros e formulários administrativos.
   const response = await apiFetch(`/turma/get-all`, {
     headers: {
       "Content-Type": "application/json",
@@ -367,6 +386,7 @@ async function getAllTurma() {
 }
 
 async function createTurma(turma) {
+  // Envia nome da turma e curso associado para criação.
   const response = await fetch("http://localhost:3000/turma/create", {
     method: "POST",
     headers: {
@@ -386,6 +406,7 @@ async function createTurma(turma) {
 }
 
 async function updateTurma(turma) {
+  // Envia alterações de turma e vínculo de curso.
   const response = await fetch("http://localhost:3000/turma/update", {
     method: "POST",
     headers: {
@@ -411,6 +432,7 @@ async function updateTurma(turma) {
 // =========================
 
 async function deleteCurso(curso_id) {
+  // Confirma e solicita a desativação do curso indicado.
   const proceed = confirm(
     "Deseja apagar esta turma? Ele ficará permanentemente desabilitado! (As turmas ligadas à ele não são apagadas).",
   );
@@ -438,6 +460,7 @@ async function deleteCurso(curso_id) {
 }
 
 async function getAllCurso() {
+  // Busca os cursos ativos para listas e escolhas administrativas.
   const response = await apiFetch(`/curso/get-all`, {
     headers: {
       "Content-Type": "application/json",
@@ -455,6 +478,7 @@ async function getAllCurso() {
 }
 
 async function createCurso(curso) {
+  // Envia o nome de um novo curso à API.
   const response = await fetch("http://localhost:3000/curso/create", {
     method: "POST",
     headers: {
@@ -474,6 +498,7 @@ async function createCurso(curso) {
 }
 
 async function updateCurso(curso) {
+  // Envia o nome atualizado e o identificador do curso.
   const response = await fetch("http://localhost:3000/curso/update", {
     method: "POST",
     headers: {

@@ -1,3 +1,5 @@
+// Painel de equipe escolar. Carrega o perfil para nomear a sessão, permite
+// sair e alterna as listas de interações ou abas de gerenciamento.
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -22,6 +24,7 @@ export default function AdminPanel() {
   const navigate = useNavigate();
 
   async function handleLogout() {
+    // Encerra a sessão no backend e volta ao login.
     try {
       await api.logout();
       navigate("/sub/login", { replace: true });
@@ -31,6 +34,7 @@ export default function AdminPanel() {
   }
 
   useEffect(() => {
+    // Busca os dados do usuário atual para definir o nome e o tipo do painel.
     async function loadUserData() {
       try {
         setLoading(true);
@@ -62,6 +66,7 @@ export default function AdminPanel() {
         </button>
       </header>
 
+      {/* Só o gestor vê a navegação de gerenciamento; professor mantém as listas autorizadas. */}
       {userData.type === "gestor" && (
         <Navbar
           admin
@@ -110,6 +115,7 @@ export default function AdminPanel() {
           />
         </div>
 
+        {/* O valor ativo seleciona um módulo administrativo sem trocar de rota. */}
         {activeIndex === "avaliacoes" && <AdminAvaliacoes />}
         {activeIndex === "sugestoes" && <AdminSugestoes />}
         {activeIndex === "solicitacoes" && <AdminSolicitacoes />}

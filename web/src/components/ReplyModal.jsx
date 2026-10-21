@@ -1,3 +1,5 @@
+// Estrutura do formulário de resposta administrativa. As ações visuais ficam
+// aqui; a tela que usa o componente controla quando a janela é exibida.
 export default function ReplyModal() {
   return (
       <section className="reply-modal">

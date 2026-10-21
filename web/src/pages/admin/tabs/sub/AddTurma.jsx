@@ -1,3 +1,5 @@
+// Formulário para criar uma turma vinculada a um curso existente; a lista de
+// cursos vem da API e os campos são enviados a /turma/create.
 import Screen from "../../../../components/Screen";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -12,6 +14,7 @@ export default function AddTurma() {
 
   const navigate = useNavigate();
 
+  // Carrega as opções de curso usadas no vínculo da nova turma.
   useEffect(() => {
     async function loadCursoData() {
       try {
@@ -53,6 +56,7 @@ export default function AddTurma() {
   };
 
   const handleSubmit = async (e) => {
+    // Envia o nome da turma e o curso selecionado, depois volta ao painel.
     e.preventDefault();
 
     console.log(form);
@@ -89,6 +93,7 @@ export default function AddTurma() {
           <div className="camp">
             <div className="input">
               <select
+                aria-label="Curso da turma"
                 name="course"
                 id="course"
                 onChange={handleChange}

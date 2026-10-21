@@ -1,3 +1,7 @@
+// Cabeçalho que escolhe o título pelo caminho atual. Em telas sem nome mapeado,
+// mantém o logotipo; nas demais oferece retorno à página anterior.
+// Resolve o título do cabeçalho pela URL atual. Rotas sem título mapeado exibem
+// o logotipo; rotas reconhecidas oferecem retorno ao histórico do navegador.
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, matchPath } from "react-router-dom";
 import "../assets/stylesheets/components/header.css"
@@ -8,7 +12,9 @@ export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Mapa local entre caminhos e títulos apresentados nas páginas.
   const links = [
+    // Mapa local entre rotas e os títulos apresentados no cabeçalho.
     { name: "Canal Seguro", path: "/sub/canalseguro" },
     { name: "Feedback Escolar", path: "/sub/feedbackescolar" },
     { name: "Avaliação", path: "/sub/avaliacao" },
@@ -36,6 +42,7 @@ export default function Header() {
   );
 
   useEffect(() => {
+    // Atualiza o estado usado pelo título da página quando a rota muda.
     setPageTitle(currentLink?.name || "");
   }, [currentLink]);
 

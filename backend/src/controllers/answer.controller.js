@@ -1,3 +1,5 @@
+// Camada HTTP fina para criar/apagar respostas; autorização ocorre na rota e
+// as consultas e validações de domínio são executadas por answer.service.js.
 import { imp } from "../services/answer.service.js";
 
 export const controller = {

@@ -1,3 +1,5 @@
+// Formulário administrativo para criar aluno, professor ou gestor. A turma é
+// carregada para a escolha do aluno; os dados seguem para a rota /user/create.
 import Screen from "../../../../components/Screen";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -12,6 +14,7 @@ export default function AddUser() {
 
   const navigate = useNavigate();
 
+  // Busca turmas ao abrir a tela para preencher a associação de novos alunos.
   useEffect(() => {
     async function loadTurmaData() {
       try {
@@ -45,6 +48,7 @@ export default function AddUser() {
   });
 
   const handleChange = (e) => {
+    // Atualiza o campo correspondente sem perder os demais valores digitados.
     const { name, value } = e.target;
 
     setForm({
@@ -54,6 +58,7 @@ export default function AddUser() {
   };
 
   const handleSubmit = async (e) => {
+    // Envia o objeto de cadastro e retorna ao painel quando a API conclui a ação.
     e.preventDefault();
 
     console.log(form);
@@ -103,6 +108,7 @@ export default function AddUser() {
           <div className="camp">
             <div className="input">
               <select
+                aria-label="Tipo de usuário"
                 name="type"
                 id="type"
                 onChange={handleChange}
@@ -116,6 +122,7 @@ export default function AddUser() {
             {form.type === "aluno" && (
               <div className="input">
                 <select
+                  aria-label="Turma do aluno"
                   name="classroom"
                   id="classroom"
                   onChange={handleChange}

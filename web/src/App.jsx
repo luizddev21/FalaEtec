@@ -1,3 +1,5 @@
+// Composição das rotas do navegador. Páginas comuns passam por ProtectedRoute;
+// painel e formulários administrativos passam por AdminRoute.
 import Home from "./pages/Home";
 import User from "./pages/User";
 
@@ -38,7 +40,7 @@ function App() {
     <BrowserRouter>
 
       <Routes>
-
+        {/* Fluxos de aluno autenticado: início, perfil, formulários e histórico. */}
         <Route path="/" element={ 
           <ProtectedRoute>
             <Home />
@@ -94,6 +96,7 @@ function App() {
             <Confirm />
           </ProtectedRoute>
         } />
+        {/* Painel e operações de gestão exigem autorização administrativa. */}
         <Route path="/admin" element={
           <AdminRoute>
             <AdminPanel />
@@ -129,12 +132,14 @@ function App() {
             <AddCurso />
           </AdminRoute>
         } />
+        {/* Acesso público para entrar, pedir instruções de senha ou abrir a tela de apoio. */}
         <Route path="/sub/login" element={ <Login /> } />
         <Route path="/sub/forgot-password" element={ <ForgotPassword /> } />
         <Route path="/debug/register" element={<Register />} />
 
       </Routes>
 
+      {/* Navegação global compartilhada pelas páginas renderizadas nesta árvore. */}
       <Navbar />
 
     </BrowserRouter>

@@ -1,3 +1,5 @@
+// Regras de criação e consulta das quatro categorias de interação que os
+// alunos enviam. Este módulo traduz os campos do formulário para a tabela interacao.
 import db from "../config/db.js";
 import crypto from "crypto";
 
@@ -5,25 +7,16 @@ import { textFormatter } from "../utils/text.formatter.js";
 
 export const imp = {
   async create(user, formData, file) {
-    // TODO:
-    // 1. Decidir qual o tipo de interação (avaliação, solicitação, relato ou sugestão)
-    // 2. Com base nisso definir um sql para cada tipo
-    // 3. Formatar dados antes de subir
-    // 4. Tentar subir
-    // 5. Retornar sucesso ou falha
+    // Os formulários compartilham a tabela interacao, mas cada categoria
+    // grava um conjunto próprio de campos; a data geral usa o padrão do banco.
+    // Avaliação: título, descrição, nota e professor opcional; solicitação:
+    // título, descrição, local, sublocal e imagem; sugestão: título e descrição;
+    // relato: título, descrição, acontecimento, acompanhamento e anonimato.
 
-    // Tipos:
-    // avaliação: tipo, titulo, descricao, data, nota
-    // solicitacao: tipo, titulo, local, sublocal, descricao, url_img
-    // sugestao: tipo, titulo, descricao
-    // relato: tipo, titulo, descricao, local, data, acompanhamento (0, 1), anonimo (0, 1)
-
-    // Verifica se quem ta fazendo é um aluno.
-
+    // Uma interação sempre fica associada à conta autenticada; apenas aluno
+    // pode criar registros, e o tipo determina quais colunas serão preenchidas.
     if (user.type !== "aluno")
       throw new Error("Somente alunos podem enviar interações!");
-
-    // Definindo o tipo da interação
 
     if (
       !["avaliacao", "solicitacao", "sugestao", "relato"].includes(
@@ -32,6 +25,8 @@ export const imp = {
     )
       throw new Error("Tipo da interação inválido");
 
+    // Cada categoria envia campos diferentes, por isso a consulta INSERT varia;
+    // os valores continuam parametrizados para não concatenar conteúdo do formulário.
     const sql =
       formData.type === "avaliacao"
         ? `
@@ -61,8 +56,8 @@ export const imp = {
                 (?, ?, ?, ?, ?, ?, ?, ?);
             `;
 
-    // Pega o id do professor no banco de dados
-
+    // Avaliações dirigidas a um professor guardam também a chave do professor;
+    // as avaliações sobre escola ou outro tema deixam essa relação vazia.
     let professorQuery;
     let professorId;
 
@@ -79,9 +74,7 @@ export const imp = {
       professorId = professorQuery[0].professor_id;
     }
 
-    // No caso de ser uma solicitação
-    // Recebe uma imagem
-
+    // O Multer grava o arquivo; aqui o serviço guarda somente a URL relativa no banco.
     let url_img = "";
 
     if (file) {
@@ -90,8 +83,7 @@ export const imp = {
 
     const id = crypto.randomUUID();
 
-    // Enviando uma interação
-
+    // A consulta e seus parâmetros seguem o formato específico do tipo escolhido.
     const result =
       formData.type === "avaliacao"
         ? await db.query(sql, [
@@ -144,11 +136,15 @@ export const imp = {
   },
 
   async getAll(user, { type, limit }, { classe, search, status }) {
+    // A tela de histórico/admin informa categoria e filtros; o usuário comum
+    // recebe apenas seus próprios registros, enquanto o gestor pode consultar a escola.
     if (!["avaliacao", "sugestao", "relato", "solicitacao"].includes(type))
       throw new Error("Tipo da interação inválido");
 
     if (!user.sub) throw new Error("Tipo de usuário inválido");
 
+    // Os filtros são acumulados como condições parametrizadas. O limite é
+    // acrescentado somente quando positivo; resultados vêm do mais recente.
     const where = [`i.tipo = ?`];
 
     const params = [type];

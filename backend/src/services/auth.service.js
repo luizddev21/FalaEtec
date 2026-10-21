@@ -1,3 +1,5 @@
+// Regras de autenticação: localiza a conta conforme seu tipo, compara a senha
+// com bcrypt e administra a rotação/revogação dos refresh tokens persistidos.
 import db from '../config/db.js';
 import bcrypt from 'bcrypt';
 
@@ -6,6 +8,7 @@ import tokenUtil from '../utils/token.util.js';
 export const imp = {
     async login({ rm, password, type }) {
 
+        // O tipo é validado antes de compor nomes de tabela/coluna na consulta.
         if (!['aluno', 'professor', 'gestor'].includes(type)) {
             throw new Error('Tipo de usuário inválido');
         }
@@ -27,6 +30,7 @@ export const imp = {
 
         const userId = type === "aluno" ? user.aluno_id : type === "professor" ? user.professor_id : user.gestor_id
 
+        // Claims comuns aos tokens: sub identifica a conta e type define seu papel.
         const payload = {
             sub: userId,
             type: type
@@ -69,6 +73,8 @@ export const imp = {
             throw new Error("Refresh token inválido ou expirado");
         }
 
+        // Além da assinatura do JWT, a sessão precisa existir, não estar
+        // revogada e ainda estar dentro do prazo registrado no banco.
         const storedToken =
             await tokenUtil.findRefreshToken(refreshToken);
 
@@ -84,6 +90,8 @@ export const imp = {
             throw new Error("Refresh token expirado");
         }
 
+        // A rotação invalida o refresh token usado e grava outro junto com
+        // um novo token de acesso, limitando a reutilização do token anterior.
         await tokenUtil.revokeRefreshToken(refreshToken);
 
         const newPayload = {
@@ -112,6 +120,7 @@ export const imp = {
 
     async logout(refreshToken) {
 
+        // A ausência de cookie já significa que não há token para revogar.
         if (!refreshToken) {
             return;
         }

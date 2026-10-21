@@ -1,3 +1,5 @@
+/* Estrutura do painel administrativo: cabeçalho, cartões/listas e filtros.
+   As media queries reorganizam os mesmos elementos em telas estreitas. */
 .admin-screen header {
   display: flex;
   justify-content: space-between;

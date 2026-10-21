@@ -1,3 +1,5 @@
+// Formulário de sugestão: mantém título e descrição no estado local, envia-os
+// como uma interação do tipo sugestao e segue à confirmação em caso de sucesso.
 import Screen from "../../components/Screen";
 import { useState } from "react";
 import Message from "../../components/Message.jsx";
@@ -30,6 +32,7 @@ export default function Sugestao() {
   };
 
   const handleSubmit = async (e) => {
+    // Impede o envio HTML padrão e monta os campos aceitos pelo backend.
     e.preventDefault();
 
     const formData = new FormData();

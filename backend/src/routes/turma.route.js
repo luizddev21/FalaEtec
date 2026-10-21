@@ -1,3 +1,4 @@
+// Endpoints para consultar turmas e gerenciá-las; escrita exige perfil gestor.
 import express from 'express';
 import { controller } from '../controllers/turma.controller.js';
 import { middleware } from '../middlewares/auth.middleware.js';

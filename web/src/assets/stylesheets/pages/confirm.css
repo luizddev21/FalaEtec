@@ -1,3 +1,4 @@
+/* Centraliza a mensagem de conclusão e sua ação de retorno ao início. */
 main.center .guide {
   display: flex;
   flex-direction: column;

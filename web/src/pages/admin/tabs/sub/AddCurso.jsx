@@ -1,3 +1,4 @@
+// Formulário simples para incluir curso e retornar ao painel após a gravação.
 import Screen from "../../../../components/Screen";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -25,6 +26,7 @@ export default function AddCurso() {
   };
 
   const handleSubmit = async (e) => {
+    // Envia o nome informado ao serviço de cursos.
     e.preventDefault();
     try {
       setLoading(true);

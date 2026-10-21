@@ -1,3 +1,4 @@
+// Conecta endpoints de cursos aos métodos de domínio sem concentrar SQL aqui.
 import { imp } from '../services/curso.service.js';
 
 export const controller = {

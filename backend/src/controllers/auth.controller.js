@@ -1,7 +1,10 @@
+// Camada HTTP da autenticação: chama o serviço, transforma tokens em cookies
+// HttpOnly e devolve status/JSON adequados ao cliente web.
 import { imp } from '../services/auth.service.js'
 
 export const controller = {
   async login(req, res) {
+    // Recebe credenciais JSON e, se aceitas, cria os cookies de sessão.
     try {
 
       const data = await imp.login(req.body);
@@ -28,6 +31,7 @@ export const controller = {
   },
 
   async refresh(req, res) {
+    // Lê o refresh token do cookie e substitui os cookies pelo par renovado.
     try {
       const refreshToken = req.cookies.refreshToken;
 
@@ -57,6 +61,7 @@ export const controller = {
   },
 
   async logout(req, res) {
+    // Revoga o refresh token no banco e limpa ambos os cookies no navegador.
 
     try {
 
@@ -88,7 +93,7 @@ export const controller = {
   },
 
   async checkAuth(req, res) {
-
+    // O middleware auth já validou o cookie; confirma a sessão ao frontend com a identidade mínima.
     return res.status(200).json({
       authenticated: true,
       user: {
@@ -100,7 +105,7 @@ export const controller = {
   },
 
   async checkAdmin(req, res) {
-
+    // O middleware admin já validou o perfil; esta resposta permite liberar a área administrativa.
     return res.status(200).json({
       admin: true,
       user: {

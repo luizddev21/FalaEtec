@@ -1,3 +1,5 @@
+// Página inicial do aluno: oferece atalhos aos canais, respostas do FAQ e
+// links de contato. Os formulários são acessados pelos atalhos de navegação.
 import NavBlockButton from "../components/NavBlockButton";
 import Accordion from "../components/Accordion";
 
@@ -8,13 +10,16 @@ export default function Home() {
   return (
     <Screen banner={image}>
 
+      {/* Atalhos principais direcionam aos espaços de feedback e relato. */}
       <section className="main-navigation">
-        <nav className="button-box">
-          <NavBlockButton image="FE" page="./sub/feedbackescolar" />
-          <NavBlockButton image="CS" page="./sub/canalseguro" />
+        <h1 className="visually-hidden">FalaEtec</h1>
+        <nav className="button-box" aria-label="Serviços da escola">
+          <NavBlockButton image="FE" page="./sub/feedbackescolar" label="Feedback Escolar" />
+          <NavBlockButton image="CS" page="./sub/canalseguro" label="Canal Seguro" />
         </nav>
       </section>
 
+      {/* Dúvidas frequentes são renderizadas como painéis recolhíveis. */}
       <section className="faq">
         <h2 className="title"><span>FAQ</span>Perguntas Frequentes</h2>
 
@@ -40,16 +45,17 @@ export default function Home() {
         
       </section>
 
+      {/* Artes de contato reaproveitam o componente de botão em bloco. */}
       <section className="contact">
         <h2 className="title">Entre<span>Contato</span></h2>
 
-        <nav className="button-box">
-          <NavBlockButton image="WA" />
-          <NavBlockButton image="FB" />
+        <nav className="button-box" aria-label="Redes sociais">
+          <NavBlockButton image="WA" label="WhatsApp" />
+          <NavBlockButton image="FB" label="Facebook" />
         </nav>
 
-        <nav className="button-box">
-          <NavBlockButton image="SITE" />
+        <nav className="button-box" aria-label="Site da escola">
+          <NavBlockButton image="SITE" label="Site da escola" />
         </nav>
 
       </section>

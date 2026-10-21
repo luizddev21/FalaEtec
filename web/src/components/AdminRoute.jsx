@@ -1,3 +1,5 @@
+// Protege o painel: somente perfis que passam por /check-admin podem renderizar
+// o conteúdo administrativo; os demais voltam à página inicial.
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import api from "../js/api.js";

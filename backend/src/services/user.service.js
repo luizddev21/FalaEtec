@@ -1,13 +1,19 @@
+// Regras para perfil e ciclo de vida das contas. Os controladores chamam estes
+// métodos depois que as rotas verificam a função do usuário autenticado.
 import db from "../config/db.js";
 import bcrypt from "bcrypt";
 import textFormatter from "../utils/text.formatter.js";
 import { hash } from "crypto";
 import { stat } from "fs";
 
+// hash/stat permanecem importados, mas não são usados nos fluxos atuais abaixo.
+
 export const imp = {
   async get({ sub: rm, type }) {
     let classroom = "";
 
+    // Alunos precisam dos relacionamentos turma/curso para montar a sala;
+    // professores e gestores têm seus dados básicos consultados na própria tabela.
     const sql =
       type === "aluno"
         ? `
@@ -53,6 +59,7 @@ export const imp = {
   },
 
   async getAll({ sub: rm, type }) {
+    // Esta checagem também protege a regra de domínio, além do middleware da rota.
     if (type !== "gestor")
       throw new Error("Você não tem permissão para executar esta ação");
 
@@ -88,6 +95,8 @@ export const imp = {
       type: "professor",
     }));
 
+    // Junta os registros das três tabelas em uma lista comum, marcando cada
+    // item com seu tipo para o painel distinguir IDs e ações disponíveis.
     const users = [...alunos, ...gestores, ...professores];
 
     return users;
@@ -96,6 +105,7 @@ export const imp = {
   async teacherGetAllName() {
     //TODO Pegar todos os nomes dos professores existentes
 
+    // Retorna apenas nomes para popular a escolha de professor na avaliação.
     const teachers = await db.query(`SELECT nome FROM professor`);
 
     const data = [];
@@ -192,6 +202,7 @@ export const imp = {
   },
 
   async changePassword({ rm, newPassword, type }) {
+    // Atualiza a senha da conta indicada após armazenar somente seu hash bcrypt.
     if (!["aluno", "professor", "gestor"].includes(type)) {
       throw new Error("Tipo de usuário inválido");
     }
@@ -217,6 +228,8 @@ export const imp = {
   },
 
   async update({ oldRm, rm, name, classroom, type, newPassword }) {
+    // Permite trocar identificador e dados de conta; a senha só entra na
+    // instrução SQL quando o formulário recebeu uma nova senha não vazia.
     if (!["aluno", "professor", "gestor"].includes(type)) {
       throw new Error("Tipo de usuário inválido");
     }
@@ -266,6 +279,7 @@ export const imp = {
   },
 
   async delete({ rm, type }) {
+    // Apaga a linha da tabela correspondente ao tipo informado pelo painel.
     const sql = `
         DELETE
         FROM ${type}

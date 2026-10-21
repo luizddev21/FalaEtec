@@ -1,3 +1,5 @@
+// Conecta endpoints de turmas ao serviço: traduz erros de serviço para status
+// HTTP e retorna os dados da consulta ou o resultado da alteração ao frontend.
 import { imp } from "../services/turma.service.js";
 
 export const controller = {

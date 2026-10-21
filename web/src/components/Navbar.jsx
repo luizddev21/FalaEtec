@@ -1,3 +1,5 @@
+// Barra reutilizada no site e no painel: navega por rotas ou controla abas
+// locais, conforme o componente pai forneça value/onChange.
 import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -49,10 +51,11 @@ export default function Navbar({
     });
   }, [location.pathname, value, controlled, links]);
 
+  // A barra padrão só aparece em rotas listadas; a variante administrativa sempre aparece.
   if (!show) return null;
 
   return (
-    <nav className={`navbar ${type2 ? "type2" : ""}`}>
+    <nav aria-label="Navegação principal" className={`navbar ${type2 ? "type2" : ""}`}>
       <div className="navbar-links">
         <motion.div
           className="nav-indicator"
@@ -77,6 +80,7 @@ export default function Navbar({
                 key={link.path}
                 ref={(el) => (linksRef.current[index] = el)}
                 className={`nav-link ${active ? "active" : ""}`}
+                aria-pressed={active}
                 onClick={() => onChange?.(link.path)}
                 type="button"
               >
@@ -92,6 +96,7 @@ export default function Navbar({
               to={link.path}
               ref={(el) => (linksRef.current[index] = el)}
               className={`nav-link ${active ? "active" : ""}`}
+              aria-current={active ? "page" : undefined}
             >
               <ion-icon name={link.icon}></ion-icon>
               {link.name}

@@ -1,3 +1,5 @@
+// Lista administrativa de relatos com busca, filtro de turma, limite inicial
+// e navegação para visualizar os dados completos de cada envio.
 import api from "../../../js/api.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +25,7 @@ export default function AdminRelatos() {
 
   const [limit, setLimit] = useState(4);
 
+  // Reconsulta a API sempre que categoria, limite ou filtros mudam.
   useEffect(() => {
     async function loadInteractionData() {
       try {
@@ -54,6 +57,7 @@ export default function AdminRelatos() {
     loadInteractionData();
   }, [limit, filters]);
 
+  // Alterna entre os quatro itens iniciais e a lista sem limite explícito.
   function handleSeeAll() {
     if (limit > 0) {
       setLimit(0);
@@ -66,6 +70,7 @@ export default function AdminRelatos() {
   //    SISTEMA DE FILTRAGEM
   //
 
+  // Mantém os filtros controlados; a próxima consulta os serializa na URL.
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -81,6 +86,7 @@ export default function AdminRelatos() {
 
   const [turmaData, setTurmaData] = useState([]);
 
+  // Obtém turmas para construir opções sem duplicar classes.
   useEffect(() => {
     async function loadTurmaData() {
       try {
@@ -117,7 +123,7 @@ export default function AdminRelatos() {
         {limit > 0 ? "Últimos relatos" : "Todas os relatos"}
       </h2>
 
-      <nav>
+      <nav aria-label="Pesquisar e filtrar relatos">
         <div className="search-input">
           <ion-icon name="search"></ion-icon>
           <input
@@ -127,11 +133,13 @@ export default function AdminRelatos() {
             type="search"
             className="search"
             placeholder="Pesquisar..."
+            aria-label="Pesquisar relatos"
           />
         </div>
 
         <div className="filters">
           <select
+            aria-label="Filtrar relatos por turma"
             onChange={handleChange}
             value={filters.classe}
             name="classe"
@@ -151,6 +159,7 @@ export default function AdminRelatos() {
       </nav>
 
       <ul>
+        {/* Cada registro vira um cartão que transporta resumo e ID para o detalhe. */}
         {interactionData.map((interaction) => {
           let interactionObj = {
             Sobre: interaction?.titulo,

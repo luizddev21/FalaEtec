@@ -1,11 +1,15 @@
-import { useRef, useState } from "react";
+// Pergunta expansível do FAQ: o estado controla a resposta e useId liga o
+// botão ao painel correspondente para navegação acessível.
+import { useId, useRef, useState } from "react";
 import "../assets/stylesheets/components/accordion.css";
 
 export default function Accordion({ title, children }) {
     const [open, setOpen] = useState(false);
     const contentRef = useRef(null);
+    const panelId = `accordion-panel-${useId()}`;
 
     const toggleAccordion = () => {
+        // Alterna a resposta sem navegar para outra página.
         setOpen((prev) => !prev);
     };
 
@@ -15,6 +19,7 @@ export default function Accordion({ title, children }) {
                 className="accordion-header"
                 onClick={toggleAccordion}
                 aria-expanded={open}
+                aria-controls={panelId}
             >
                 <span>{title}</span>
 
@@ -25,7 +30,10 @@ export default function Accordion({ title, children }) {
 
             <div
                 ref={contentRef}
+                id={panelId}
                 className="accordion-content"
+                aria-hidden={!open}
+                inert={!open}
                 style={{
                     maxHeight: open
                         ? `${contentRef.current?.scrollHeight}px`

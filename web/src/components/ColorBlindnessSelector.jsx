@@ -1,3 +1,5 @@
+// Preferência local de visualização: salva a escolha e aplica a classe que
+// seleciona as variáveis de cor definidas na folha global.
 import { useState } from "react";
 import "../assets/stylesheets/components/colorBlindnessSelector.css";
 
@@ -21,6 +23,7 @@ export default function ColorBlindnessSelector() {
   });
 
   function handleChange(e) {
+    // Atualiza o armazenamento, o tema da página e o valor selecionado.
     const filter = e.target.value;
 
     localStorage.setItem(STORAGE_KEY, filter);
@@ -32,6 +35,8 @@ export default function ColorBlindnessSelector() {
   }
 
   return (
+    <>
+    <label className="visually-hidden" htmlFor="colorBlindnessFilterSelector">Filtro de cores</label>
     <select
       id="colorBlindnessFilterSelector"
       name="colorBlindnessFilterSelector"
@@ -73,5 +78,6 @@ export default function ColorBlindnessSelector() {
         Acromatomalia (forma parcial da acromatopsia)
       </option>
     </select>
+    </>
   );
 }

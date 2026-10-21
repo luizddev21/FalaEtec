@@ -1,3 +1,5 @@
+// Adaptador HTTP para as operações de perfil e contas; a regra de dados fica
+// em user.service.js, enquanto esta camada escolhe o status e o JSON de retorno.
 import { imp } from "../services/user.service.js";
 
 export const controller = {
@@ -46,14 +48,14 @@ export const controller = {
     async create(req, res) {
         try {
 
-            // Chama a função responsável pelo registro do usuário e aguarda um retorno.
+            // Delega a validação e a gravação ao serviço de contas.
             const data = await imp.create(req.body);
 
-            // Caso o retorno seja positivo, envia a mensagem ao servidor contendo o ID do usuário cadastrado.
+            // Devolve ao cliente o resultado do cadastro com status HTTP de criação.
             return res.status(201).json(data);
         } catch (error) {
 
-            // Caso o retorno seja negativo, envia a mensagem ao servidor contendo a mensagem de erro.
+            // Converte a falha do serviço em resposta JSON para o cliente.
             return res.status(500).json({
                 error: error.message
             });

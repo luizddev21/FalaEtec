@@ -1,3 +1,5 @@
+// Formata texto para exibição no frontend; palavras funcionais da lista ficam
+// em minúsculas quando aparecem no meio de um nome ou frase.
 export const textFormatter = {
   capitalize(text = "") {
     if (typeof text !== "string") return;

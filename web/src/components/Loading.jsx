@@ -1,9 +1,10 @@
+// Indicador compartilhado enquanto uma tela aguarda uma resposta assíncrona.
 import "../assets/stylesheets/components/loading.css";
 
 export default function Loading() {
   return (
-    <div className="loading">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <div className="loading" role="status" aria-label="Carregando">
+      <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
         <circle
           fill="#3562B9"
           stroke="#3562B9"

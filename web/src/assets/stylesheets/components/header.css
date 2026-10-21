@@ -1,3 +1,5 @@
+/* Cabeçalho fixado no topo: comporta logotipo em rotas sem título ou título
+   e botão de retorno quando a rota é reconhecida pelo componente Header. */
 header {
   position: sticky;
   text-align: center;

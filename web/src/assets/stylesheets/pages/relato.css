@@ -1,3 +1,5 @@
+/* Aparência do formulário guiado: ocupa a tela, diferencia etapas por cor e
+   mantém o enunciado destacado dentro dos fundos azul/verde. */
 .relato {
   position: absolute;
   top: 0;
@@ -15,4 +17,15 @@
 
 .relato.green {
   background: linear-gradient(180deg, var(--feGreen), var(--feDarkGreen));
+}
+
+form.type3 .camp .input .question-label {
+  display: block;
+  background: none;
+  color: var(--colorBg);
+  text-align: center;
+  position: relative;
+  top: 0;
+  left: 0;
+  font-size: var(--font-lg);
 }

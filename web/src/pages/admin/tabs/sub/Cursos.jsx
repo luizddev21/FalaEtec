@@ -1,3 +1,4 @@
+// Lista cursos ativos e oferece criação, edição e desativação pelo painel.
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { textFormatter } from "../../../../js/utils/text.formatter";
@@ -12,6 +13,7 @@ export default function Cursos() {
   const [cursoData, setCursoData] = useState([]);
 
   async function loadCursoData() {
+    // Busca os cursos que o serviço considera ativos.
     try {
       const data = await api.getAllCurso();
       setCursoData(data);
@@ -25,12 +27,14 @@ export default function Cursos() {
   }, []);
 
   function handleNavigate(obj) {
+    // Transfere a chave e os dados do curso ao formulário de edição.
     navigate(`./manage-curso`, {
       state: obj,
     });
   }
 
   async function handleDelete(curso_id) {
+    // A API desativa o curso e a consulta seguinte atualiza a lista.
     try {
       await api.deleteCurso(curso_id);
       loadCursoData();
@@ -66,12 +70,14 @@ export default function Cursos() {
               <div className="tools">
                 <button
                   className="default"
+                  aria-label={`Editar curso ${curso.nome}`}
                   onClick={() => handleNavigate(cursoObj)}
                 >
                   <ion-icon name="pencil"></ion-icon>
                 </button>
                 <button
                   className="danger"
+                  aria-label={`Excluir curso ${curso.nome}`}
                   onClick={() => handleDelete(curso.curso_id)}
                 >
                   <ion-icon name="trash-bin"></ion-icon>

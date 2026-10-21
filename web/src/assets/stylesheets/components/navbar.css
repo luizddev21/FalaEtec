@@ -1,3 +1,5 @@
+/* Barra inferior do usuário e variante embutida do painel; a faixa indica
+   visualmente o link/aba atual sem receber eventos de ponteiro. */
 .navbar {
     position: fixed;
     bottom: 0;

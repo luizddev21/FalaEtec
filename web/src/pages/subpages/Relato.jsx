@@ -1,3 +1,5 @@
+// Formulário guiado de relato. A etapa determina a próxima pergunta e os
+// valores finais são enviados juntos como uma interação do tipo relato.
 import Screen from "../../components/Screen";
 import { useState } from "react";
 import api from "../../js/api.js";
@@ -7,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import "../../assets/stylesheets/pages/relato.css"
 
 function ChoiceButtons({ options, nextStep }) {
+  // Apresenta as opções da etapa; cada item informa o campo e valor a guardar.
   return (
     <div className="buttons">
       {options.map(([text, name, value]) => (
@@ -24,10 +27,12 @@ function ChoiceButtons({ options, nextStep }) {
 }
 
 function Question({ children, options, nextStep }) {
+  // Agrupa pergunta e respostas; o texto identifica o grupo para tecnologias assistivas.
+  const questionId = `relato-question-${String(children).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "-").toLowerCase()}`;
   return (
     <div className="camp">
-      <div className="input">
-        <label>{children}</label>
+      <div className="input" role="group" aria-labelledby={questionId}>
+        <span className="question-label" id={questionId} aria-live="polite">{children}</span>
 
         <ChoiceButtons options={options} nextStep={nextStep} />
       </div>
@@ -43,6 +48,7 @@ function TextQuestion({
   handleChange,
   setStep,
 }) {
+  // Etapa de texto livre reutilizada para a descrição do acontecimento.
   return (
     <div className="camp">
       <div className="input column">
@@ -71,6 +77,7 @@ function TextQuestion({
 }
 
 function SendButton() {
+  // Único botão que submete o formulário quando todas as perguntas terminaram.
   return (
     <div className="camp">
       <div className="input">
@@ -113,11 +120,13 @@ export default function Relato() {
   };
 
   const nextStep = (name, value) => {
+    // Registra a escolha e avança uma pergunta no fluxo.
     handleChange(name, value);
     setStep((prev) => prev + 1);
   };
 
   const handleSubmit = async (e) => {
+    // Traduz as respostas acumuladas em campos aceitos pelo serviço de interação.
     e.preventDefault();
 
     const formData = new FormData();
@@ -145,6 +154,7 @@ export default function Relato() {
     }
   };
 
+  // As etapas posteriores mudam quando o aluno precisa descrever um alvo "Outro".
   const isOther = form.title === "outro";
 
   const descriptionStep = isOther ? 3 : 2;
@@ -164,11 +174,11 @@ export default function Relato() {
       {error !== "" && <Message type="error" message={error} />}
       <section className={`relato ${step % 2 === 0 ? "blue" : "green"}`}>
         <form onSubmit={handleSubmit} className="type3">
-          {/* ANÔNIMO */}
+          {/* Primeira etapa: registra se o envio será identificado ou anônimo. */}
           {step === 0 && (
             <div className="camp">
-              <div className="input">
-                <label>Gostaria que o seu relato fosse anônimo?</label>
+              <div className="input" role="group" aria-labelledby="anonymous-question">
+                <span className="question-label" id="anonymous-question" aria-live="polite">Gostaria que o seu relato fosse anônimo?</span>
 
                 <span className="warning">
                   Caso seja necessário podemos verificar sua identidade, porém
@@ -187,7 +197,7 @@ export default function Relato() {
             </div>
           )}
 
-          {/* SOBRE QUEM É */}
+          {/* Segunda etapa: define a categoria do alvo do relato. */}
           {step === 1 && (
             <Question
               nextStep={nextStep}
@@ -203,7 +213,7 @@ export default function Relato() {
             </Question>
           )}
 
-          {/* OUTRO */}
+          {/* Campo adicional exibido somente quando o alvo escolhido é Outro. */}
           {step === 2 && isOther && (
             <div className="camp">
               <div className="input column">
@@ -232,7 +242,7 @@ export default function Relato() {
             </div>
           )}
 
-          {/* DESCRIÇÃO */}
+          {/* Etapa de narrativa livre sobre o que aconteceu. */}
           {step === descriptionStep && (
             <TextQuestion
               name="desc"

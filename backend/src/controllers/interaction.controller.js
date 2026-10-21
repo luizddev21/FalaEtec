@@ -1,3 +1,5 @@
+// Recebe a identidade já validada pelo middleware e encaminha dados do envio
+// ou da consulta ao serviço de interações, devolvendo respostas HTTP em JSON.
 import { imp } from '../services/interaction.service.js';
 
 export const controller = {

@@ -1,8 +1,10 @@
+// Regras de leitura e manutenção de turmas, incluindo sua associação com curso.
 import db from "../config/db.js";
 import crypto from "crypto";
 
 export const imp = {
   async getAll(user) {
+    // Lista turmas vinculadas a cursos para preencher filtros e formulários administrativos.
     if (!user.sub) throw new Error("Tipo de usuário inválido");
 
     let sql = `
@@ -20,6 +22,8 @@ export const imp = {
   },
 
   async delete({ turma_id }) {
+    // Remove a turma indicada; as chaves estrangeiras do banco determinam
+    // se a exclusão é aceita diante de alunos associados.
     const sql = `
         DELETE
         FROM turma
@@ -39,6 +43,8 @@ export const imp = {
   },
 
   async create({ classroom, course }) {
+    // Cria primeiro a turma e depois o vínculo curso_turma; se o segundo passo
+    // falhar, tenta remover a turma recém-criada para não deixá-la sem vínculo.
     const turma_id = crypto.randomUUID();
 
     let sql = `
@@ -73,6 +79,7 @@ export const imp = {
   },
 
   async update({ id, name, course }) {
+    // Atualiza o nome da turma e, em seguida, o curso relacionado.
     let sql = `
     UPDATE turma
     SET classe = ?

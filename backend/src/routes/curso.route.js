@@ -1,3 +1,4 @@
+// Endpoints de consulta e manutenção de cursos, organizados sob /curso.
 import express from 'express';
 import { controller } from '../controllers/curso.controller.js';
 import { middleware } from '../middlewares/auth.middleware.js';

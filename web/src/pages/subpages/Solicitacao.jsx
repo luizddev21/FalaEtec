@@ -1,3 +1,5 @@
+// Formulário de solicitação: coleta título/local/detalhes, permite anexar uma
+// imagem com prévia e envia multipart/form-data ao endpoint de interações.
 import Screen from "../../components/Screen";
 import { useState, useRef } from "react";
 import Message from "../../components/Message.jsx";
@@ -29,6 +31,7 @@ export default function Solicitacao() {
   const fileInputRef = useRef(null);
 
   const clearFile = () => {
+    // Libera a URL temporária da prévia e limpa o input para aceitar outro arquivo.
     if (preview) {
       URL.revokeObjectURL(preview);
     }
@@ -53,6 +56,7 @@ export default function Solicitacao() {
   };
 
   const handleFile = (e) => {
+    // Atualiza arquivo, nome apresentado e URL temporária para a pré-visualização.
     const selectedFile = e.target.files[0];
 
     if (!selectedFile) return;
@@ -67,6 +71,7 @@ export default function Solicitacao() {
   };
 
   const handleSubmit = async (e) => {
+    // Empacota os campos e o anexo opcional; sucesso abre a confirmação.
     e.preventDefault();
 
     const formData = new FormData();
@@ -115,6 +120,7 @@ export default function Solicitacao() {
           <div className="camp">
             <div className="input">
               <select
+                aria-label="Local da solicitação"
                 value={form.local}
                 onChange={handleChange}
                 name="local"
@@ -142,7 +148,7 @@ export default function Solicitacao() {
                 id="sublocal"
                 required
               />
-              <label htmlFor="title">Nos dê mais detalhes</label>
+              <label htmlFor="sublocal">Nos dê mais detalhes</label>
             </div>
           </div>
           <div className="camp">
@@ -154,7 +160,7 @@ export default function Solicitacao() {
                 id="desc"
                 required
               ></textarea>
-              <label htmlFor="dsc">Descrição detalhada...</label>
+              <label htmlFor="desc">Descrição detalhada...</label>
             </div>
           </div>
           <div className="camp">
@@ -177,6 +183,7 @@ export default function Solicitacao() {
             {preview && (
               <button
                 type="button"
+                aria-label="Remover imagem selecionada"
                 onClick={clearFile}
                 className="preview-image"
               >

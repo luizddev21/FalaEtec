@@ -1,3 +1,4 @@
+// Rotas de perfil e gerenciamento de contas; os prefixos finais são /user/....
 import express from 'express';
 import { controller } from '../controllers/user.controller.js';
 import { middleware } from '../middlewares/auth.middleware.js';
@@ -7,12 +8,13 @@ import { middleware } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
-// Pegar informações do usuário
+// Perfil próprio e lista pública de nomes docentes exigem uma sessão válida;
+// a listagem completa e as mutações de contas ficam reservadas ao gestor.
 router.get('/profile', middleware.auth, controller.get);
 router.get('/all-profile', middleware.super, controller.getAll);
 router.get('/teacher-all-names', middleware.auth, controller.teacherGetAllName);
 
-// Cadastro de novos usuários.
+// Operações de gerenciamento delegadas à camada de controle e serviço.
 router.post('/create', middleware.super, controller.create);
 
 // Mudar senha de um usuário

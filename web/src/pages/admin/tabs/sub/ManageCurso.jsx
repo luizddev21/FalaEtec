@@ -1,3 +1,5 @@
+// Edição do curso escolhido na lista; location.state fornece a chave e o
+// formulário envia a nova denominação para /curso/update.
 import Screen from "../../../../components/Screen";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -27,6 +29,7 @@ export default function ManageCurso() {
   };
 
   const handleSubmit = async (e) => {
+    // Salva os dados e retorna ao painel administrativo.
     e.preventDefault();
 
     console.log(form)

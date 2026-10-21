@@ -1,3 +1,4 @@
+/* Centraliza a animação de espera sobre a janela durante operações assíncronas. */
 .loading {
   position: fixed;
   top: 0;

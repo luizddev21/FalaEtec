@@ -1,3 +1,5 @@
+// Detalhe de uma interação selecionada no histórico ou painel: exibe campos,
+// anexo/nota opcionais e, para professor/gestor, permite responder ou apagar resposta.
 import Screen from "../../../../components/Screen";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import api from "../../../../js/api.js";
@@ -12,6 +14,7 @@ export default function Info() {
   const [error, setError] = useState("");
   const [userData, setUserData] = useState({});
 
+  // O histórico transfere os dados de exibição pelo state e o ID segue na URL.
   const interacao = state.obj;
   const props = state.props ? state.props : null;
 
@@ -23,6 +26,7 @@ export default function Info() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // O perfil determina se a área administrativa de resposta deve ser oferecida.
     async function loadUserData() {
       try {
         setLoading(true);
@@ -53,6 +57,7 @@ export default function Info() {
   };
 
   const handleSubmit = async (e) => {
+    // Cria uma resposta vinculada ao ID da interação e retorna à lista se der certo.
     e.preventDefault();
 
     try {
@@ -68,6 +73,7 @@ export default function Info() {
   };
 
   const handleDelete = async () => {
+    // Remove a resposta atual e volta à tela anterior após confirmação do backend.
     try {
       setLoading(true);
 
@@ -86,6 +92,7 @@ export default function Info() {
     <>
       <Screen loading={loading} message={{ type: "error", message: error }}>
         <section>
+          {/* Os rótulos vêm do objeto entregue pela tela de histórico/admin. */}
           {Object.entries(interacao).map(([key, data]) => {
             return (
               data !== null &&

@@ -1,3 +1,5 @@
+/* Layout das telas de gerenciamento de cadastros: ações superiores e linhas
+   de usuário/turma/curso, empilhadas em telas menores. */
 .admin-tab .toolbar {
     width: 100%;
 }

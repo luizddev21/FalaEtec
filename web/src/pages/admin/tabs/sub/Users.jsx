@@ -1,3 +1,5 @@
+// Lista contas recebidas da API, navega para edição com o registro selecionado
+// e confirma/após excluir atualiza os resultados exibidos.
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { textFormatter } from "../../../../js/utils/text.formatter";
@@ -12,6 +14,7 @@ export default function Users() {
   const [allUserData, setAllUserData] = useState([]);
 
   async function loadAllUserData() {
+    // Atualiza os dados da lista depois da carga inicial ou de uma exclusão.
     try {
       const data = await api.getAllUsers();
       setAllUserData(data);
@@ -28,12 +31,14 @@ export default function Users() {
   }, []);
 
   function handleNavigate(obj) {
+    // O registro viaja em location.state para preencher o formulário de edição.
     navigate(`./manage-user`, {
       state: obj,
     });
   }
 
   async function handleDelete(rm, type) {
+    // A API pede confirmação, exclui pelo tipo/identificador e recarrega a lista.
     try {
       await api.deleteUser(rm, type);
       await loadAllUserData();
@@ -84,12 +89,14 @@ export default function Users() {
               <div className="tools">
                 <button
                   className="default"
+                  aria-label={`Editar usuário ${user.nome}`}
                   onClick={() => handleNavigate(userObj)}
                 >
                   <ion-icon name="pencil"></ion-icon>
                 </button>
                 <button
                   className="danger"
+                  aria-label={`Excluir usuário ${user.nome}`}
                   onClick={() =>
                     handleDelete(
                       user.type === "aluno"

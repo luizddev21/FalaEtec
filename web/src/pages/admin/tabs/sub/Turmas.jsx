@@ -1,3 +1,5 @@
+// Lista turmas e seu curso relacionado; oferece navegação para incluir/editar
+// e ação de exclusão seguida de nova leitura da API.
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { textFormatter } from "../../../../js/utils/text.formatter";
@@ -12,6 +14,7 @@ export default function Turmas() {
   const [turmaData, setTurmaData] = useState([]);
 
   async function loadTurmaData() {
+    // Consulta a relação turma/curso usada tanto na lista como nos formulários.
     try {
       const data = await api.getAllTurma();
       setTurmaData(data);
@@ -25,12 +28,14 @@ export default function Turmas() {
   }, []);
 
   function handleNavigate(obj) {
+    // Encaminha o registro selecionado para o formulário de atualização.
     navigate(`./manage-turma`, {
       state: obj,
     });
   }
 
   async function handleDelete(turma_id) {
+    // Solicita exclusão confirmada pela API e então atualiza a lista visível.
     try {
       await api.deleteTurma(turma_id);
       loadTurmaData();
@@ -68,12 +73,14 @@ export default function Turmas() {
               <div className="tools">
                 <button
                   className="default"
+                  aria-label={`Editar turma ${turma.classe}`}
                   onClick={() => handleNavigate(turmaObj)}
                 >
                   <ion-icon name="pencil"></ion-icon>
                 </button>
                 <button
                   className="danger"
+                  aria-label={`Excluir turma ${turma.classe}`}
                   onClick={() => handleDelete(turma.turma_id)}
                 >
                   <ion-icon name="trash-bin"></ion-icon>

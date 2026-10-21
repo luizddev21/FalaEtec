@@ -1,18 +1,22 @@
+-- Cria e seleciona o banco usado pela aplicação antes de definir suas tabelas relacionais.
 CREATE DATABASE IF NOT EXISTS falaetec;
 USE falaetec;
 
 -- =====================================================
 -- TABELA: CURSO
 -- =====================================================
+-- Catálogo de cursos; curso_id é a chave usada por turma e curso_turma.
 
 CREATE TABLE curso (
     curso_id VARCHAR(255) PRIMARY KEY,
     nome VARCHAR(100) NOT NULL
 );
+-- A definição inicial contém apenas id e nome; curso.service.js também espera `disabled`.
 
 -- =====================================================
 -- TABELA: TURMA
 -- =====================================================
+-- Cadastro das turmas/classes às quais alunos e cursos podem ser associados.
 
 CREATE TABLE turma (
     turma_id VARCHAR(255) PRIMARY KEY,
@@ -22,6 +26,7 @@ CREATE TABLE turma (
 -- =====================================================
 -- TABELA ASSOCIATIVA: CURSO_TURMA
 -- =====================================================
+-- Relação muitos-para-muitos: uma turma pode oferecer vários cursos e um curso pode aparecer em várias turmas.
 
 CREATE TABLE curso_turma (
     curso_id VARCHAR(255) NOT NULL,
@@ -45,6 +50,7 @@ CREATE TABLE curso_turma (
 -- =====================================================
 -- TABELA: ALUNO
 -- =====================================================
+-- Contas de estudantes; a chave de turma restringe cada aluno a uma turma cadastrada.
 CREATE TABLE aluno (
     aluno_id CHAR(5) PRIMARY KEY,
     senha VARCHAR(255) NOT NULL,
@@ -63,6 +69,7 @@ CREATE TABLE aluno (
 -- =====================================================
 -- TABELA: PROFESSOR
 -- =====================================================
+-- Contas de professores, referenciadas por interações atribuídas e respostas registradas.
 CREATE TABLE professor (
     professor_id CHAR(5) PRIMARY KEY,
     senha VARCHAR(255) NOT NULL,
@@ -72,6 +79,7 @@ CREATE TABLE professor (
 -- =====================================================
 -- TABELA: GESTOR
 -- =====================================================
+-- Contas administrativas, usadas como autores de respostas e para operações de gestão.
 CREATE TABLE gestor (
     gestor_id CHAR(5) PRIMARY KEY,
     senha VARCHAR(255) NOT NULL,
@@ -81,6 +89,7 @@ CREATE TABLE gestor (
 -- =====================================================
 -- TABELA: INTERACAO
 -- =====================================================
+-- Registros enviados à escola, como relatos, sugestões, solicitações e avaliações; reúne conteúdo, estado e vínculos com aluno/professor.
 CREATE TABLE interacao (
     interacao_id VARCHAR(255)PRIMARY KEY,
     tipo VARCHAR(50) NOT NULL,
@@ -118,6 +127,7 @@ CREATE TABLE interacao (
 -- =====================================================
 -- TABELA: RESPOSTA
 -- =====================================================
+-- Mensagens associadas a uma interação, com autoria de professor ou gestor e data de registro.
 CREATE TABLE resposta (
     resposta_id VARCHAR(255) PRIMARY KEY,
     mensagem TEXT NOT NULL,
@@ -155,6 +165,7 @@ CREATE TABLE resposta (
 -- =====================================================
 -- TABELA: REFRESH_TOKEN
 -- =====================================================
+-- Tokens de renovação de sessão armazenados por hash, com identidade do usuário, validade e estado de revogação.
 
 CREATE TABLE refresh_token (
     refresh_token_id VARCHAR(255) PRIMARY KEY,

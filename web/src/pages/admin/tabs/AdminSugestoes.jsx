@@ -1,3 +1,5 @@
+// Lista sugestões enviadas por alunos, com busca/filtro por turma e atalho
+// para abrir os dados completos de cada sugestão.
 import api from "../../../js/api.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +26,7 @@ export default function AdminFeedbacks() {
 
   const [limit, setLimit] = useState(4);
 
+  // Reconsulta os dados quando os filtros ou a quantidade exibida se alteram.
   useEffect(() => {
     async function loadInteractionData() {
       try {
@@ -55,6 +58,7 @@ export default function AdminFeedbacks() {
     loadInteractionData();
   }, [limit, filters]);
 
+  // Alterna a quantidade de itens solicitada ao backend.
   function handleSeeAll() {
     if (limit > 0) {
       setLimit(0);
@@ -67,6 +71,7 @@ export default function AdminFeedbacks() {
   //    SISTEMA DE FILTRAGEM
   //
 
+  // Mantém a busca e a turma selecionadas como filtros controlados.
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -82,6 +87,7 @@ export default function AdminFeedbacks() {
 
   const [turmaData, setTurmaData] = useState([]);
 
+  // Carrega as turmas existentes para compor as opções de filtro.
   useEffect(() => {
     async function loadTurmaData() {
       try {
@@ -118,7 +124,7 @@ export default function AdminFeedbacks() {
         {limit > 0 ? "Últimas sugestões" : "Todas as sugestões"}
       </h2>
 
-      <nav>
+      <nav aria-label="Pesquisar e filtrar sugestões">
         <div className="search-input">
           <ion-icon name="search"></ion-icon>
           <input
@@ -128,11 +134,13 @@ export default function AdminFeedbacks() {
             type="search"
             className="search"
             placeholder="Pesquisar..."
+            aria-label="Pesquisar sugestões"
           />
         </div>
 
         <div className="filters">
           <select
+            aria-label="Filtrar sugestões por turma"
             onChange={handleChange}
             value={filters.classe}
             name="classe"
@@ -152,6 +160,7 @@ export default function AdminFeedbacks() {
       </nav>
 
       <ul>
+        {/* Cada cartão leva ao detalhe com dados já formatados para apresentação. */}
         {interactionData.map((interaction) => {
           let interactionObj = {
             Aluno: interaction?.aluno_nome,

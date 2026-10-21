@@ -1,3 +1,4 @@
+/* Mantém o seletor de filtro de cores ocupando a largura do cartão de perfil. */
 .colorBlindnessFilterSelector {
   width: 100%;
   padding: 2rem 1rem;

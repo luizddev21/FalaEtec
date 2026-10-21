@@ -1,3 +1,5 @@
+// Lista solicitações para equipe: combina busca, filtro de turma/status, limite
+// inicial e acesso ao detalhe, onde a resposta administrativa é enviada.
 import AdminScreen from "../../../components/AdminScreen.jsx";
 import api from "../../../js/api.js";
 import { useEffect, useState } from "react";
@@ -26,6 +28,7 @@ export default function AdminSolicitacoes() {
 
   const [limit, setLimit] = useState(4);
 
+  // Busca novamente os registros quando filtros ou limite da lista mudam.
   useEffect(() => {
     async function loadInteractionData() {
       try {
@@ -57,6 +60,7 @@ export default function AdminSolicitacoes() {
     loadInteractionData();
   }, [limit, filters]);
 
+  // Alterna entre itens recentes e todos os resultados.
   function handleSeeAll() {
     if (limit > 0) {
       setLimit(0);
@@ -69,6 +73,7 @@ export default function AdminSolicitacoes() {
   //    SISTEMA DE FILTRAGEM
   //
 
+  // Atualiza um dos filtros controlados e provoca nova consulta via useEffect.
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -84,6 +89,7 @@ export default function AdminSolicitacoes() {
 
   const [turmaData, setTurmaData] = useState([]);
 
+  // Carrega turmas para popular o filtro por classe.
   useEffect(() => {
     async function loadTurmaData() {
       try {
@@ -120,7 +126,7 @@ export default function AdminSolicitacoes() {
         {limit > 0 ? "Últimas solicitações" : "Todas as solicitações"}
       </h2>
 
-      <nav>
+      <nav aria-label="Pesquisar e filtrar solicitações">
         <div className="search-input">
           <ion-icon name="search"></ion-icon>
           <input
@@ -130,11 +136,13 @@ export default function AdminSolicitacoes() {
             type="search"
             className="search"
             placeholder="Pesquisar..."
+            aria-label="Pesquisar solicitações"
           />
         </div>
 
         <div className="filters">
           <select
+            aria-label="Filtrar solicitações por turma"
             onChange={handleChange}
             value={filters.classe}
             name="classe"
@@ -151,6 +159,7 @@ export default function AdminSolicitacoes() {
             ))}
           </select>
           <select
+            aria-label="Filtrar solicitações por status"
             onChange={handleChange}
             value={filters.status}
             name="status"
@@ -168,6 +177,7 @@ export default function AdminSolicitacoes() {
       </nav>
 
       <ul>
+        {/* O modo recente mostra apenas pendentes; o modo completo mostra todos. */}
         {interactionData.map((interaction) => {
           let interactionObj = {
             Aluno: interaction?.aluno_nome,

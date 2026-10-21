@@ -1,3 +1,5 @@
+/* Dimensões e composição dos atalhos em imagem; as media queries ajustam
+   quantidade de colunas e largura para celular/tablet/desktop. */
 .nav-block-button {
     flex: 1;
     border: none;

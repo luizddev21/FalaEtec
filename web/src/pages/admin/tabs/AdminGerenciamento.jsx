@@ -1,3 +1,5 @@
+// Navegação interna do gerenciamento: alterna entre listas de usuários,
+// turmas e cursos sem recarregar o painel.
 import { useState } from "react";
 import "../../../assets/stylesheets/pages/adminUsuarios.css";
 import Users from "./sub/Users.jsx";

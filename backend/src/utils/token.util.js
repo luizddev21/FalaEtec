@@ -1,8 +1,11 @@
+// Centraliza criação, validação e persistência de tokens usados no ciclo de
+// sessão: token de acesso curto e refresh token renovável, salvo somente como hash.
 import jwt from 'jsonwebtoken';
 import db from '../config/db.js';
 import crypto from 'crypto';
 
 function generateAccessToken(payload) {
+    // O payload identifica o usuário (sub) e o tipo de conta; o segredo vem do ambiente.
     return (
         jwt.sign(
             payload, 
@@ -15,6 +18,7 @@ function generateAccessToken(payload) {
 }
 
 function generateRefreshToken(payload) {
+    // O token de renovação dura mais e permite emitir um novo par de tokens.
     return (
         jwt.sign(
             payload, 
@@ -27,6 +31,7 @@ function generateRefreshToken(payload) {
 }
 
 function verifyAccessToken(token) {
+    // Lança erro quando a assinatura não confere ou o token venceu.
     return (
         jwt.verify(
             token,
@@ -36,6 +41,7 @@ function verifyAccessToken(token) {
 }
 
 function verifyRefreshToken(token) {
+    // Confere o token de renovação com segredo separado do token de acesso.
     return (
         jwt.verify(
             token,
@@ -45,6 +51,7 @@ function verifyRefreshToken(token) {
 }
 
 function hashRefreshToken(token) {
+    // O banco armazena SHA-256, não o valor reutilizável do cookie.
     return (
         crypto
             .createHash('sha256')
@@ -54,7 +61,7 @@ function hashRefreshToken(token) {
 }
 
 async function saveRefreshToken({ token, usuarioId, tipoUsuario, expiracao }) {
-
+    // Registra o hash e os metadados necessários para validar ou revogar a sessão depois.
     const hashedToken = hashRefreshToken(token)
 
     await db.query(
@@ -70,7 +77,7 @@ async function saveRefreshToken({ token, usuarioId, tipoUsuario, expiracao }) {
 }
 
 async function findRefreshToken(token) {
-
+    // Localiza a sessão pelo hash e retorna null quando ela não está cadastrada.
     const hash = hashRefreshToken(token);
 
     const result = await db.query(
@@ -85,7 +92,7 @@ async function findRefreshToken(token) {
 }
 
 async function revokeRefreshToken(token) {
-
+    // Marca a sessão como revogada sem guardar ou precisar devolver o token original.
     const hash = hashRefreshToken(token);
 
     await db.query(
@@ -98,6 +105,7 @@ async function revokeRefreshToken(token) {
 }
 
 async function deleteExpiredRefreshTokens() {
+    // Limpeza preparada para apagar registros expirados; não é chamada pelo fluxo atual.
 
     await db.query(
         `DELETE FROM refresh_token

@@ -1,3 +1,5 @@
+// Lista o histórico da categoria escolhida na página de perfil. Cada cartão
+// monta um resumo e encaminha os dados necessários à página de detalhes.
 import { useEffect, useState } from "react";
 import Screen from "../../../components/Screen";
 import api from "../../../js/api.js";
@@ -9,6 +11,7 @@ import { textFormatter } from "../../../js/utils/text.formatter.js";
 export default function Interacions() {
     const [interactionData, setInteractionData] = useState([]);
 
+    // A categoria chega pela navegação interna do perfil.
     const { state } = useLocation();
     const type = state ? state.type : null;
 
@@ -21,6 +24,7 @@ export default function Interacions() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Busca registros próprios; o servidor usa a categoria para filtrar a consulta.
         async function loadInteractionData() {
             try {
                 setLoading(true);
@@ -41,6 +45,7 @@ export default function Interacions() {
     }, []);
 
     function handleNavigate(obj, props, id) {
+        // Envia resumo, propriedades adicionais e identificador para a tela de detalhe.
         navigate(`/interaction/${id}?type=${type}`, {
             state: { obj, props },
         });
@@ -49,6 +54,8 @@ export default function Interacions() {
     return (
         <Screen loading={loading} message={{ type: "error", message: error }}>
             <section>
+                <h1 className="visually-hidden">Histórico de interações</h1>
+                {/* Relatos têm campos adicionais; as demais categorias usam o resumo comum. */}
                 <ul className="history-list">
                     {interactionData.map((interacao) => {
 

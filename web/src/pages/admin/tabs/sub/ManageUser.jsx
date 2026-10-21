@@ -1,3 +1,5 @@
+// Edição de uma conta selecionada na lista. Carrega turmas para alunos e envia
+// identificador, nome, associação e possível nova senha para /user/update.
 import Screen from "../../../../components/Screen";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -13,6 +15,7 @@ export default function ManageUser() {
 
   const navigate = useNavigate();
 
+  // Busca opções de turma antes de preencher o seletor do aluno.
   useEffect(() => {
     async function loadTurmaData() {
       try {
@@ -56,6 +59,7 @@ export default function ManageUser() {
   };
 
   const handleSubmit = async (e) => {
+    // Envia formulário e retorna ao painel quando o serviço confirma atualização.
     e.preventDefault();
 
     try {
@@ -117,6 +121,7 @@ export default function ManageUser() {
             {user.type === "aluno" && (
               <div className="input">
                 <select
+                  aria-label="Turma do aluno"
                   value={form.classroom}
                   name="classroom"
                   id="classroom"

@@ -1,9 +1,11 @@
+// Persiste a resposta de professor/gestor a uma interação e oferece sua remoção.
 import db from "../config/db.js";
 import crypto from "crypto";
 import textFormatter from "../utils/text.formatter.js";
 
 export const imp = {
   async create(user, { message, interactionId }) {
+    // O tipo do autor escolhe a coluna de chave estrangeira que identifica quem respondeu.
     if (!user.sub) throw new Error("Tipo de usuário inválido");
 
     const sql = `
@@ -34,6 +36,8 @@ export const imp = {
   },
 
   async delete({ answerId }) {
+    // A consulta atual compara answerId com interacao_id e remove a resposta
+    // associada à interação recebida.
     const result = await db.query(`
       DELETE FROM resposta
       WHERE interacao_id = ?

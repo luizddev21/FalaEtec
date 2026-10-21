@@ -1,13 +1,17 @@
+// Atalho em bloco com arte pronta: seleciona a versão responsiva da imagem e
+// atua como link de rota ou como botão de ação, conforme as props recebidas.
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import "../assets/stylesheets/components/navblockbutton.css";
 
-export default function NavBlockButton({ button, image, page, mode, wrap, column, onClick }) {
+export default function NavBlockButton({ button, image, page, mode, wrap, column, onClick, label }) {
+  const accessibleLabel = label || ({ EC: "Feedback Escolar", RS: "Enviar relato" }[image] || image);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [isWrap, setIsWrap] = useState("");
   const [isColumn, setIsColumn] = useState("");
 
+  // Converte opções booleanas em classes existentes no CSS do botão.
   useEffect(() => {
     if (wrap) {
       setIsWrap("wrap");
@@ -19,6 +23,7 @@ export default function NavBlockButton({ button, image, page, mode, wrap, column
     }
   }, []);
 
+  // Atualiza a largura para escolher a arte Small, Medium ou Large.
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
@@ -31,6 +36,7 @@ export default function NavBlockButton({ button, image, page, mode, wrap, column
     };
   }, []);
 
+  // O modo estático é usado nas categorias; os demais modos seguem a largura.
   let buttonType;
 
   if (mode === "static") {
@@ -45,14 +51,14 @@ export default function NavBlockButton({ button, image, page, mode, wrap, column
 
   return (
     button ?
-      <button className={`nav-block-button ${isWrap} ${isColumn}`} onClick={onClick}>
+      <button aria-label={accessibleLabel} className={`nav-block-button ${isWrap} ${isColumn}`} onClick={onClick}>
         <img
           src={`/src/assets/images/button_assets/${image}-${buttonType}.png`}
           alt=""
         />
       </button>
       :
-      <Link to={`/${page}`} className={`nav-block-button ${isWrap} ${isColumn}`}>
+      <Link aria-label={accessibleLabel} to={`/${page}`} className={`nav-block-button ${isWrap} ${isColumn}`}>
         <img
           src={`/src/assets/images/button_assets/${image}-${buttonType}.png`}
           alt=""
