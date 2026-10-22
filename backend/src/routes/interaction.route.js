@@ -28,6 +28,11 @@ const upload = multer({
 
 // Criar aceita um único anexo chamado img; consultas recebem tipo/filtros no corpo/URL.
 router.post('/create', middleware.auth, upload.single("img"), controller.create);
+
+// Pega todas as interações de acordo com o nível de usuário correspondente.
 router.post('/get-all', middleware.auth, controller.getAll);
+
+// Altera o status da interação do tipo solicitação.
+router.post('/change-status', middleware.super, controller.changeStatus);
 
 export default router;

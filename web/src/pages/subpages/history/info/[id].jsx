@@ -18,7 +18,7 @@ export default function Info() {
   const interacao = state.obj;
   const props = state.props ? state.props : null;
 
-  const [form, setForm] = useState({
+  const [replyForm, setReplyForm] = useState({
     message: "",
   });
 
@@ -45,18 +45,18 @@ export default function Info() {
     loadUserData();
   }, []);
 
-  const handleChange = (e) => {
+  const handleChangeReplyForm = (e) => {
     const { name, value } = e.target;
 
-    setForm({
-      ...form,
+    setReplyForm({
+      ...replyForm,
       [name]: value,
     });
 
     console.log(form);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmitReplyForm = async (e) => {
     // Cria uma resposta vinculada ao ID da interação e retorna à lista se der certo.
     e.preventDefault();
 
@@ -71,6 +71,22 @@ export default function Info() {
       setLoading(false);
     }
   };
+
+  // Altera o status da interação do tipo solicitação vinculada ao ID.
+  const handleSubmitStatusForm = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      const data = await api.changeInteractionStatus(e.target.value, id);
+      if (data.status === "success") navigate(-1);
+    } catch (error) {
+      console.error("Erro ao tentar trocar o status da interação: ", error);
+      setError("Erroao tentar trocar o status da interação");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const handleDelete = async () => {
     // Remove a resposta atual e volta à tela anterior após confirmação do backend.
@@ -131,6 +147,19 @@ export default function Info() {
               </div>
             </div>
           )}
+          {props?.status != null && (
+            <form className="type2 no-padding">
+              <div className="camp">
+                <div className="input">
+                  <select name="status" id="status" onChange={handleSubmitStatusForm} value={props.status}>
+                    <option value="pendente">Pendente</option>
+                    <option value="rejeitado">Rejeitado</option>
+                    <option value="concluido">Concluído</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          )}
           {["gestor", "professor"].includes(userData.type) &&
             (interacao.Resposta ? (
               <div className="camp">
@@ -145,12 +174,12 @@ export default function Info() {
                 </div>
               </div>
             ) : (
-              <form className="type2 no-padding" onSubmit={handleSubmit}>
+              <form className="type2 no-padding" onSubmit={handleSubmitReplyForm}>
                 <div className="camp">
                   <div className="input textarea">
                     <textarea
-                      value={form.message}
-                      onChange={handleChange}
+                      value={replyForm.message}
+                      onChange={handleChangeReplyForm}
                       name="message"
                       id="message"
                       required

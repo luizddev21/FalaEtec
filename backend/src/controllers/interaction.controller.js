@@ -26,5 +26,17 @@ export const controller = {
                 error: error.message
             })
         }
+    },
+
+    async changeStatus(req, res) {
+        try {
+            const data = await imp.changeStatus(req.body);
+
+            return res.status(200).json(data);
+        } catch (error) {
+            return res.status(500).json({
+                error: error.message
+            })
+        }
     }
 }

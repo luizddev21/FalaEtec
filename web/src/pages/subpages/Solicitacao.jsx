@@ -99,8 +99,7 @@ export default function Solicitacao() {
   };
 
   return (
-    <Screen loading={loading}>
-      {error !== "" && <Message type="error" message={error} />}
+    <Screen loading={loading} message={{ type: "error", message: error }}>
       <section>
         <form onSubmit={handleSubmit} className="type2">
           <h2 className="title">Faça a sua solicitação!</h2>

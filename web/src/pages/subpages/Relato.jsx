@@ -3,7 +3,6 @@
 import Screen from "../../components/Screen";
 import { useState } from "react";
 import api from "../../js/api.js";
-import Message from "../../components/Message.jsx";
 import { useNavigate } from "react-router-dom";
 
 import "../../assets/stylesheets/pages/relato.css"
@@ -170,8 +169,7 @@ export default function Relato() {
       : 5;
 
   return (
-    <Screen fullscreen={true} loading={loading}>
-      {error !== "" && <Message type="error" message={error} />}
+    <Screen fullscreen={true} loading={loading} message={{ type: "error", message: error }}>
       <section className={`relato ${step % 2 === 0 ? "blue" : "green"}`}>
         <form onSubmit={handleSubmit} className="type3">
           {/* Primeira etapa: registra se o envio será identificado ou anônimo. */}

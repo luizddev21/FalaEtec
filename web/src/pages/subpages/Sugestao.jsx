@@ -2,7 +2,6 @@
 // como uma interação do tipo sugestao e segue à confirmação em caso de sucesso.
 import Screen from "../../components/Screen";
 import { useState } from "react";
-import Message from "../../components/Message.jsx";
 import { useNavigate } from "react-router-dom";
 
 import api from "../../js/api.js";
@@ -54,8 +53,7 @@ export default function Sugestao() {
   };
 
   return (
-    <Screen loading={loading}>
-      {error !== "" && <Message type="error" message={error} />}
+    <Screen loading={loading} message={{ type: "error", message: error }}>
       <section>
         <form onSubmit={handleSubmit} className="type2">
           <h2 className="title">Faça a sua sugestão!</h2>

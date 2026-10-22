@@ -211,6 +211,25 @@ async function getAllInteraction(type, limit = 0, params) {
   return data;
 }
 
+async function changeInteractionStatus(status, id) {
+  // Altera o status da interação especificada pelo ID do tipo solicitação.
+  const response = await apiFetch(`/interaction/change-status`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ status, id }),
+    method: "POST"
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(response.error || "Erro ao tentar alterar o status da interação");
+  }
+
+  return data
+}
+
 // =========================
 // ANSWER
 // =========================
@@ -544,5 +563,6 @@ export default {
   createCurso,
   updateCurso,
   deleteCurso,
+  changeInteractionStatus,
   API_URL,
 };

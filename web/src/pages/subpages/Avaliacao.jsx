@@ -3,7 +3,6 @@
 import Screen from "../../components/Screen";
 import Rating from "@mui/material/Rating";
 import { useEffect, useState } from "react";
-import Message from "../../components/Message.jsx";
 import { useNavigate } from "react-router-dom";
 
 import { textFormatter } from "../../js/utils/text.formatter.js";
@@ -95,8 +94,7 @@ export default function Avaliacao() {
   };
 
   return(
-    <Screen loading={loading}>
-      {error !== "" && <Message type="error" message={error} />}
+    <Screen loading={loading} message={{ type: "error", message: error }}>
       <section>
         <form onSubmit={handleSubmit} className="type2">
           <h2 className="title">Nos dê o seu feedback!</h2>

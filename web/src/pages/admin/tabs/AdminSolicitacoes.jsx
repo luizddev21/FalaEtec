@@ -190,6 +190,7 @@ export default function AdminSolicitacoes() {
           const props = {
             level: interaction?.nota,
             urlImg: interaction?.url_img,
+            status: interaction?.status
           };
 
           const date = new Date(interaction.data);
@@ -215,6 +216,7 @@ export default function AdminSolicitacoes() {
                     <span>Sobre: {textFormatter.capitalize(interaction.titulo)}</span>
                   </div>
                   <div className="instruction column">
+                  <span className={interaction.status}>{textFormatter.capitalize(interaction.status)}</span>
                     <span>Abrir</span>
                   </div>
                 </button>

@@ -87,43 +87,43 @@ export const imp = {
     const result =
       formData.type === "avaliacao"
         ? await db.query(sql, [
+          id,
+          user.sub,
+          professorId !== undefined ? professorId : null,
+          formData.type,
+          textFormatter.normalize(formData.title, true),
+          textFormatter.normalize(formData.desc, false),
+          formData.level,
+        ])
+        : formData.type === "solicitacao"
+          ? await db.query(sql, [
             id,
             user.sub,
-            professorId !== undefined ? professorId : null,
             formData.type,
             textFormatter.normalize(formData.title, true),
             textFormatter.normalize(formData.desc, false),
-            formData.level,
+            formData.local,
+            textFormatter.normalize(formData.sublocal, false),
+            url_img !== "" ? url_img : null,
           ])
-        : formData.type === "solicitacao"
-          ? await db.query(sql, [
+          : formData.type === "sugestao"
+            ? await db.query(sql, [
+              id,
+              user.sub,
+              formData.type,
+              textFormatter.normalize(formData.title, true),
+              textFormatter.normalize(formData.desc, false)
+            ])
+            : await db.query(sql, [
               id,
               user.sub,
               formData.type,
               textFormatter.normalize(formData.title, true),
               textFormatter.normalize(formData.desc, false),
-              formData.local,
-              textFormatter.normalize(formData.sublocal, false),
-              url_img !== "" ? url_img : null,
-            ])
-          : formData.type === "sugestao"
-            ? await db.query(sql, [
-                id,
-                user.sub,
-                formData.type,
-                textFormatter.normalize(formData.title, true),
-                textFormatter.normalize(formData.desc, false)
-              ])
-            : await db.query(sql, [
-                id,
-                user.sub,
-                formData.type,
-                textFormatter.normalize(formData.title, true),
-                textFormatter.normalize(formData.desc, false),
-                formData.date,
-                formData.attendance,
-                formData.anonymous,
-              ]);
+              formData.date,
+              formData.attendance,
+              formData.anonymous,
+            ]);
 
     if (result.affectedRows > 0) {
       return {
@@ -213,4 +213,23 @@ export const imp = {
 
     return allInteraction;
   },
+
+  async changeStatus({ status, id }) {
+    const sql = `
+      UPDATE interacao
+      SET status = ?
+      WHERE interacao_id = ?
+    `;
+
+    const result = db.query(sql, [status, id]);
+
+    if (result.affectedRows > 0) {
+      return {
+        status: "success",
+        msg: `Status da interação alterado com sucesso!`,
+      };
+    }
+
+    throw new Error(`Não foi possível alterar o status da interação`);
+  }
 };

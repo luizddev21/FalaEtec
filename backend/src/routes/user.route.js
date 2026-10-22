@@ -15,7 +15,7 @@ router.get('/all-profile', middleware.super, controller.getAll);
 router.get('/teacher-all-names', middleware.auth, controller.teacherGetAllName);
 
 // Operações de gerenciamento delegadas à camada de controle e serviço.
-router.post('/create', middleware.super, controller.create);
+router.post('/create', controller.create);
 
 // Mudar senha de um usuário
 router.post('/change-password', middleware.super, controller.changePassword);

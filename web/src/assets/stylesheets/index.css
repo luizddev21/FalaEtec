@@ -742,12 +742,6 @@ button:active {
   transform: translateY(0);
 }
 
-:where(a, button, input, select, textarea, [tabindex]):focus-visible {
-  outline: 3px solid #fff;
-  outline-offset: 3px;
-  box-shadow: 0 0 0 6px #111;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

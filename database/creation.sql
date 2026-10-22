@@ -9,7 +9,8 @@ USE falaetec;
 
 CREATE TABLE curso (
     curso_id VARCHAR(255) PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    disabled TINYINT DEFAULT 0,
 );
 -- A definição inicial contém apenas id e nome; curso.service.js também espera `disabled`.
 
@@ -20,7 +21,7 @@ CREATE TABLE curso (
 
 CREATE TABLE turma (
     turma_id VARCHAR(255) PRIMARY KEY,
-    classe VARCHAR(50) NOT NULL
+    classe VARCHAR(50) NOT NULL UNIQUE
 );
 
 -- =====================================================
@@ -63,7 +64,7 @@ CREATE TABLE aluno (
         FOREIGN KEY (turma_id)
         REFERENCES turma(turma_id)
         ON UPDATE CASCADE
-        ON DELETE RESTRICT
+        ON DELETE CASCADE
 );
 
 -- =====================================================
