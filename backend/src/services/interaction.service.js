@@ -218,10 +218,12 @@ export const imp = {
     const sql = `
       UPDATE interacao
       SET status = ?
-      WHERE interacao_id = ?
+      WHERE interacao_id = ?;
     `;
 
-    const result = db.query(sql, [status, id]);
+    console.log(status, id);
+
+    const result = await db.query(sql, [status, id]);
 
     if (result.affectedRows > 0) {
       return {

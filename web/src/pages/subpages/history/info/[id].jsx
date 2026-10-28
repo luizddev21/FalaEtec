@@ -151,7 +151,9 @@ export default function Info() {
             <form className="type2 no-padding">
               <div className="camp">
                 <div className="input">
-                  <select name="status" id="status" onChange={handleSubmitStatusForm} value={props.status}>
+                  <select name="status" id="status" onChange={handleSubmitStatusForm} defaultValue="">
+                    <option value="" disabled>Alterar status</option>
+
                     <option value="pendente">Pendente</option>
                     <option value="rejeitado">Rejeitado</option>
                     <option value="concluido">Concluído</option>

@@ -1,6 +1,5 @@
 // Lista solicitações para equipe: combina busca, filtro de turma/status, limite
 // inicial e acesso ao detalhe, onde a resposta administrativa é enviada.
-import AdminScreen from "../../../components/AdminScreen.jsx";
 import api from "../../../js/api.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -184,6 +183,7 @@ export default function AdminSolicitacoes() {
             Classe: interaction?.classe,
             Sobre: interaction?.titulo,
             Descrição: interaction?.descricao,
+            Status: interaction?.status,
             Resposta: interaction?.resposta
           };
 
@@ -197,31 +197,29 @@ export default function AdminSolicitacoes() {
           const formattedDate = date.toLocaleDateString("pt-BR");
 
           return limit > 0 ? (
-            interaction.status === "pendente" && (
-              <li
-                key={interaction.interacao_id}
-                className="history-card"
-                onClick={() =>
-                  handleNavigate(
-                    interactionObj,
-                    props,
-                    interaction.interacao_id,
-                  )
-                }
-              >
-                <button>
-                  <div className="info">
-                    <h3>{`${textFormatter.capitalize(interaction.aluno_nome)} - ${interaction.classe.toUpperCase()}`}</h3>
-                    <span>Data de envio: {formattedDate}</span>
-                    <span>Sobre: {textFormatter.capitalize(interaction.titulo)}</span>
-                  </div>
-                  <div className="instruction column">
+            <li
+              key={interaction.interacao_id}
+              className="history-card"
+              onClick={() =>
+                handleNavigate(
+                  interactionObj,
+                  props,
+                  interaction.interacao_id,
+                )
+              }
+            >
+              <button>
+                <div className="info">
+                  <h3>{`${textFormatter.capitalize(interaction.aluno_nome)} - ${interaction.classe.toUpperCase()}`}</h3>
+                  <span>Data de envio: {formattedDate}</span>
+                  <span>Sobre: {textFormatter.capitalize(interaction.titulo)}</span>
+                </div>
+                <div className="instruction column">
                   <span className={interaction.status}>{textFormatter.capitalize(interaction.status)}</span>
-                    <span>Abrir</span>
-                  </div>
-                </button>
-              </li>
-            )
+                  <span>Abrir</span>
+                </div>
+              </button>
+            </li>
           ) : (
             <li
               key={interaction.interacao_id}

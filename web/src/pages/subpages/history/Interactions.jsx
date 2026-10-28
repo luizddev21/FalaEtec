@@ -75,6 +75,7 @@ export default function Interacions() {
                                 Local: interacao?.local !== null 
                                     ? `${interacao?.local} - ${interacao?.sub_local}` 
                                     : null,
+                                Status: interacao?.status,
                                 Resposta: interacao?.resposta,
                             };
                         }  else {
@@ -84,6 +85,7 @@ export default function Interacions() {
                                 Local: interacao?.local !== null 
                                     ? `${interacao?.local} - ${interacao?.sub_local}` 
                                     : null,
+                                Status: interacao?.status,
                                 Resposta: interacao?.resposta
                             };
                         }

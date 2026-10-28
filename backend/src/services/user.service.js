@@ -254,13 +254,13 @@ export const imp = {
       hashedNewPassword === undefined
         ? await db.query(sql, [
           rm,
-          name,
+          textFormatter.normalize(name, true),
           classroom,
           oldRm,
         ])
         : await db.query(sql, [
           rm,
-          name,
+          textFormatter.normalize(name, true),
           classroom,
           hashedNewPassword,
           oldRm,

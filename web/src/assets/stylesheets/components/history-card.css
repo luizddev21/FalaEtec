@@ -68,7 +68,7 @@
   color: var(--feRed);
 }
 
-.history-card span.concluido {
+.history-card span.concluído {
   color: var(--feGreen);
 }
 
