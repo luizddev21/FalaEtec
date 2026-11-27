@@ -1,38 +1,136 @@
-// Rotas para registrar e consultar avaliações, sugestões, solicitações e relatos.
 import express from 'express';
-import { controller } from '../controllers/interaction.controller.js'; '../controllers/interaction.controller.js';
-// A expressão de texto ao fim da linha acima não importa nem executa outro módulo.
+import { controller } from '../controllers/interaction.controller.js';
 import { middleware } from '../middlewares/auth.middleware.js';
 import multer from 'multer';
-import path from 'path';
+import crypto from 'node:crypto';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 const router = express.Router();
 
+const formats = {
+    'image/png': '.png',
+    'image/jpeg': '.jpg',
+    'image/webp': '.webp'
+};
+
 const storage = multer.diskStorage({
-    // Anexos opcionais são gravados no diretório que app.js publica em /uploads.
     destination: (req, file, cb) => {
-        cb(null, "uploads/");
+        cb(null, process.env.UPLOAD_DIR || 'uploads/');
     },
 
     filename: (req, file, cb) => {
-        const extension = path.extname(file.originalname);
-        const fileName = `${Date.now()}${extension}`;
+        const extension = formats[file.mimetype];
 
-        cb(null, fileName);
+        cb(null, `${crypto.randomUUID()}${extension}`);
     }
 });
 
 const upload = multer({
-    storage: storage
+    storage,
+
+    limits: {
+        fileSize: 5 * 1024 * 1024,
+        files: 1,
+        fields: 30
+    },
+
+    fileFilter: (req, file, cb) => {
+        if (!Object.hasOwn(formats, file.mimetype)) {
+            return cb(new Error('Formato de imagem invalido'));
+        }
+
+        cb(null, true);
+    }
 });
 
-// Criar aceita um único anexo chamado img; consultas recebem tipo/filtros no corpo/URL.
-router.post('/create', middleware.auth, upload.single("img"), controller.create);
+function alunoOnly(req, res, next) {
+    if (req.user.type !== 'aluno') {
+        return res.sendStatus(403);
+    }
 
-// Pega todas as interações de acordo com o nível de usuário correspondente.
-router.post('/get-all', middleware.auth, controller.getAll);
+    next();
+}
 
-// Altera o status da interação do tipo solicitação.
-router.post('/change-status', middleware.super, controller.changeStatus);
+async function validateImage(req, res, next) {
+    if (!req.file) {
+        return next();
+    }
+
+    try {
+        const content = await fs.readFile(req.file.path);
+        const ext = path.extname(req.file.filename);
+
+        const png = content.subarray(0, 8).equals(
+            Buffer.from('89504e470d0a1a0a', 'hex')
+        );
+
+        const jpg = content.subarray(0, 3).equals(
+            Buffer.from('ffd8ff', 'hex')
+        );
+
+        const webp =
+            content.toString('ascii', 0, 4) === 'RIFF' &&
+            content.toString('ascii', 8, 12) === 'WEBP';
+
+        const valid =
+            (ext === '.png' && png) ||
+            (ext === '.jpg' && jpg) ||
+            (ext === '.webp' && webp);
+
+        if (!valid || req.body.type !== 'solicitacao') {
+            await fs.unlink(req.file.path);
+
+            return res.status(400).json({
+                error: 'Anexo invalido'
+            });
+        }
+
+        next();
+
+    } catch (error) {
+        await fs.unlink(req.file.path).catch(() => {});
+        next(error);
+    }
+}
+
+router.post(
+    '/create',
+    middleware.auth,
+    alunoOnly,
+    upload.single('img'),
+    validateImage,
+    controller.create
+);
+
+router.post(
+    '/get-all',
+    middleware.auth,
+    controller.getAll
+);
+
+router.post(
+    '/change-status',
+    middleware.super,
+    controller.changeStatus
+);
+
+router.use((err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        return res.status(
+            err.code === 'LIMIT_FILE_SIZE' ? 413 : 400
+        ).json({
+            error: 'Anexo excede os limites permitidos'
+        });
+    }
+
+    if (err.message === 'Formato de imagem invalido') {
+        return res.status(400).json({
+            error: err.message
+        });
+    }
+
+    next(err);
+});
 
 export default router;

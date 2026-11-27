@@ -11,13 +11,13 @@ export const controller = {
 
       res.cookie("accessToken", data.accessToken, {
         httpOnly: true,
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
         sameSite: "lax"
       });
 
       res.cookie("refreshToken", data.refreshToken, {
         httpOnly: true,
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
         sameSite: "lax"
       });
 
@@ -39,13 +39,13 @@ export const controller = {
 
       res.cookie("accessToken", tokens.accessToken, {
         httpOnly: true,
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
         sameSite: "lax"
       });
 
       res.cookie("refreshToken", tokens.refreshToken, {
         httpOnly: true,
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
         sameSite: "lax"
       });
 
@@ -71,13 +71,13 @@ export const controller = {
 
       res.clearCookie("accessToken", {
         httpOnly: true,
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
         sameSite: "lax"
       });
 
       res.clearCookie("refreshToken", {
         httpOnly: true,
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
         sameSite: "lax"
       });
 

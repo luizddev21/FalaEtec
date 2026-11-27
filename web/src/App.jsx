@@ -135,8 +135,9 @@ function App() {
         {/* Acesso público para entrar, pedir instruções de senha ou abrir a tela de apoio. */}
         <Route path="/sub/login" element={ <Login /> } />
         <Route path="/sub/forgot-password" element={ <ForgotPassword /> } />
-        <Route path="/debug/register" element={<Register />} />
-
+        {import.meta.env.DEV && (
+		<Route path="/debug/register" element={<Register />} />
+	)}
       </Routes>
 
       {/* Navegação global compartilhada pelas páginas renderizadas nesta árvore. */}

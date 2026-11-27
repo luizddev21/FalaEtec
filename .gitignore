@@ -47,3 +47,24 @@ example
 # generated native folders
 /ios
 /android
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Private application data
+/backend/uploads/
+/backups/
+*.sql.gz
+*.tar.gz
+*.dump
+*.bak
+
+# Logs
+logs/
+*.log
+
+# Build and dependencies
+node_modules/
+dist/

@@ -53,14 +53,14 @@ export default function NavBlockButton({ button, image, page, mode, wrap, column
     button ?
       <button aria-label={accessibleLabel} className={`nav-block-button ${isWrap} ${isColumn}`} onClick={onClick}>
         <img
-          src={`/src/assets/images/button_assets/${image}-${buttonType}.png`}
+          src={`/images/button_assets/${image}-${buttonType}.png`}
           alt=""
         />
       </button>
       :
       <Link aria-label={accessibleLabel} to={`/${page}`} className={`nav-block-button ${isWrap} ${isColumn}`}>
         <img
-          src={`/src/assets/images/button_assets/${image}-${buttonType}.png`}
+          src={`/images/button_assets/${image}-${buttonType}.png`}
           alt=""
         />
       </Link>

@@ -50,7 +50,7 @@ export default function Header() {
     <header>
       {!currentLink && (
         <img
-          src="/src/assets/images/falaetec_logo.png"
+          src="/images/falaetec_logo.png"
           alt="Logotipo do FalaEtec"
         />
       )}

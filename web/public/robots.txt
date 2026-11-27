@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /debug/
+Disallow: /uploads/
+Disallow: /interaction/
+Disallow: /user
+
+Sitemap: https://falaetec.tech/sitemap.xml

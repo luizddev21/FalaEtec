@@ -1,18 +1,21 @@
-// Cria o pool de conexões MariaDB usado pelos serviços para ler e gravar
-// alunos, equipe escolar, interações, respostas, turmas e cursos.
+import 'dotenv/config';
 import mariadb from 'mariadb';
 
 const pool = mariadb.createPool({
     host: process.env.DB_HOST,
-    user: precess.env.DB_USER,
+    port: Number(process.env.DB_PORT || 3306),
+    user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    database: process.env.DB_NAME,
+    connectionLimit: 5,
+    connectTimeout: 5000,
+    acquireTimeout: 10000
 });
 
 const conn = await pool.getConnection();
 
-// Libera a conexão de inicialização para o pool; o objeto de conexão exportado
-// é compartilhado pelos módulos de serviço para executar suas consultas.
+console.log('Banco de dados conectado com sucesso!');
+
 conn.release();
 
-export default conn;
+export default pool;

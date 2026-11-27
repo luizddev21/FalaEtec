@@ -1,6 +1,6 @@
 // Cliente HTTP central do frontend. Mantém a origem da API, inclui cookies nas
 // chamadas autenticadas e concentra funções usadas pelas telas.
-const API_URL = "http://localhost:3000";
+const API_URL = "/api";
 // Evita que várias requisições simultâneas tentem renovar a mesma sessão ao mesmo tempo.
 let refreshPromise = null;
 
@@ -177,7 +177,7 @@ async function apiFetch(endpoint, options = {}) {
 
 async function createInteraction(formData) {
   // Envia FormData para permitir campos e anexo opcional sem montar JSON manualmente.
-  const response = await fetch("http://localhost:3000/interaction/create", {
+  const response = await fetch("/api/interaction/create", {
     method: "POST",
     body: formData,
     credentials: "include",
@@ -236,7 +236,7 @@ async function changeInteractionStatus(status, id) {
 
 async function createAnswer(message, interactionId) {
   // Encaminha texto de resposta e identificador da interação ao backend.
-  const response = await fetch("http://localhost:3000/answer/create", {
+  const response = await fetch("/api/answer/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -259,7 +259,7 @@ async function createAnswer(message, interactionId) {
 
 async function deleteAnswer(id) {
   // Solicita a remoção da resposta associada ao identificador informado.
-  const response = await fetch("http://localhost:3000/answer/delete", {
+  const response = await fetch("/api/answer/delete", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -291,7 +291,7 @@ async function deleteUser(rm, type) {
 
   if (!proceed) return;
 
-  const response = await fetch("http://localhost:3000/user/delete", {
+  const response = await fetch("/api/user/delete", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -314,7 +314,7 @@ async function deleteUser(rm, type) {
 
 async function updateUser(user) {
   // Envia os campos editados de uma conta para a rota de atualização.
-  const response = await fetch("http://localhost:3000/user/update", {
+  const response = await fetch("/api/user/update", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -336,7 +336,7 @@ async function updateUser(user) {
 
 async function createUser(user) {
   // Envia os dados de uma nova conta para criação pelo painel.
-  const response = await fetch("http://localhost:3000/user/create", {
+  const response = await fetch("/api/user/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -366,7 +366,7 @@ async function deleteTurma(turma_id) {
 
   if (!proceed) return;
 
-  const response = await fetch("http://localhost:3000/turma/delete", {
+  const response = await fetch("/api/turma/delete", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -406,7 +406,7 @@ async function getAllTurma() {
 
 async function createTurma(turma) {
   // Envia nome da turma e curso associado para criação.
-  const response = await fetch("http://localhost:3000/turma/create", {
+  const response = await fetch("/api/turma/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -426,7 +426,7 @@ async function createTurma(turma) {
 
 async function updateTurma(turma) {
   // Envia alterações de turma e vínculo de curso.
-  const response = await fetch("http://localhost:3000/turma/update", {
+  const response = await fetch("/api/turma/update", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -458,7 +458,7 @@ async function deleteCurso(curso_id) {
 
   if (!proceed) return;
 
-  const response = await fetch("http://localhost:3000/curso/delete", {
+  const response = await fetch("/api/curso/delete", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -498,7 +498,7 @@ async function getAllCurso() {
 
 async function createCurso(curso) {
   // Envia o nome de um novo curso à API.
-  const response = await fetch("http://localhost:3000/curso/create", {
+  const response = await fetch("/api/curso/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -518,7 +518,7 @@ async function createCurso(curso) {
 
 async function updateCurso(curso) {
   // Envia o nome atualizado e o identificador do curso.
-  const response = await fetch("http://localhost:3000/curso/update", {
+  const response = await fetch("/api/curso/update", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

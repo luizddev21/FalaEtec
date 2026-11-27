@@ -10,7 +10,7 @@ USE falaetec;
 CREATE TABLE curso (
     curso_id VARCHAR(255) PRIMARY KEY,
     nome VARCHAR(100) NOT NULL UNIQUE,
-    disabled TINYINT DEFAULT 0,
+    disabled TINYINT DEFAULT 0
 );
 -- A definição inicial contém apenas id e nome; curso.service.js também espera `disabled`.
 

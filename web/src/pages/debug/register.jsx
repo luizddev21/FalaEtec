@@ -69,7 +69,7 @@ export default function Register() {
         setMessage('');
 
         try {
-            const response = await fetch('http://localhost:3000/user/create', {
+            const response = await fetch('/api/user/create', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -96,7 +96,7 @@ export default function Register() {
         setMessage('');
 
         try {
-            const response = await fetch('http://localhost:3000/user/change-password', {
+            const response = await fetch('/api/user/change-password', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -125,7 +125,7 @@ export default function Register() {
         setMessage('');
 
         try {
-            const response = await fetch('http://localhost:3000/user/delete', {
+            const response = await fetch('/api/user/delete', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
