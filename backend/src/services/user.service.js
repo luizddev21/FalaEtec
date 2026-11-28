@@ -244,9 +244,13 @@ export const imp = {
           SET ${type}_id = ?, nome = ?, turma_id = ?
           WHERE ${type}_id = ?
         `
-        : `
+        : type !== "gestor" ? `
           UPDATE ${type}
           SET ${type}_id = ?, nome = ?, turma_id = ?, senha = ?
+          WHERE ${type}_id = ?
+        ` : `
+          UPDATE ${type}
+          SET ${type}_id = ?, nome = ?, senha = ?
           WHERE ${type}_id = ?
         `;
 
