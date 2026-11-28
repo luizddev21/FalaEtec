@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import "../assets/stylesheets/components/navblockbutton.css";
 
-export default function NavBlockButton({ button, image, page, mode, wrap, column, onClick, label }) {
+export default function NavBlockButton({ button, image, page, mode, wrap, column, onClick, label, href }) {
   const accessibleLabel = label || ({ EC: "Feedback Escolar", RS: "Enviar relato" }[image] || image);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [isWrap, setIsWrap] = useState("");
@@ -47,6 +47,18 @@ export default function NavBlockButton({ button, image, page, mode, wrap, column
     buttonType = "Medium";
   } else {
     buttonType = "Large";
+  }
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        aria-label={accessibleLabel}
+        className={`nav-block-button ${isWrap} ${isColumn}`}
+      >
+        <img src={`/images/button_assets/${image}-${buttonType}.png`} alt="" />
+      </a>
+    );
   }
 
   return (

@@ -315,9 +315,9 @@ form .info {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1.5rem;
+  padding: 1.5rem 2rem;
   border-radius: 5rem;
-  font-size: var(--font-md);
+  font-size: var(--font-sm);
   background: var(--feLightBlue);
   color: var(--feBlue);
 }
@@ -337,6 +337,17 @@ form .info {
   width: 100%;
   display: flex;
   gap: 1rem;
+}
+
+@media screen and (max-width: 500px) {
+  .camp {
+    flex-direction: column;
+  }
+
+  .camp.break {
+    flex-direction: row;
+    align-items: flex-end;
+  }
 }
 
 .input {

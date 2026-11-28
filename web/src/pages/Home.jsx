@@ -50,12 +50,12 @@ export default function Home() {
         <h2 className="title">Entre<span>Contato</span></h2>
 
         <nav className="button-box" aria-label="Redes sociais">
-          <NavBlockButton image="WA" label="WhatsApp" />
-          <NavBlockButton image="FB" label="Facebook" />
+          <NavBlockButton image="WA" label="WhatsApp" href="https://wa.me/+5516996371226?text=Ola! Vim do FalaEtec!" />
+          <NavBlockButton image="FB" label="Facebook" href="https://www.facebook.com/etecsmc" />
         </nav>
 
         <nav className="button-box" aria-label="Site da escola">
-          <NavBlockButton image="SITE" label="Site da escola" />
+          <NavBlockButton image="SITE" label="Site da escola" href="https://etecmatao.cps.sp.gov.br" />
         </nav>
 
       </section>

@@ -66,7 +66,7 @@ export default function Login() {
         <form onSubmit={handleSubmit}>
           <h1 className="title">Login</h1>
 
-          <div className="camp">
+          <div className="camp break">
             <div className="input">
               <input type="text" maxLength="5" id="rm" name="rm" required />
               <label htmlFor="rm">RM</label>

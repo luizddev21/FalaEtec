@@ -44,7 +44,9 @@ export default function ColorBlindnessSelector() {
       value={colorBlindnessFilter}
       onChange={handleChange}
     >
-      <option value="normal">Filtros de daltonismo</option>
+      <option value="normal" disabled>Filtros de daltonismo</option>
+
+      <option value="normal">Sem filtro</option>
 
       <option value="protanopia">
         Protanopia (ausência de cones vermelhos)
