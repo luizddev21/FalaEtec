@@ -75,8 +75,17 @@ export default function Interacions() {
                                 Local: interacao?.local !== null 
                                     ? `${interacao?.local} - ${interacao?.sub_local}` 
                                     : null,
-                                Status: interacao?.status,
                                 Resposta: interacao?.resposta,
+                            };
+                        } else if (type === "solicitacao") {
+                            interacaoObj = {
+                                Sobre: interacao?.titulo,
+                                Descrição: interacao?.descricao,
+                                Local: interacao?.local !== null 
+                                    ? `${interacao?.local} - ${interacao?.sub_local}` 
+                                    : null,
+                                Status: interacao?.status,
+                                Resposta: interacao?.resposta
                             };
                         }  else {
                             interacaoObj = {
@@ -85,7 +94,6 @@ export default function Interacions() {
                                 Local: interacao?.local !== null 
                                     ? `${interacao?.local} - ${interacao?.sub_local}` 
                                     : null,
-                                Status: interacao?.status,
                                 Resposta: interacao?.resposta
                             };
                         }

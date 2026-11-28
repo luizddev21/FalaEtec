@@ -11,6 +11,7 @@ import api from "../js/api.js";
 export default function Login() {
   const [authenticated, setAuthenticated] = useState(null);
   const [error, setError] = useState("");
+  const [showPass, setShowPass] = useState(false);
 
   // Loading
   const [loading, setLoading] = useState(false);
@@ -60,6 +61,16 @@ export default function Login() {
     }
   }
 
+  const handleShowPass = (e) => {
+    e.preventDefault();
+
+    if (showPass) {
+      setShowPass(false);
+    } else {
+      setShowPass(true);
+    }
+  }
+
   return (
       <Screen center fullscreen loading={loading}>
       <section className="login center">
@@ -83,8 +94,11 @@ export default function Login() {
 
           <div className="camp">
             <div className="input">
-              <input type="password" name="password" id="password" required />
+              <input type={showPass ? "text" : "password"} name="password" id="password" required />
               <label htmlFor="password">Senha</label>
+              <button onClick={handleShowPass} className="show-pass-button">
+                {showPass ? <ion-icon name="eye"></ion-icon> : <ion-icon name="eye-off"></ion-icon>}
+              </button>
             </div>
           </div>
 
