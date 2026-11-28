@@ -262,10 +262,16 @@ export const imp = {
           classroom,
           oldRm,
         ])
-        : await db.query(sql, [
+        : type !== "gestor" ? await db.query(sql, [
           rm,
           textFormatter.normalize(name, true),
           classroom,
+          hashedNewPassword,
+          oldRm,
+        ])
+        : await db.query(sql, [
+          rm,
+          textFormatter.normalize(name, true),
           hashedNewPassword,
           oldRm,
         ]);
