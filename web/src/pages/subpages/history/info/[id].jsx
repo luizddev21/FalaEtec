@@ -52,8 +52,6 @@ export default function Info() {
       ...replyForm,
       [name]: value,
     });
-
-    console.log(form);
   };
 
   const handleSubmitReplyForm = async (e) => {
@@ -62,7 +60,7 @@ export default function Info() {
 
     try {
       setLoading(true);
-      const data = await api.createAnswer(form.message, id);
+      const data = await api.createAnswer(replyForm.message, id);
       if (data.status === "success") navigate(-1);
     } catch (error) {
       console.error("Erro ao tentar enviar resposta: ", error);
